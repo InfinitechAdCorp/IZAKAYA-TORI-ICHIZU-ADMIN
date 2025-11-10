@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* OPPA Restaurant Design System - Korean inspired warm color palette */
+
+@layer base {
+  :root {
+    /* Base colors inspired by the OPPA mascot - warm, welcoming Korean restaurant vibes */
+    --background: 50 20% 97%;
+    --foreground: 15 15% 15%;
+
+    /* Card styling with subtle warmth */
+    --card: 50 30% 98%;
+    --card-foreground: 15 15% 15%;
+
+    /* Popover styling */
+    --popover: 50 30% 98%;
+    --popover-foreground: 15 15% 15%;
+
+    /* Primary brand colors - vibrant red from OPPA branding */
+    --primary: 355 75% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 355 85% 60%;
+
+    /* Secondary warm orange tones */
+    --secondary: 25 85% 95%;
+    --secondary-foreground: 15 15% 15%;
+
+    /* Muted warm grays */
+    --muted: 40 15% 92%;
+    --muted-foreground: 25 10% 45%;
+
+    /* Accent warm yellow highlights */
+    --accent: 45 90% 88%;
+    --accent-foreground: 15 15% 15%;
+
+    /* Warm orange accent for actions */
+    --warm-orange: 20 90% 55%;
+    --warm-orange-foreground: 0 0% 100%;
+
+    /* Golden yellow for highlights */
+    --golden: 45 100% 65%;
+    --golden-foreground: 15 15% 15%;
+
+    /* Korean red for special elements */
+    --korean-red: 355 75% 45%;
+    --korean-red-foreground: 0 0% 100%;
+
+    /* Destructive styling */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Form elements */
+    --border: 40 25% 88%;
+    --input: 40 25% 95%;
+    --ring: 355 75% 50%;
+
+    /* Border radius for Korean modern aesthetics */
+    --radius: 0.75rem;
+
+    /* Gradients for beautiful backgrounds */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--warm-orange)));
+    --gradient-warm: linear-gradient(135deg, hsl(var(--warm-orange)), hsl(var(--golden)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--accent)));
+
+    /* Shadows with warm glow */
+    --shadow-warm: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
+    --shadow-soft: 0 4px 20px hsl(var(--warm-orange) / 0.15);
+
+    /* Animation variables */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Dark mode with warm Korean night market vibes */
+  .dark {
+    --background: 15 15% 8%;
+    --foreground: 45 15% 92%;
+
+    --card: 15 15% 10%;
+    --card-foreground: 45 15% 92%;
+
+    --popover: 15 15% 10%;
+    --popover-foreground: 45 15% 92%;
+
+    --primary: 355 70% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 355 80% 65%;
+
+    --secondary: 25 15% 15%;
+    --secondary-foreground: 45 15% 92%;
+
+    --muted: 25 10% 18%;
+    --muted-foreground: 45 10% 65%;
+
+    --accent: 25 15% 15%;
+    --accent-foreground: 45 15% 92%;
+
+    --warm-orange: 20 85% 60%;
+    --warm-orange-foreground: 0 0% 100%;
+
+    --golden: 45 95% 70%;
+    --golden-foreground: 15 15% 15%;
+
+    --korean-red: 355 70% 50%;
+    --korean-red-foreground: 0 0% 100%;
+
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 25 15% 20%;
+    --input: 25 15% 15%;
+    --ring: 355 70% 55%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--warm-orange)));
+    --gradient-warm: linear-gradient(135deg, hsl(var(--warm-orange)), hsl(var(--golden)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--accent)));
+
+    --shadow-warm: 0 10px 30px -10px hsl(var(--primary) / 0.4);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.5);
+    --shadow-soft: 0 4px 20px hsl(var(--warm-orange) / 0.2);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
