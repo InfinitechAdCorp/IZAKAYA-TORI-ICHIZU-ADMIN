@@ -516,16 +516,16 @@ export default function UsersAdminPage() {
                       <SheetTitle>User Details - {selectedUser.name}</SheetTitle>
                       <SheetDescription>Complete information for this user</SheetDescription>
                     </SheetHeader>
-                    <div className="mt-6 space-y-6">
-                      <Card>
-                        <CardHeader className="pb-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
-                          <h3 className="font-semibold text-lg flex items-center gap-2">
+                    <div className="mt-6 space-y-2">
+                      <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
+                        <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
+                          <h3 className="mt-2 font-semibold text-lg flex items-center gap-2">
                             <UserCheck className="w-5 h-5" />
                             Personal Information
                           </h3>
                         </CardHeader>
-                        <CardContent className="space-y-4 pt-4">
-                          <div className="grid grid-cols-2 gap-4">
+                        <CardContent className="space-y-4">
+                          <div className="grid grid-cols-2 gap-2">
                             <div>
                               <p className="text-sm font-medium text-gray-500">Full Name</p>
                               <p className="font-medium">{selectedUser.name}</p>
@@ -558,9 +558,9 @@ export default function UsersAdminPage() {
                               </div>
                             </div>
                           )}
-                          <div className="flex items-center gap-2 text-sm pt-2 border-t">
+                          <div className="flex items-center gap-2 text-sm p-2 border-t">
                             <Calendar className="w-4 h-4 text-gray-400" />
-                            <p className="text-gray-600">
+                            <p className=" text-gray-600">
                               Joined on{" "}
                               {new Date(selectedUser.created_at).toLocaleDateString("en-US", {
                                 month: "long",
@@ -676,7 +676,7 @@ export default function UsersAdminPage() {
                 <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
                   <div className="flex flex-col gap-4 p-4">
                     <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-                      <div className="relative flex-1 max-w-sm">
+                      <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/70" />
                         <Input
                           placeholder="Search users..."

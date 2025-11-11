@@ -5,7 +5,7 @@ import type React from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -557,11 +557,11 @@ export default function BlogPostsAdmin() {
               </div>
 
               {isAdding && (
-                <Card className="border-2 border-orange-200 shadow-xl">
+                <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
                   <CardHeader className="border-b bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                    <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center justify-between">
                       <div>
-                        <h2 className="text-2xl font-bold">{editingId ? "Edit Post" : "Create New Post"}</h2>
+                        <h2 className="mt-5 text-2xl font-bold">{editingId ? "Edit Post" : "Create New Post"}</h2>
                         <p className="text-orange-100 mt-1">Fill in the details for your blog post</p>
                       </div>
                       <button
@@ -571,7 +571,7 @@ export default function BlogPostsAdmin() {
                       >
                         <X className="w-5 h-5" />
                       </button>
-                    </div>
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-6 bg-white">
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -720,7 +720,7 @@ export default function BlogPostsAdmin() {
                         </div>
                       </div>
 
-                      <DialogFooter className="gap-2">
+                      <DialogFooter className="gap-2 mb-5">
                         <Button
                           type="button"
                           variant="outline"
@@ -756,7 +756,7 @@ export default function BlogPostsAdmin() {
                 <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
                   <div className="flex flex-col gap-4 p-4">
                     <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-                      <div className="relative flex-1 max-w-sm">
+                      <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/70" />
                         <Input
                           placeholder="Search blog posts..."

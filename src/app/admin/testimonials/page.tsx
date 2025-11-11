@@ -582,11 +582,11 @@ export default function TestimonialsAdmin() {
               </div>
 
               {isAdding && (
-                <Card className="border-2 border-orange-200 shadow-xl">
-                  <CardHeader className="border-b bg-gradient-to-r from-orange-500 to-red-500 text-white">
+                 <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
+                    <CardHeader className="border-b bg-gradient-to-r from-orange-500 to-red-500 text-white">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h2 className="text-2xl font-bold">
+                        <h2 className="mt-5 text-2xl font-bold">
                           {editingId ? "Edit Testimonial" : "Create New Testimonial"}
                         </h2>
                         <p className="text-orange-100 mt-1">Fill in the testimonial details</p>
@@ -688,7 +688,7 @@ export default function TestimonialsAdmin() {
                         />
                       </div>
 
-                      <DialogFooter className="gap-2">
+                      <DialogFooter className="gap-2 mb-5">
                         <Button
                           type="button"
                           variant="outline"
@@ -724,7 +724,7 @@ export default function TestimonialsAdmin() {
                 <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
                   <div className="flex flex-col gap-4 p-4">
                     <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-                      <div className="relative flex-1 max-w-sm">
+                      <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/70" />
                         <Input
                           placeholder="Search testimonials..."
