@@ -335,7 +335,7 @@ export default function ReservationsAdmin() {
       <SidebarProvider defaultOpen={!isMobile}>
         <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
           <AppSidebar />
-          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
+          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
             <div className="flex items-center justify-center min-h-screen w-full">
               <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
                 <span className="text-gray-700 font-medium">Loading inquiries...</span>
@@ -386,7 +386,7 @@ export default function ReservationsAdmin() {
 
             <div className="grid grid-cols-7 gap-1 sm:gap-2">
               {weekDays.map(day => (
-                <div key={day} className="p-1 sm:p-2 text-center font-semibold text-xs sm:text-sm text-gray-600">
+                <div key={day} className="p-1 sm:p-2 text-center font-semibold text-xs sm:text-sm bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-sm">
                   <span className="hidden sm:inline">{day}</span>
                   <span className="sm:hidden">{day.substring(0, 1)}</span>
                 </div>
