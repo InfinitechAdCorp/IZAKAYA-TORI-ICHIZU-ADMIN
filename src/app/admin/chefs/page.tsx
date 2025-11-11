@@ -407,13 +407,8 @@ export default function ChefsAdmin() {
                 {selectedChef && (
                   <>
                     <SheetHeader>
-<<<<<<< HEAD
                       <SheetTitle className="md:text-xl">Chef Details</SheetTitle>
                       <SheetDescription className="md:text-md">Complete information for this chef</SheetDescription>
-=======
-                      <SheetTitle>Chef Details</SheetTitle>
-                      <SheetDescription>Complete information for this chef</SheetDescription>
->>>>>>> a672b6d353ca7729988e420e3a726215db136a74
                     </SheetHeader>
                     <div className="mt-6 space-y-6">
                       <div className="flex justify-center mb-6">
@@ -428,13 +423,8 @@ export default function ChefsAdmin() {
                         </div>
                       </div>
 
-<<<<<<< HEAD
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-self-center">
                         <div className="space-y-4 mx-5">
-=======
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-4">
->>>>>>> a672b6d353ca7729988e420e3a726215db136a74
                           <div>
                             <Label className="text-sm font-medium text-gray-500">Chef Name</Label>
                             <p className="text-lg font-semibold">{selectedChef.name}</p>
@@ -474,11 +464,7 @@ export default function ChefsAdmin() {
                         </div>
                       </div>
 
-<<<<<<< HEAD
                       <div className="mx-5">
-=======
-                      <div>
->>>>>>> a672b6d353ca7729988e420e3a726215db136a74
                         <Label className="text-sm font-medium text-gray-500">Biography</Label>
                         <p className="text-sm mt-1 p-3 bg-gray-50 rounded-md whitespace-pre-wrap">
                           {selectedChef.bio}
@@ -584,11 +570,7 @@ export default function ChefsAdmin() {
       <SidebarProvider defaultOpen={!isMobile}>
         <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
           <AppSidebar />
-<<<<<<< HEAD
           <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
-=======
-          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
->>>>>>> a672b6d353ca7729988e420e3a726215db136a74
             <div className="flex items-center justify-center min-h-screen w-full">
               <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
                 <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
@@ -605,11 +587,7 @@ export default function ChefsAdmin() {
     <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
         <AppSidebar />
-<<<<<<< HEAD
         <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
-=======
-        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
->>>>>>> a672b6d353ca7729988e420e3a726215db136a74
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
@@ -852,11 +830,7 @@ export default function ChefsAdmin() {
                   </div>
                 </div>
                 <CardContent className="p-0 bg-white">
-<<<<<<< HEAD
                   <div className="px-6 pb-6">
-=======
-                  <div className="p-6 pt-4">
->>>>>>> a672b6d353ca7729988e420e3a726215db136a74
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                       <div className="text-sm text-gray-600 font-medium">
                         Showing {startIndex + 1} to {Math.min(endIndex, totalItems)} of {totalItems} chefs
