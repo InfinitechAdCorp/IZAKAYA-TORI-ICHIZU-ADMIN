@@ -10,20 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {
-  MoreHorizontal,
-  Eye,
-  Plus,
-  Search,
-  Loader2,
-  ArrowUpDown,
-  Edit,
-  Trash2,
-  Upload,
-  Flame,
-  Leaf,
-  Star,
-} from "lucide-react"
+import { MoreHorizontal, Eye, Plus, Search, Loader2, ArrowUpDown, Edit, Trash2, Upload, Flame, Leaf, Star } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,15 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import {
   AlertDialog,
@@ -97,7 +76,7 @@ const categories = [
   "Sashimi",
   "Pasta",
   "Pizza",
-    "Add-ons",
+  "Add-ons",
 ]
 
 const getImageUrl = (imagePath: string): string => {
@@ -231,13 +210,13 @@ export default function ProductsAdminPage() {
       const response = await fetch("/api/product", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: formData,
       })
 
       const result = await response.json()
-      
+
       if (!response.ok) {
         if (response.status === 401) {
           toast({
@@ -302,13 +281,13 @@ export default function ProductsAdminPage() {
       const response = await fetch(`/api/product/${id}`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       })
-      
+
       const result = await response.json()
-      
+
       if (!response.ok) {
         if (response.status === 401) {
           toast({
@@ -323,7 +302,7 @@ export default function ProductsAdminPage() {
         }
         throw new Error(result.message || "Failed to delete product.")
       }
-      
+
       toast({
         title: "Success",
         description: "Product deleted successfully!",
@@ -378,13 +357,7 @@ export default function ProductsAdminPage() {
           aria-label="Select all"
         />
       ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
+      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
       enableSorting: false,
       enableHiding: false,
     },
@@ -406,11 +379,7 @@ export default function ProductsAdminPage() {
     {
       accessorKey: "name",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Product Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -443,11 +412,7 @@ export default function ProductsAdminPage() {
     {
       accessorKey: "price",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Price
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -511,32 +476,27 @@ export default function ProductsAdminPage() {
           <div className="flex items-center gap-1">
             <Dialog>
               <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedProduct(product)}
-                  className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2"
-                >
+                <Button variant="ghost" size="sm" onClick={() => setSelectedProduct(product)} className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2">
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedProduct && (
-                  <>
-                    <DialogHeader className="mt-4">
-                      <DialogTitle className="md:text-xl">Product Details</DialogTitle>
-                      <DialogDescription className="md:text-md">Complete information for this product</DialogDescription>
+                  <div>
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">Product Details</DialogTitle>
+                      <DialogDescription className="text-orange-100">Complete information for this product</DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
+                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] snap-y snap-start">
                       {/* Product Details */}
                       <div className="flex justify-center mb-6">
-                        <div className="w-32 h-32 rounded-lg overflow-hidden border-2 border-gray-200">
+                        <div className="w-full aspect-square max-w-xs mx-auto lg:mx-0 rounded-xl overflow-hidden border-2 border-dashed border-orange-300 bg-gradient-to-br from-orange-50 to-red-50 shadow-lg">
                           <Image
                             src={getImageUrl(selectedProduct.image) || "/placeholder.svg"}
                             alt={selectedProduct.name}
-                            width={128}
-                            height={128}
+                            width={300}
+                            height={300}
                             className="object-cover w-full h-full"
                           />
                         </div>
@@ -545,38 +505,38 @@ export default function ProductsAdminPage() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-5">
                         <div className="space-y-4">
                           <div>
-                            <Label className="text-sm font-medium text-gray-500">Product Name</Label>
-                            <p className="text-lg font-semibold">{selectedProduct.name}</p>
+                            <Label className="text-base font-medium text-gray-700">Product Name</Label>
+                            <p className="text-sm">{selectedProduct.name}</p>
                           </div>
                           <div>
-                            <Label className="text-sm font-medium text-gray-500">Category</Label>
-                            <Badge variant="outline" className="text-sm">
+                            <Label className="text-base font-medium text-gray-700">Category</Label>
+                            <Badge variant="outline" className="mt-2 text-sm border-orange-300 text-orange-600">
                               {selectedProduct.category}
                             </Badge>
                           </div>
                           <div>
-                            <Label className="text-sm font-medium text-gray-500">Price</Label>
-                            <p className="text-xl font-bold text-green-600">₱{formatPrice(selectedProduct.price)}</p>
+                            <Label className="text-base font-medium text-gray-700">Price</Label>
+                            <p className="text-sm font-bold text-green-600">₱{formatPrice(selectedProduct.price)}</p>
                           </div>
                         </div>
                         <div className="space-y-4">
                           <div>
-                            <Label className="text-sm font-medium text-gray-500">Properties</Label>
+                            <Label className="text-base font-medium text-gray-700">Properties</Label>
                             <div className="flex gap-2 mt-1 flex-wrap">
                               {selectedProduct.is_featured && (
-                                <Badge variant="secondary" className="text-xs bg-yellow-100 text-yellow-800">
+                                <Badge variant="secondary" className="text-sm bg-yellow-100 text-yellow-800">
                                   <Star className="w-3 h-3 mr-1" />
                                   Featured
                                 </Badge>
                               )}
                               {selectedProduct.is_spicy && (
-                                <Badge variant="destructive" className="text-xs">
+                                <Badge variant="destructive" className="text-sm">
                                   <Flame className="w-3 h-3 mr-1" />
                                   Spicy
                                 </Badge>
                               )}
                               {selectedProduct.is_vegetarian && (
-                                <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
+                                <Badge variant="secondary" className="text-sm bg-green-100 text-green-800">
                                   <Leaf className="w-3 h-3 mr-1" />
                                   Vegetarian
                                 </Badge>
@@ -587,7 +547,7 @@ export default function ProductsAdminPage() {
                             </div>
                           </div>
                           <div>
-                            <Label className="text-sm font-medium text-gray-500">Created On</Label>
+                            <Label className="text-base font-medium text-gray-700">Created On</Label>
                             <p className="text-sm">
                               {new Date(selectedProduct.created_at).toLocaleDateString("en-US", {
                                 month: "long",
@@ -597,7 +557,7 @@ export default function ProductsAdminPage() {
                             </p>
                           </div>
                           <div>
-                            <Label className="text-sm font-medium text-gray-500">Last Updated</Label>
+                            <Label className="text-base font-medium text-gray-700">Last Updated</Label>
                             <p className="text-sm">
                               {new Date(selectedProduct.updated_at).toLocaleDateString("en-US", {
                                 month: "long",
@@ -610,13 +570,11 @@ export default function ProductsAdminPage() {
                       </div>
 
                       <div className="p-5">
-                        <Label className="text-sm font-medium text-gray-500">Description</Label>
-                        <p className="text-sm mt-1 p-3 bg-gray-50 rounded-md whitespace-pre-wrap">
-                          {selectedProduct.description}
-                        </p>
+                        <Label className="text-base font-medium text-gray-700">Description</Label>
+                        <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">{selectedProduct.description}</p>
                       </div>
                     </div>
-                  </>
+                  </div>
                 )}
               </DialogContent>
             </Dialog>
@@ -644,8 +602,7 @@ export default function ProductsAdminPage() {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the product "{product.name}" and
-                        remove it from the system.
+                        This action cannot be undone. This will permanently delete the product "{product.name}" and remove it from the system.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -734,9 +691,7 @@ export default function ProductsAdminPage() {
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Products
-              </span>
+              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Products</span>
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
@@ -746,9 +701,7 @@ export default function ProductsAdminPage() {
                   <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
                     Products Management
                   </h1>
-                  <p className="text-sm sm:text-base text-gray-600 mt-1">
-                    Manage Izakaya's menu items with style
-                  </p>
+                  <p className="text-sm sm:text-base text-gray-600 mt-1">Manage Izakaya's menu items with style</p>
                 </div>
               </div>
 
@@ -780,9 +733,7 @@ export default function ProductsAdminPage() {
                         <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto mx-4 bg-gradient-to-br from-orange-50 to-red-50">
                           <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
                             <DialogTitle className="text-xl font-bold">Add New Product</DialogTitle>
-                            <DialogDescription className="text-orange-100">
-                              Fill in the details for your new menu item.
-                            </DialogDescription>
+                            <DialogDescription className="text-orange-100">Fill in the details for your new menu item.</DialogDescription>
                           </DialogHeader>
                           <form onSubmit={handleCreateSubmit} className="space-y-6 py-4">
                             <div className="grid grid-cols-1 gap-4">
@@ -843,11 +794,7 @@ export default function ProductsAdminPage() {
                                   <Label htmlFor="category" className="text-gray-700 font-medium">
                                     Category
                                   </Label>
-                                  <Select
-                                    value={newFormData.category}
-                                    onValueChange={handleCategoryChange}
-                                    disabled={isCreating}
-                                  >
+                                  <Select value={newFormData.category} onValueChange={handleCategoryChange} disabled={isCreating}>
                                     <SelectTrigger className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400">
                                       <SelectValue placeholder="Select category" />
                                     </SelectTrigger>
@@ -910,10 +857,7 @@ export default function ProductsAdminPage() {
                                     onCheckedChange={(checked) => handleSwitchChange("is_featured", checked)}
                                     disabled={isCreating}
                                   />
-                                  <Label
-                                    htmlFor="is_featured"
-                                    className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium"
-                                  >
+                                  <Label htmlFor="is_featured" className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium">
                                     <Star className="w-4 h-4 text-yellow-500" />
                                     Featured
                                   </Label>
@@ -926,10 +870,7 @@ export default function ProductsAdminPage() {
                                     onCheckedChange={(checked) => handleSwitchChange("is_spicy", checked)}
                                     disabled={isCreating}
                                   />
-                                  <Label
-                                    htmlFor="is_spicy"
-                                    className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium"
-                                  >
+                                  <Label htmlFor="is_spicy" className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium">
                                     <Flame className="w-4 h-4 text-red-500" />
                                     Spicy
                                   </Label>
@@ -942,10 +883,7 @@ export default function ProductsAdminPage() {
                                     onCheckedChange={(checked) => handleSwitchChange("is_vegetarian", checked)}
                                     disabled={isCreating}
                                   />
-                                  <Label
-                                    htmlFor="is_vegetarian"
-                                    className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium"
-                                  >
+                                  <Label htmlFor="is_vegetarian" className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium">
                                     <Leaf className="w-4 h-4 text-green-500" />
                                     Vegetarian
                                   </Label>
@@ -1019,10 +957,7 @@ export default function ProductsAdminPage() {
                               <tr className="border-b border-orange-200">
                                 {table.getHeaderGroups().map((headerGroup) =>
                                   headerGroup.headers.map((header) => (
-                                    <th
-                                      key={header.id}
-                                      className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide"
-                                    >
+                                    <th key={header.id} className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide">
                                       {header.isPlaceholder ? null : (
                                         <div className="flex items-center gap-2">
                                           {typeof header.column.columnDef.header === "function"
@@ -1039,7 +974,9 @@ export default function ProductsAdminPage() {
                               {paginatedRows.map((row, index) => (
                                 <tr
                                   key={row.id}
-                                  className={`border-b border-orange-100 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all duration-200 ${index % 2 === 0 ? "bg-white" : "bg-orange-25"}`}
+                                  className={`border-b border-orange-100 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all duration-200 ${
+                                    index % 2 === 0 ? "bg-white" : "bg-orange-25"
+                                  }`}
                                 >
                                   {row.getVisibleCells().map((cell) => (
                                     <td key={cell.id} className="p-3 sm:p-4 text-sm">
@@ -1063,7 +1000,7 @@ export default function ProductsAdminPage() {
                           {globalFilter && <p className="text-sm mt-1 text-gray-500">Try adjusting your search terms</p>}
                         </div>
                       )}
-                      
+
                       {/* Pagination Controls */}
                       {totalPages > 1 && (
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 my-4 pt-4 border-t border-orange-200">
@@ -1083,7 +1020,7 @@ export default function ProductsAdminPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                               disabled={currentPage === 1}
                               className="border-orange-300 text-orange-600 hover:bg-orange-50 disabled:opacity-50"
                             >
@@ -1092,7 +1029,7 @@ export default function ProductsAdminPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
                               disabled={currentPage === totalPages}
                               className="border-orange-300 text-orange-600 hover:bg-orange-50 disabled:opacity-50"
                             >
