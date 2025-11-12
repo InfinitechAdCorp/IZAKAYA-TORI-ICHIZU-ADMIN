@@ -27,6 +27,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Dialog,
+  DialogTrigger,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -371,8 +372,8 @@ export default function TestimonialsAdmin() {
         const testimonial = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -382,15 +383,15 @@ export default function TestimonialsAdmin() {
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-2xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedTestimonial && (
                   <>
-                    <SheetHeader>
-                      <SheetTitle>Testimonial Details</SheetTitle>
-                      <SheetDescription>Complete information for this testimonial</SheetDescription>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6">
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">Testimonial Details</DialogTitle>
+                      <DialogDescription className="text-orange-100">Complete information for this testimonial</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-4">
                           <div>
@@ -451,8 +452,8 @@ export default function TestimonialsAdmin() {
                     </div>
                   </>
                 )}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

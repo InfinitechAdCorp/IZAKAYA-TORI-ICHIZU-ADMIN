@@ -351,8 +351,8 @@ export default function AdminAnnouncementsPage() {
         const announcement = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -362,15 +362,15 @@ export default function AdminAnnouncementsPage() {
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-2xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedAnnouncement && (
                   <>
-                    <SheetHeader>
-                      <SheetTitle>Announcement Details</SheetTitle>
-                      <SheetDescription>Complete information for this announcement</SheetDescription>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6">
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">Announcement Details</DialogTitle>
+                      <DialogDescription className="text-orange-100">Complete information for this announcement</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-6">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-4">
@@ -417,8 +417,8 @@ export default function AdminAnnouncementsPage() {
                     </div>
                   </>
                 )}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

@@ -577,16 +577,16 @@ export default function OrdersAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {loadingOrderDetails ? (
                   <div className="flex items-center justify-center py-12">
                     <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
                   </div>
                 ) : selectedOrder ? (
                   <>
-                    <DialogHeader className="mt-4">
-                      <DialogTitle className="md:text-xl">Order Details - #{selectedOrder.order_number}</DialogTitle>
-                      <DialogDescription className="md:text-md">Complete information for this order</DialogDescription>
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">Order Details - #{selectedOrder.order_number}</DialogTitle>
+                      <DialogDescription className="text-orange-100">Complete information for this order</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
                       {/* Order Status and Quick Actions */}

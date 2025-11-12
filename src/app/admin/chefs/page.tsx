@@ -391,8 +391,8 @@ export default function ChefsAdmin() {
         const chef = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -402,15 +402,15 @@ export default function ChefsAdmin() {
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-2xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedChef && (
                   <>
-                    <SheetHeader>
-                      <SheetTitle className="md:text-xl">Chef Details</SheetTitle>
-                      <SheetDescription className="md:text-md">Complete information for this chef</SheetDescription>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6">
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">Chef Details</DialogTitle>
+                      <DialogDescription className="text-orange-100">Complete information for this chef</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-6">
                       <div className="flex justify-center mb-6">
                         <div className="w-32 h-32 rounded-lg overflow-hidden border-2 border-gray-200">
                           <Image
@@ -473,8 +473,8 @@ export default function ChefsAdmin() {
                     </div>
                   </>
                 )}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

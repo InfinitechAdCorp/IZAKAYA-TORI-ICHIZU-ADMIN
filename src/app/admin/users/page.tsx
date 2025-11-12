@@ -510,21 +510,16 @@ export default function UsersAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedUser && (
                   <>
-                    <DialogHeader className="mt-4">
-                      <DialogTitle className="md:text-xl">User Details - {selectedUser.name}</DialogTitle>
-                      <DialogDescription className="text-md">Complete information for this user</DialogDescription>
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">User Details - {selectedUser.name}</DialogTitle>
+                      <DialogDescription className="text-orange-100">Complete information for this user</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
                       <Card className="mx-5">
-                        <CardHeader className="pb-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
-                          <h3 className="font-semibold text-lg flex items-center gap-2">
-                            <UserCheck className="w-5 h-5" />
-                            Personal Information 
-                          </h3>
-                        </CardHeader>
+                        
                         <CardContent className="space-y-4">
                           <div className="grid grid-cols-2 gap-4">
                             <div>

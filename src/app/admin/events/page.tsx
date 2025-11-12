@@ -479,12 +479,12 @@ export default function EventsAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedEvent && (
                   <>
-                    <DialogHeader className="mt-4">
-                      <DialogTitle className="md:text-xl">Event Details - #{selectedEvent.id}</DialogTitle>
-                      <DialogDescription className="md:text-md">Complete information for this event booking</DialogDescription>
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">Event Details - #{selectedEvent.id}</DialogTitle>
+                      <DialogDescription className="text-orange-100">Complete information for this event booking</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-gray-50 rounded-lg">
