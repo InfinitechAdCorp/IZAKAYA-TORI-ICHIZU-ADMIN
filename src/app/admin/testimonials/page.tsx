@@ -544,7 +544,7 @@ export default function TestimonialsAdmin() {
       <SidebarProvider defaultOpen={!isMobile}>
         <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
           <AppSidebar />
-          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
+          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
             <div className="flex items-center justify-center min-h-screen w-full">
               <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
                 <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
@@ -561,7 +561,7 @@ export default function TestimonialsAdmin() {
     <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
         <AppSidebar />
-        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
+        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
@@ -747,7 +747,7 @@ export default function TestimonialsAdmin() {
                   </div>
                 </div>
                 <CardContent className="p-0 bg-white">
-                  <div className="p-6 pt-4">
+                  <div className="px-6 pb-6">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                       <div className="text-sm text-gray-600 font-medium">
                         Showing {startIndex + 1} to {Math.min(endIndex, totalItems)} of {totalItems} testimonials

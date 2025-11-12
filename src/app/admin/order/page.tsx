@@ -565,8 +565,8 @@ export default function OrdersAdminPage() {
         const order = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -576,19 +576,19 @@ export default function OrdersAdminPage() {
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-3xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
                 {loadingOrderDetails ? (
                   <div className="flex items-center justify-center py-12">
                     <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
                   </div>
                 ) : selectedOrder ? (
                   <>
-                    <SheetHeader>
-                      <SheetTitle>Order Details - #{selectedOrder.order_number}</SheetTitle>
-                      <SheetDescription>Complete information for this order</SheetDescription>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6">
+                    <DialogHeader className="mt-4">
+                      <DialogTitle className="md:text-xl">Order Details - #{selectedOrder.order_number}</DialogTitle>
+                      <DialogDescription className="md:text-md">Complete information for this order</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
                       {/* Order Status and Quick Actions */}
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-gray-50 rounded-lg">
                         <div>
@@ -607,7 +607,7 @@ export default function OrdersAdminPage() {
                             })}
                           </p>
                         </div>
-                        <div className="text-right">
+                        <div className="text-left sm:text-right">
                           <div className="text-2xl font-bold text-green-600">
                             ₱
                             {(typeof selectedOrder.total_amount === "number" ? selectedOrder.total_amount : 0).toFixed(
@@ -732,8 +732,8 @@ export default function OrdersAdminPage() {
                     </div>
                   </>
                 ) : null}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -801,7 +801,7 @@ export default function OrdersAdminPage() {
       <SidebarProvider defaultOpen={!isMobile}>
         <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
           <AppSidebar />
-          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
+          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
             <div className="flex items-center justify-center min-h-screen w-full">
               <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
                 <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
@@ -818,7 +818,7 @@ export default function OrdersAdminPage() {
     <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
         <AppSidebar />
-        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
+        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
@@ -922,7 +922,7 @@ export default function OrdersAdminPage() {
                   </div>
                 </div>
                 <CardContent className="p-0 bg-white">
-                  <div className="p-6 pt-4">
+                  <div className="px-6 pb-6">
                     <div className="text-sm text-gray-600 mb-4 font-medium">
                       Showing {table.getFilteredRowModel().rows.length} of {orders.length} orders
                     </div>

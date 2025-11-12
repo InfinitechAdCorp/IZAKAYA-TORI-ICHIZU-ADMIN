@@ -449,7 +449,7 @@ export default function AdminDashboard() {
     <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
         <AppSidebar />
-        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
+        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
@@ -508,9 +508,9 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
                 <Card className="border-red-200 bg-gradient-to-br from-red-500 to-orange-500 text-white shadow-xl">
-                  <CardHeader className="pb-2">
+                  <CardHeader>
                     <CardTitle className="text-sm font-medium text-red-100">Total Sales</CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -524,7 +524,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 <Card className="border-orange-200 bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-xl">
-                  <CardHeader className="pb-2">
+                  <CardHeader>
                     <CardTitle className="text-sm font-medium text-orange-100">Total Orders</CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -536,7 +536,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 <Card className="border-red-200 bg-gradient-to-br from-red-600 to-orange-600 text-white shadow-xl">
-                  <CardHeader className="pb-2">
+                  <CardHeader>
                     <CardTitle className="text-sm font-medium text-red-100">Avg Order Value</CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -548,7 +548,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 <Card className="border-red-200 bg-gradient-to-br from-red-600 to-orange-600 text-white shadow-xl">
-                  <CardHeader className="pb-2">
+                  <CardHeader>
                     <CardTitle className="text-sm font-medium text-orange-100">Total Customers</CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -560,7 +560,7 @@ export default function AdminDashboard() {
                 </Card>
 
                 <Card className="border-red-200 bg-gradient-to-br from-red-600 to-orange-600 text-white shadow-xl">
-                  <CardHeader className="pb-2">
+                  <CardHeader>
                     <CardTitle className="text-sm font-medium text-orange-100">Total Reservations</CardTitle>
                   </CardHeader>
                   <CardContent>
