@@ -487,8 +487,8 @@ export default function UsersAdminPage() {
                 {selectedUser && (
                   <>
                     <SheetHeader>
-                      <SheetTitle>User Details - {selectedUser.name}</SheetTitle>
-                      <SheetDescription>Complete information for this user</SheetDescription>
+                      <SheetTitle className="md:text-xl">User Details - {selectedUser.name}</SheetTitle>
+                      <SheetDescription className="text-md">Complete information for this user</SheetDescription>
                     </SheetHeader>
                     <div className="mt-6 space-y-2">
                       <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
@@ -602,7 +602,7 @@ export default function UsersAdminPage() {
       <SidebarProvider defaultOpen={!isMobile}>
         <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
           <AppSidebar />
-          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
+          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
             <div className="flex items-center justify-center min-h-screen w-full">
               <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
                 <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
@@ -619,7 +619,7 @@ export default function UsersAdminPage() {
     <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
         <AppSidebar />
-        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
+        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
@@ -659,7 +659,7 @@ export default function UsersAdminPage() {
                   </div>
                 </div>
                 <CardContent className="p-0 bg-white">
-                  <div className="p-6 pt-4">
+                  <div className="px-6 pb-6">
                     <div className="text-sm text-gray-600 mb-4 font-medium">
                       Showing {table.getFilteredRowModel().rows.length} of {users.length} users
                     </div>
