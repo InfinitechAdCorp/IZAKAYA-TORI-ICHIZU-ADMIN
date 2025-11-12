@@ -54,6 +54,7 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
+import { DialogTrigger } from "@radix-ui/react-dialog"
 
 interface Event {
   id: number
@@ -466,8 +467,8 @@ export default function EventsAdminPage() {
         const event = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -477,15 +478,15 @@ export default function EventsAdminPage() {
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-3xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
                 {selectedEvent && (
                   <>
-                    <SheetHeader>
-                      <SheetTitle>Event Details - #{selectedEvent.id}</SheetTitle>
-                      <SheetDescription>Complete information for this event booking</SheetDescription>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6">
+                    <DialogHeader className="mt-4">
+                      <DialogTitle className="md:text-xl">Event Details - #{selectedEvent.id}</DialogTitle>
+                      <DialogDescription className="md:text-md">Complete information for this event booking</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-gray-50 rounded-lg">
                         <div>
                           <div className="flex items-center gap-3 mb-2">
@@ -617,8 +618,8 @@ export default function EventsAdminPage() {
                     </div>
                   </>
                 )}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

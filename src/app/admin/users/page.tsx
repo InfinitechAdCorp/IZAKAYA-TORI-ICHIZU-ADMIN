@@ -66,6 +66,7 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
+import { DialogTrigger } from "@radix-ui/react-dialog"
 
 // User data types
 interface User {
@@ -497,8 +498,8 @@ export default function UsersAdminPage() {
         const user = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -508,15 +509,15 @@ export default function UsersAdminPage() {
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-2xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
                 {selectedUser && (
                   <>
-                    <SheetHeader>
-                      <SheetTitle className="md:text-xl">User Details - {selectedUser.name}</SheetTitle>
-                      <SheetDescription className="text-md">Complete information for this user</SheetDescription>
-                    </SheetHeader>
-                    <div className="space-y-6">
+                    <DialogHeader className="mt-4">
+                      <DialogTitle className="md:text-xl">User Details - {selectedUser.name}</DialogTitle>
+                      <DialogDescription className="text-md">Complete information for this user</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
                       <Card className="mx-5">
                         <CardHeader className="pb-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
                           <h3 className="font-semibold text-lg flex items-center gap-2">
@@ -574,8 +575,8 @@ export default function UsersAdminPage() {
                     </div>
                   </>
                 )}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
