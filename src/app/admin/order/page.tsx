@@ -577,20 +577,20 @@ export default function OrdersAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
+               <DialogContent className={`${isMobile ? 'max-w-[320px]' : "max-w-[600px]"} w-full max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50 gap-0`}>
                 {loadingOrderDetails ? (
                   <div className="flex items-center justify-center py-12">
                     <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
                   </div>
                 ) : selectedOrder ? (
                   <>
-                    <DialogHeader className="mt-4">
-                      <DialogTitle className="md:text-xl">Order Details - #{selectedOrder.order_number}</DialogTitle>
-                      <DialogDescription className="md:text-md">Complete information for this order</DialogDescription>
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">Order Details - #{selectedOrder.order_number}</DialogTitle>
+                      <DialogDescription className="text-orange-100">Complete information for this order</DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
+                    <div className={`${isMobile ? 'max-w-[260px]' : "max-w-[540px]"} w-full space-y-3 sm:space-y-4 max-h-[70vh] snap-y snap-start`}>
                       {/* Order Status and Quick Actions */}
-                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 rounded-lg">
                         <div>
                           <div className="flex items-center gap-3 mb-2">
                             {getStatusBadge(selectedOrder.order_status)}
@@ -625,16 +625,16 @@ export default function OrdersAdminPage() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-2">
                         {/* Customer Information */}
-                        <Card>
-                          <CardHeader className="pb-3">
-                            <h3 className="font-semibold text-lg flex items-center gap-2">
+                        <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0 gap-2">
+                          <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
+                            <h3 className="mt-2 font-semibold text-lg flex items-center gap-2">
                               <User className="w-5 h-5" />
                               Customer Information
                             </h3>
                           </CardHeader>
-                          <CardContent className="space-y-3">
+                          <CardContent className="space-y-3 pb-2">
                             <div>
                               <Label className="text-sm font-medium text-gray-500">Name</Label>
                               <p className="font-medium">{selectedOrder.customer_name}</p>
@@ -651,16 +651,16 @@ export default function OrdersAdminPage() {
                         </Card>
 
                         {/* Delivery Information */}
-                        <Card>
-                          <CardHeader className="pb-3">
-                            <h3 className="font-semibold text-lg flex items-center gap-2">
+                       <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0 gap-2">
+                          <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
+                            <h3 className="mt-2 font-semibold text-lg flex items-center gap-2">
                               <MapPin className="w-5 h-5" />
                               Delivery Address
                             </h3>
                           </CardHeader>
                           <CardContent className="space-y-2">
                             <p className="text-sm">{selectedOrder.delivery_address}</p>
-                            <p className="text-sm">
+                            <p className="text-sm pb-2">
                               {selectedOrder.delivery_city}, {selectedOrder.delivery_zip_code}
                             </p>
                           </CardContent>
@@ -668,26 +668,26 @@ export default function OrdersAdminPage() {
                       </div>
 
                       {/* Order Items */}
-                      <Card>
-                        <CardHeader className="pb-3">
-                          <h3 className="font-semibold text-lg flex items-center gap-2">
+                      <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0 gap-2">
+                          <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
+                          <h3 className="mt-2 font-semibold text-lg flex items-center gap-2">
                             <Package className="w-5 h-5" />
                             Order Items ({selectedOrder.order_items?.length || 0})
                           </h3>
                         </CardHeader>
-                        <CardContent>
-                          <div className="space-y-3">
+                        <CardContent className="px-4 gap-2">
+                          <div className="space-y-3 pb-4">
                             {(selectedOrder.order_items || []).map((item, index) => (
-                              <div key={index} className="flex items-center gap-3 p-3 border rounded-lg">
+                              <div key={index} className="flex items-center border rounded-lg px-4">
                                 <div className="flex-1 min-w-0">
                                   <h4 className="font-semibold text-base truncate">{item.name}</h4>
                                   <p className="text-xs text-gray-500 truncate mb-2">{item.description}</p>
-                                  <div className="flex items-center gap-2">
-                                    <Badge variant="outline" className="text-xs">
+                                  <div className="flex items-center gap-2 pb-2">
+                                    <Badge variant="outline" className="text-xs border-orange-300 text-orange-600">
                                       {item.category}
                                     </Badge>
                                     {item.is_spicy && (
-                                      <Badge variant="destructive" className="text-xs">
+                                      <Badge variant="destructive" className="text-xs text-red-500 border-orange-200 rounded-lg bg-gradient-to-r from-orange-50 to-red-50">
                                         🌶️ Spicy
                                       </Badge>
                                     )}
@@ -718,9 +718,9 @@ export default function OrdersAdminPage() {
 
                       {/* Additional Notes */}
                       {selectedOrder.notes && (
-                        <Card>
-                          <CardHeader className="pb-3">
-                            <h3 className="font-semibold text-lg">Special Notes</h3>
+                        <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0 pb-2">
+                          <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
+                            <h3 className="mt-2 font-semibold text-lg flex items-center gap-2">Special Notes</h3>
                           </CardHeader>
                           <CardContent>
                             <p className="text-sm p-3 bg-gray-50 rounded-md whitespace-pre-wrap">
@@ -905,6 +905,7 @@ export default function OrdersAdminPage() {
                         </Select>
 
                         <Select value={paymentMethodFilter} onValueChange={setPaymentMethodFilter}>
+                          
                           <SelectTrigger className="w-32 bg-white/20 border-white/30 text-white focus:bg-white/30 focus:border-white/50">
                             <SelectValue placeholder="Payment" />
                           </SelectTrigger>
