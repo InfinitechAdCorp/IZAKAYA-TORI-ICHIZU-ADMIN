@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react"
 import { Loader2, Download, FileText } from "lucide-react"
 import {
   AreaChart,
@@ -398,6 +399,14 @@ export default function AdminDashboard() {
     }
   }
 
+  function previousProduct() {
+
+  }
+
+  function nextProduct() {
+
+  }
+
   if (loading) {
     return (
       <SidebarProvider defaultOpen={!isMobile}>
@@ -670,9 +679,19 @@ export default function AdminDashboard() {
               </div>
 
               <Card className="border-red-200 bg-white/70 backdrop-blur-sm shadow-xl">
-                <CardHeader>
-                  <CardTitle className="text-red-800">Popular Products</CardTitle>
-                  <CardDescription className="text-red-600">Top selling items by order count</CardDescription>
+                <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex flex-col gap-1">
+                      <CardTitle className="text-red-800">Popular Products</CardTitle>
+                      <CardDescription className="text-red-600">Top selling items by order count</CardDescription>
+                    </div>
+                      <div className="flex items-center gap-2 mt-2 sm:mt-0">
+                        <Button variant="outline" size="icon" onClick={previousProduct}>
+                          <ChevronLeft className="w-4 h-4" />
+                        </Button>
+                        <Button variant="outline" size="icon" onClick={nextProduct}>
+                          <ChevronRight className="w-4 h-4" />
+                        </Button>
+                      </div>
                 </CardHeader>
                 <CardContent>
                   {analytics.popularProducts && analytics.popularProducts.length > 0 ? (

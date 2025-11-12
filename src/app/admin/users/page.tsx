@@ -522,7 +522,7 @@ export default function UsersAdminPage() {
                         <CardHeader className="pb-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
                           <h3 className="font-semibold text-lg flex items-center gap-2">
                             <UserCheck className="w-5 h-5" />
-                            Personal Information
+                            Personal Information 
                           </h3>
                         </CardHeader>
                         <CardContent className="space-y-4">
