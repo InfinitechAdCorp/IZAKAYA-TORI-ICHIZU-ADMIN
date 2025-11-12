@@ -11,27 +11,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
-import {
-  Trash2,
-  Edit,
-  Plus,
-  X,
-  Play,
-  Eye,
-  Search,
-  ArrowUpDown,
-  Loader2,
-  Upload,
-  MoreHorizontal,
-} from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog"
+import { Trash2, Edit, Plus, X, Play, Eye, Search, ArrowUpDown, Loader2, Upload, MoreHorizontal } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -79,7 +60,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
 export default function BlogPostsAdmin() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
-  const [isAdding, setIsAdding] = useState(false)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null)
@@ -155,7 +136,7 @@ export default function BlogPostsAdmin() {
         title: "Success",
         description: editingId ? "Blog post updated successfully" : "Blog post created successfully",
       })
-
+      setIsCreateModalOpen(false)
       resetForm()
       fetchPosts()
     } catch (error) {
@@ -182,7 +163,6 @@ export default function BlogPostsAdmin() {
     setVideoPreview(null)
     setThumbnailPreview(null)
     setEditingId(null)
-    setIsAdding(false)
   }
 
   async function handleDelete(id: number) {
@@ -228,7 +208,7 @@ export default function BlogPostsAdmin() {
     setVideoPreview(post.video_url ? `${API_URL}${post.video_url}` : null)
     setThumbnailPreview(post.thumbnail_url ? `${API_URL}${post.thumbnail_url}` : null)
     setEditingId(post.id)
-    setIsAdding(true)
+    setIsCreateModalOpen(true)
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
@@ -265,13 +245,7 @@ export default function BlogPostsAdmin() {
           aria-label="Select all"
         />
       ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
+      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
       enableSorting: false,
       enableHiding: false,
     },
@@ -282,11 +256,7 @@ export default function BlogPostsAdmin() {
         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden flex-shrink-0 relative">
           {row.original.thumbnail_url ? (
             <>
-              <img
-                src={`${API_URL}${row.original.thumbnail_url}`}
-                alt={row.original.title}
-                className="object-cover w-full h-full"
-              />
+              <img src={`${API_URL}${row.original.thumbnail_url}`} alt={row.original.title} className="object-cover w-full h-full" />
               {row.original.video_url && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                   <Play className="w-4 h-4 text-white" />
@@ -304,11 +274,7 @@ export default function BlogPostsAdmin() {
     {
       accessorKey: "title",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Title
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -337,9 +303,7 @@ export default function BlogPostsAdmin() {
     {
       accessorKey: "excerpt",
       header: "Excerpt",
-      cell: ({ row }) => (
-        <div className="text-sm text-gray-600 max-w-xs hidden md:block">{truncateText(row.original.excerpt, 60)}</div>
-      ),
+      cell: ({ row }) => <div className="text-sm text-gray-600 max-w-xs hidden md:block">{truncateText(row.original.excerpt, 60)}</div>,
     },
     {
       accessorKey: "created_at",
@@ -372,12 +336,7 @@ export default function BlogPostsAdmin() {
           <div className="flex items-center gap-1">
             <Sheet>
               <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedPost(post)}
-                  className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2"
-                >
+                <Button variant="ghost" size="sm" onClick={() => setSelectedPost(post)} className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2">
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
@@ -406,11 +365,7 @@ export default function BlogPostsAdmin() {
                       )}
                       {!selectedPost.video_url && selectedPost.thumbnail_url && (
                         <div className="rounded-lg overflow-hidden">
-                          <img
-                            src={`${API_URL}${selectedPost.thumbnail_url}`}
-                            alt={selectedPost.title}
-                            className="w-full object-cover"
-                          />
+                          <img src={`${API_URL}${selectedPost.thumbnail_url}`} alt={selectedPost.title} className="w-full object-cover" />
                         </div>
                       )}
                       <div>
@@ -419,9 +374,7 @@ export default function BlogPostsAdmin() {
                       </div>
                       <div>
                         <Label className="text-sm font-medium text-gray-500">Content</Label>
-                        <p className="text-sm mt-1 p-3 bg-gray-50 rounded-md whitespace-pre-wrap">
-                          {selectedPost.content}
-                        </p>
+                        <p className="text-sm mt-1 p-3 bg-gray-50 rounded-md whitespace-pre-wrap">{selectedPost.content}</p>
                       </div>
                     </div>
                   </>
@@ -452,8 +405,7 @@ export default function BlogPostsAdmin() {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the blog post "{post.title}" and
-                        remove it from the system.
+                        This action cannot be undone. This will permanently delete the blog post "{post.title}" and remove it from the system.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -469,7 +421,7 @@ export default function BlogPostsAdmin() {
                             Deleting...
                           </>
                         ) : (
-                          "Delete Post"
+                          <span className="text-white">Delete Post</span>
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -540,9 +492,7 @@ export default function BlogPostsAdmin() {
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Blog Posts
-              </span>
+              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Blog Posts</span>
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
@@ -555,202 +505,6 @@ export default function BlogPostsAdmin() {
                   <p className="text-sm sm:text-base text-gray-600 mt-1">Manage and create your blog content</p>
                 </div>
               </div>
-
-              {isAdding && (
-                <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
-                  <CardHeader className="border-b bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                    <CardTitle className="flex items-center justify-between">
-                      <div>
-                        <h2 className="mt-5 text-2xl font-bold">{editingId ? "Edit Post" : "Create New Post"}</h2>
-                        <p className="text-orange-100 mt-1">Fill in the details for your blog post</p>
-                      </div>
-                      <button
-                        onClick={resetForm}
-                        className="text-white hover:text-white/80"
-                        disabled={isUploading}
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-6 bg-white">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <Label htmlFor="title" className="text-gray-700 font-medium">
-                            Title
-                          </Label>
-                          <Input
-                            id="title"
-                            placeholder="Enter post title"
-                            value={formData.title}
-                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                            required
-                            disabled={isUploading}
-                            className="border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="author" className="text-gray-700 font-medium">
-                            Author
-                          </Label>
-                          <Input
-                            id="author"
-                            placeholder="Enter author name"
-                            value={formData.author}
-                            onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                            required
-                            disabled={isUploading}
-                            className="border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="excerpt" className="text-gray-700 font-medium">
-                          Excerpt
-                        </Label>
-                        <Textarea
-                          id="excerpt"
-                          placeholder="Short summary of your post (appears in previews)"
-                          value={formData.excerpt}
-                          onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                          required
-                          disabled={isUploading}
-                          rows={3}
-                          className="resize-none border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="content" className="text-gray-700 font-medium">
-                          Content
-                        </Label>
-                        <Textarea
-                          id="content"
-                          placeholder="Full blog post content"
-                          value={formData.content}
-                          onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                          required
-                          disabled={isUploading}
-                          rows={8}
-                          className="resize-none font-mono text-sm border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                        />
-                      </div>
-
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <Label className="text-gray-700 font-medium">Featured Video (Optional)</Label>
-                          <div className="border-2 border-dashed border-orange-200 rounded-lg p-6 text-center hover:border-orange-300 transition-colors cursor-pointer">
-                            <input
-                              type="file"
-                              accept="video/*"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0] || null
-                                setFormData({ ...formData, video: file })
-                                if (file) {
-                                  const url = URL.createObjectURL(file)
-                                  setVideoPreview(url)
-                                }
-                              }}
-                              disabled={isUploading}
-                              className="hidden"
-                              id="video-upload"
-                            />
-                            <label htmlFor="video-upload" className="cursor-pointer block">
-                              <Upload className="w-8 h-8 mx-auto mb-2 text-orange-500" />
-                              <p className="text-sm font-medium text-gray-700">
-                                {formData.video
-                                  ? formData.video.name
-                                  : videoPreview
-                                    ? "Current video - click to change"
-                                    : "Click to upload video"}
-                              </p>
-                              <p className="text-xs text-gray-500 mt-1">MP4, WebM, OGG up to 100MB</p>
-                            </label>
-                          </div>
-                          {videoPreview && (
-                            <div className="mt-3 relative rounded-lg overflow-hidden bg-black">
-                              <video src={videoPreview} controls className="w-full max-h-60 object-contain">
-                                Your browser does not support the video tag.
-                              </video>
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label className="text-gray-700 font-medium">Video Thumbnail (Optional)</Label>
-                          <div className="border-2 border-dashed border-orange-200 rounded-lg p-6 text-center hover:border-orange-300 transition-colors cursor-pointer">
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0] || null
-                                setFormData({ ...formData, thumbnail: file })
-                                if (file) {
-                                  const url = URL.createObjectURL(file)
-                                  setThumbnailPreview(url)
-                                }
-                              }}
-                              disabled={isUploading}
-                              className="hidden"
-                              id="thumbnail-upload"
-                            />
-                            <label htmlFor="thumbnail-upload" className="cursor-pointer block">
-                              <Upload className="w-8 h-8 mx-auto mb-2 text-orange-500" />
-                              <p className="text-sm font-medium text-gray-700">
-                                {formData.thumbnail
-                                  ? formData.thumbnail.name
-                                  : thumbnailPreview
-                                    ? "Current thumbnail - click to change"
-                                    : "Click to upload thumbnail"}
-                              </p>
-                              <p className="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
-                            </label>
-                          </div>
-                          {thumbnailPreview && (
-                            <div className="mt-3 rounded-lg overflow-hidden h-40">
-                              <img
-                                src={thumbnailPreview}
-                                alt="Thumbnail preview"
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <DialogFooter className="gap-2 mb-5">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={resetForm}
-                          disabled={isUploading}
-                          className="flex-1 sm:flex-none border-orange-300 text-orange-600 hover:bg-orange-50"
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          type="submit"
-                          disabled={isUploading}
-                          className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg"
-                        >
-                          {isUploading ? (
-                            <>
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              {editingId ? "Updating..." : "Creating..."}
-                            </>
-                          ) : editingId ? (
-                            "Update Post"
-                          ) : (
-                            "Create Post"
-                          )}
-                        </Button>
-                      </DialogFooter>
-                    </form>
-                  </CardContent>
-                </Card>
-              )}
 
               <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
                 <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
@@ -766,15 +520,200 @@ export default function BlogPostsAdmin() {
                         />
                       </div>
 
-                      <Button
-                        size="sm"
-                        onClick={() => setIsAdding(true)}
-                        className="shrink-0 bg-white text-orange-600 hover:bg-orange-50 hover:text-orange-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
-                      >
-                        <Plus className="mr-2 h-4 w-4" />
-                        <span className="hidden sm:inline">Add Blog Post</span>
-                        <span className="sm:hidden">Add</span>
-                      </Button>
+                      <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+                        <DialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            onClick={() => setIsCreateModalOpen(true)}
+                            className="shrink-0 bg-white text-orange-600 hover:bg-orange-50 hover:text-orange-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                          >
+                            <Plus className="mr-2 h-4 w-4" />
+                            <span className="hidden sm:inline">Add Blog Post</span>
+                            <span className="sm:hidden">Add</span>
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+                          <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
+                            <DialogTitle className="text-xl font-bold">{editingId ? "Edit Post" : "Create New Post"}</DialogTitle>
+                            <DialogDescription className="text-orange-100">
+                              {editingId ? "Update post details" : "Create a new post for your customers"}
+                            </DialogDescription>
+                          </DialogHeader>
+                          <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid md:grid-cols-2 gap-6">
+                              <div className="space-y-2">
+                                <Label htmlFor="title" className="text-gray-700 font-medium">
+                                  Title
+                                </Label>
+                                <Input
+                                  id="title"
+                                  placeholder="Enter post title"
+                                  value={formData.title}
+                                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                  required
+                                  disabled={isUploading}
+                                  className="border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="author" className="text-gray-700 font-medium">
+                                  Author
+                                </Label>
+                                <Input
+                                  id="author"
+                                  placeholder="Enter author name"
+                                  value={formData.author}
+                                  onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                                  required
+                                  disabled={isUploading}
+                                  className="border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="space-y-2">
+                              <Label htmlFor="excerpt" className="text-gray-700 font-medium">
+                                Excerpt
+                              </Label>
+                              <Textarea
+                                id="excerpt"
+                                placeholder="Short summary of your post (appears in previews)"
+                                value={formData.excerpt}
+                                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                                required
+                                disabled={isUploading}
+                                rows={3}
+                                className="resize-none border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                              />
+                            </div>
+
+                            <div className="space-y-2">
+                              <Label htmlFor="content" className="text-gray-700 font-medium">
+                                Content
+                              </Label>
+                              <Textarea
+                                id="content"
+                                placeholder="Full blog post content"
+                                value={formData.content}
+                                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                                required
+                                disabled={isUploading}
+                                rows={8}
+                                className="resize-none font-mono text-sm border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                              />
+                            </div>
+
+                            <div className="grid md:grid-cols-2 gap-6">
+                              <div className="space-y-2">
+                                <Label className="text-gray-700 font-medium">Featured Video (Optional)</Label>
+                                <div className="border-2 border-dashed border-orange-200 rounded-lg p-6 text-center hover:border-orange-300 transition-colors cursor-pointer">
+                                  <input
+                                    type="file"
+                                    accept="video/*"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0] || null
+                                      setFormData({ ...formData, video: file })
+                                      if (file) {
+                                        const url = URL.createObjectURL(file)
+                                        setVideoPreview(url)
+                                      }
+                                    }}
+                                    disabled={isUploading}
+                                    className="hidden"
+                                    id="video-upload"
+                                  />
+                                  <label htmlFor="video-upload" className="cursor-pointer block">
+                                    <Upload className="w-8 h-8 mx-auto mb-2 text-orange-500" />
+                                    <p className="text-sm font-medium text-gray-700">
+                                      {formData.video
+                                        ? formData.video.name
+                                        : videoPreview
+                                        ? "Current video - click to change"
+                                        : "Click to upload video"}
+                                    </p>
+                                    <p className="text-xs text-gray-500 mt-1">MP4, WebM, OGG up to 100MB</p>
+                                  </label>
+                                </div>
+                                {videoPreview && (
+                                  <div className="mt-3 relative rounded-lg overflow-hidden bg-black">
+                                    <video src={videoPreview} controls className="w-full max-h-60 object-contain">
+                                      Your browser does not support the video tag.
+                                    </video>
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label className="text-gray-700 font-medium">Video Thumbnail (Optional)</Label>
+                                <div className="border-2 border-dashed border-orange-200 rounded-lg p-6 text-center hover:border-orange-300 transition-colors cursor-pointer">
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0] || null
+                                      setFormData({ ...formData, thumbnail: file })
+                                      if (file) {
+                                        const url = URL.createObjectURL(file)
+                                        setThumbnailPreview(url)
+                                      }
+                                    }}
+                                    disabled={isUploading}
+                                    className="hidden"
+                                    id="thumbnail-upload"
+                                  />
+                                  <label htmlFor="thumbnail-upload" className="cursor-pointer block">
+                                    <Upload className="w-8 h-8 mx-auto mb-2 text-orange-500" />
+                                    <p className="text-sm font-medium text-gray-700">
+                                      {formData.thumbnail
+                                        ? formData.thumbnail.name
+                                        : thumbnailPreview
+                                        ? "Current thumbnail - click to change"
+                                        : "Click to upload thumbnail"}
+                                    </p>
+                                    <p className="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</p>
+                                  </label>
+                                </div>
+                                {thumbnailPreview && (
+                                  <div className="mt-3 rounded-lg overflow-hidden h-40">
+                                    <img src={thumbnailPreview} alt="Thumbnail preview" className="w-full h-full object-cover" />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <DialogFooter className="gap-2 mb-5">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => {
+                                  setIsCreateModalOpen(false)
+                                  resetForm()
+                                }}
+                                disabled={isUploading}
+                                className="flex-1 sm:flex-none border-orange-300 text-orange-600 hover:bg-orange-50"
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                type="submit"
+                                disabled={isUploading}
+                                className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg"
+                              >
+                                {isUploading ? (
+                                  <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    {editingId ? "Updating..." : "Creating..."}
+                                  </>
+                                ) : editingId ? (
+                                  "Update Post"
+                                ) : (
+                                  "Create Post"
+                                )}
+                              </Button>
+                            </DialogFooter>
+                          </form>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 </div>
@@ -788,14 +727,8 @@ export default function BlogPostsAdmin() {
                         <Label htmlFor="items-per-page" className="text-sm text-gray-600 whitespace-nowrap">
                           Items per page:
                         </Label>
-                        <Select
-                          value={itemsPerPage === -1 ? "all" : itemsPerPage.toString()}
-                          onValueChange={handleItemsPerPageChange}
-                        >
-                          <SelectTrigger
-                            id="items-per-page"
-                            className="w-[100px] border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                          >
+                        <Select value={itemsPerPage === -1 ? "all" : itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+                          <SelectTrigger id="items-per-page" className="w-[100px] border-orange-200 focus:border-orange-400 focus:ring-orange-400">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -816,10 +749,7 @@ export default function BlogPostsAdmin() {
                               <tr className="border-b border-orange-200">
                                 {table.getHeaderGroups().map((headerGroup) =>
                                   headerGroup.headers.map((header) => (
-                                    <th
-                                      key={header.id}
-                                      className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide"
-                                    >
+                                    <th key={header.id} className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide">
                                       {header.isPlaceholder ? null : (
                                         <div className="flex items-center gap-2">
                                           {typeof header.column.columnDef.header === "function"
@@ -828,7 +758,7 @@ export default function BlogPostsAdmin() {
                                         </div>
                                       )}
                                     </th>
-                                  ))
+                                  )),
                                 )}
                               </tr>
                             </thead>
