@@ -730,7 +730,7 @@ export default function ProductsAdminPage() {
                             <span className="sm:hidden">Add</span>
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto mx-4 bg-gradient-to-br from-orange-50 to-red-50">
+                        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                           <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
                             <DialogTitle className="text-xl font-bold">Add New Product</DialogTitle>
                             <DialogDescription className="text-orange-100">Fill in the details for your new menu item.</DialogDescription>
