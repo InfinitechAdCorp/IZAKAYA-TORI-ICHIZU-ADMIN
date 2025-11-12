@@ -34,6 +34,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -556,8 +565,8 @@ export default function OrdersAdminPage() {
         const order = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -567,19 +576,19 @@ export default function OrdersAdminPage() {
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-3xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
                 {loadingOrderDetails ? (
                   <div className="flex items-center justify-center py-12">
                     <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
                   </div>
                 ) : selectedOrder ? (
                   <>
-                    <SheetHeader>
-                      <SheetTitle className="md:text-xl">Order Details - #{selectedOrder.order_number}</SheetTitle>
-                      <SheetDescription className="md:text-md">Complete information for this order</SheetDescription>
-                    </SheetHeader>
-                    <div className="space-y-6 mx-5">
+                    <DialogHeader className="mt-4">
+                      <DialogTitle className="md:text-xl">Order Details - #{selectedOrder.order_number}</DialogTitle>
+                      <DialogDescription className="md:text-md">Complete information for this order</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
                       {/* Order Status and Quick Actions */}
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-gray-50 rounded-lg">
                         <div>
@@ -598,7 +607,7 @@ export default function OrdersAdminPage() {
                             })}
                           </p>
                         </div>
-                        <div className="text-right">
+                        <div className="text-left sm:text-right">
                           <div className="text-2xl font-bold text-green-600">
                             ₱
                             {(typeof selectedOrder.total_amount === "number" ? selectedOrder.total_amount : 0).toFixed(
@@ -723,8 +732,8 @@ export default function OrdersAdminPage() {
                     </div>
                   </>
                 ) : null}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

@@ -336,13 +336,14 @@ export default function ReservationsAdmin() {
         <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
           <AppSidebar />
           <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
-            <div className="flex items-center justify-center min-h-screen w-full">
-              <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
-                <span className="text-gray-700 font-medium">Loading inquiries...</span>
+            <div className="flex items-center justify-center h-screen">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading reservations...</p>
               </div>
             </div>
           </div>
-        </div>
+      </div>
       </SidebarProvider>
     )
   }
@@ -360,270 +361,270 @@ export default function ReservationsAdmin() {
             </span>
           </div>
         )}
-          
-          <div className="py-5 px-5 lg:w-5xl md:w-xl mx-auto flex-1">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
-              <div className="flex items-center gap-2 sm:gap-4">
-                <h2 className="text-xl sm:text-2xl font-bold">{formatMonthYear(currentDate)}</h2>
-                <Button variant="outline" size="sm" onClick={goToToday}>
-                  Today
-                </Button>
-              </div>
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <Button variant="outline" size="icon" onClick={previousMonth}>
-                  <ChevronLeft className="w-4 h-4" />
-                </Button>
-                <Button variant="outline" size="icon" onClick={nextMonth}>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-                <Button onClick={() => setIsAddingReservation(true)} className="flex-1 sm:flex-none">
-                  <Plus className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">New Reservation</span>
-                  <span className="sm:hidden">New</span>
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-7 gap-1 sm:gap-2">
-              {weekDays.map(day => (
-                <div key={day} className="p-1 sm:p-2 text-center font-semibold text-xs sm:text-sm bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-sm">
-                  <span className="hidden sm:inline">{day}</span>
-                  <span className="sm:hidden">{day.substring(0, 1)}</span>
+            
+            <div className="p-4 md:p-6 lg:p-8 max-w-auto mx-auto flex-1">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <h2 className="text-xl sm:text-2xl font-bold">{formatMonthYear(currentDate)}</h2>
+                  <Button variant="outline" size="sm" onClick={goToToday}>
+                    Today
+                  </Button>
                 </div>
-              ))}
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <Button variant="outline" size="icon" onClick={previousMonth}>
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                  <Button variant="outline" size="icon" onClick={nextMonth}>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                  <Button onClick={() => setIsAddingReservation(true)} className="flex-1 sm:flex-none">
+                    <Plus className="w-4 h-4 mr-2" />
+                    <span className="hidden sm:inline">New Reservation</span>
+                    <span className="sm:hidden">New</span>
+                  </Button>
+                </div>
+              </div>
 
-              {days.map((date, index) => {
-                const dayReservations = getReservationsForDate(date)
-                
-                return (
-                  <Card
-                    key={index}
-                    className={`min-h-[80px] sm:min-h-[100px] lg:min-h-[120px] ${!date ? 'invisible' : ''} ${
-                      isToday(date) ? 'ring-2 ring-blue-500' : ''
-                    }`}
-                  >
-                    <CardContent className="p-1 sm:p-2">
-                      {date && (
-                        <>
-                          <div className="text-xs sm:text-sm font-semibold mb-1 sm:mb-2 text-gray-700">
-                            {date.getDate()}
-                          </div>
-                          <div className="space-y-0.5 sm:space-y-1">
-                            {dayReservations.map(reservation => (
-                              <button
-                                key={reservation.id}
-                                onClick={() => setSelectedReservation(reservation)}
-                                className="w-full text-left px-1 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs truncate transition-colors bg-green-100 hover:bg-green-200 text-green-800 font-medium"
-                              >
-                                <span className="hidden sm:inline">{reservation.time.substring(0, 5)} - </span>
-                                {reservation.name}
-                              </button>
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </CardContent>
-                  </Card>
-                )
-              })}
-            </div>
-          </div>
+              <div className="grid grid-cols-7 gap-1 sm:gap-2">
+                {weekDays.map(day => (
+                  <div key={day} className="p-1 sm:p-2 text-center font-semibold text-xs sm:text-sm text-gray-600">
+                    <span className="hidden sm:inline">{day}</span>
+                    <span className="sm:hidden">{day.substring(0, 1)}</span>
+                  </div>
+                ))}
 
-            {/* Reservation Details Dialog */}
-            <Dialog open={!!selectedReservation} onOpenChange={() => setSelectedReservation(null)}>
-              <DialogContent className="max-w-[95vw] sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle className="flex items-center gap-2">
-                    <span>Reservation Details</span>
-                    {selectedReservation && (
-                      <Badge
-                        variant={
-                          selectedReservation.status === "confirmed"
-                            ? "default"
-                            : selectedReservation.status === "cancelled"
-                            ? "destructive"
-                            : "secondary"
-                        }
-                      >
-                        {selectedReservation.status.charAt(0).toUpperCase() + selectedReservation.status.slice(1)}
-                      </Badge>
-                    )}
-                  </DialogTitle>
-                </DialogHeader>
-                {selectedReservation && (
-                  <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto">
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600">Name</label>
-                      <p className="text-base sm:text-lg">{selectedReservation.name}</p>
-                    </div>
-                    
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600">Email</label>
-                      <p className="text-sm sm:text-base break-all">{selectedReservation.email}</p>
-                    </div>
-                    
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600">Phone</label>
-                      <p className="text-sm sm:text-base">{selectedReservation.phone}</p>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                      <div>
-                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Date</label>
-                        <p className="text-sm sm:text-base">{formatDate(selectedReservation.date)}</p>
-                      </div>
-                      <div>
-                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Time</label>
-                        <p className="text-sm sm:text-base">{formatTime(selectedReservation.time)}</p>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600">Guests</label>
-                      <p className="text-sm sm:text-base">{selectedReservation.guests} people</p>
-                    </div>
-                    
-                    {selectedReservation.special_requests && (
-                      <div>
-                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Special Requests</label>
-                        <p className="text-xs sm:text-sm">{selectedReservation.special_requests}</p>
-                      </div>
-                    )}
-                    
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600 block mb-2">Status</label>
-                      <Select
-                        value={selectedReservation.status}
-                        onValueChange={(value: ReservationStatus) =>
-                          handleStatusChange(selectedReservation.id, value)
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="pending">Pending</SelectItem>
-                          <SelectItem value="confirmed">Confirmed</SelectItem>
-                          <SelectItem value="cancelled">Cancelled</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <Button
-                      variant="destructive"
-                      className="w-full"
-                      onClick={() => openDeleteDialog(selectedReservation.id)}
+                {days.map((date, index) => {
+                  const dayReservations = getReservationsForDate(date)
+                  
+                  return (
+                    <Card
+                      key={index}
+                      className={`min-h-[80px] sm:min-h-[100px] lg:min-h-[120px] ${!date ? 'invisible' : ''} ${
+                        isToday(date) ? 'ring-2 ring-blue-500' : ''
+                      }`}
                     >
-                      Delete Reservation
+                      <CardContent className="p-1 sm:p-2">
+                        {date && (
+                          <>
+                            <div className="text-xs sm:text-sm font-semibold mb-1 sm:mb-2 text-gray-700">
+                              {date.getDate()}
+                            </div>
+                            <div className="space-y-0.5 sm:space-y-1">
+                              {dayReservations.map(reservation => (
+                                <button
+                                  key={reservation.id}
+                                  onClick={() => setSelectedReservation(reservation)}
+                                  className="w-full text-left px-1 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs truncate transition-colors bg-green-100 hover:bg-green-200 text-green-800 font-medium"
+                                >
+                                  <span className="hidden sm:inline">{reservation.time.substring(0, 5)} - </span>
+                                  {reservation.name}
+                                </button>
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </CardContent>
+                    </Card>
+                  )
+                })}
+              </div>
+
+              {/* Reservation Details Dialog */}
+              <Dialog open={!!selectedReservation} onOpenChange={() => setSelectedReservation(null)}>
+                <DialogContent className="max-w-[95vw] sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                      <span>Reservation Details</span>
+                      {selectedReservation && (
+                        <Badge
+                          variant={
+                            selectedReservation.status === "confirmed"
+                              ? "default"
+                              : selectedReservation.status === "cancelled"
+                              ? "destructive"
+                              : "secondary"
+                          }
+                        >
+                          {selectedReservation.status.charAt(0).toUpperCase() + selectedReservation.status.slice(1)}
+                        </Badge>
+                      )}
+                    </DialogTitle>
+                  </DialogHeader>
+                  {selectedReservation && (
+                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto">
+                      <div>
+                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Name</label>
+                        <p className="text-base sm:text-lg">{selectedReservation.name}</p>
+                      </div>
+                      
+                      <div>
+                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Email</label>
+                        <p className="text-sm sm:text-base break-all">{selectedReservation.email}</p>
+                      </div>
+                      
+                      <div>
+                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Phone</label>
+                        <p className="text-sm sm:text-base">{selectedReservation.phone}</p>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                        <div>
+                          <label className="text-xs sm:text-sm font-semibold text-gray-600">Date</label>
+                          <p className="text-sm sm:text-base">{formatDate(selectedReservation.date)}</p>
+                        </div>
+                        <div>
+                          <label className="text-xs sm:text-sm font-semibold text-gray-600">Time</label>
+                          <p className="text-sm sm:text-base">{formatTime(selectedReservation.time)}</p>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Guests</label>
+                        <p className="text-sm sm:text-base">{selectedReservation.guests} people</p>
+                      </div>
+                      
+                      {selectedReservation.special_requests && (
+                        <div>
+                          <label className="text-xs sm:text-sm font-semibold text-gray-600">Special Requests</label>
+                          <p className="text-xs sm:text-sm">{selectedReservation.special_requests}</p>
+                        </div>
+                      )}
+                      
+                      <div>
+                        <label className="text-xs sm:text-sm font-semibold text-gray-600 block mb-2">Status</label>
+                        <Select
+                          value={selectedReservation.status}
+                          onValueChange={(value: ReservationStatus) =>
+                            handleStatusChange(selectedReservation.id, value)
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="pending">Pending</SelectItem>
+                            <SelectItem value="confirmed">Confirmed</SelectItem>
+                            <SelectItem value="cancelled">Cancelled</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <Button
+                        variant="destructive"
+                        className="w-full"
+                        onClick={() => openDeleteDialog(selectedReservation.id)}
+                      >
+                        Delete Reservation
+                      </Button>
+                    </div>
+                  )}
+                </DialogContent>
+              </Dialog>
+
+              {/* Create Reservation Dialog */}
+              <Dialog open={isAddingReservation} onOpenChange={setIsAddingReservation}>
+                <DialogContent className="max-w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Create New Reservation</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-3 sm:space-y-4">
+                    <Input
+                      placeholder="Name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    />
+                    <Input
+                      type="email"
+                      placeholder="Email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    />
+                    <Input
+                      placeholder="Phone"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      <Input
+                        type="date"
+                        value={formData.date}
+                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                      />
+                      <Input
+                        type="time"
+                        value={formData.time}
+                        onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                      />
+                    </div>
+                    <Input
+                      type="number"
+                      placeholder="Number of Guests"
+                      min="1"
+                      max="20"
+                      value={formData.guests}
+                      onChange={(e) => setFormData({ ...formData, guests: parseInt(e.target.value) })}
+                    />
+                    <Textarea
+                      placeholder="Special Requests (Optional)"
+                      value={formData.special_requests}
+                      onChange={(e) => setFormData({ ...formData, special_requests: e.target.value })}
+                      rows={3}
+                    />
+                    <Select
+                      value={formData.status}
+                      onValueChange={(value: ReservationStatus) =>
+                        setFormData({ ...formData, status: value })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="confirmed">Confirmed</SelectItem>
+                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button onClick={handleCreateReservation} className="w-full">
+                      Create Reservation
                     </Button>
                   </div>
-                )}
-              </DialogContent>
-            </Dialog>
+                </DialogContent>
+              </Dialog>
 
-            {/* Create Reservation Dialog */}
-            <Dialog open={isAddingReservation} onOpenChange={setIsAddingReservation}>
-              <DialogContent className="max-w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>Create New Reservation</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-3 sm:space-y-4">
-                  <Input
-                    placeholder="Name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  />
-                  <Input
-                    type="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  />
-                  <Input
-                    placeholder="Phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <Input
-                      type="date"
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    />
-                    <Input
-                      type="time"
-                      value={formData.time}
-                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                    />
-                  </div>
-                  <Input
-                    type="number"
-                    placeholder="Number of Guests"
-                    min="1"
-                    max="20"
-                    value={formData.guests}
-                    onChange={(e) => setFormData({ ...formData, guests: parseInt(e.target.value) })}
-                  />
-                  <Textarea
-                    placeholder="Special Requests (Optional)"
-                    value={formData.special_requests}
-                    onChange={(e) => setFormData({ ...formData, special_requests: e.target.value })}
-                    rows={3}
-                  />
-                  <Select
-                    value={formData.status}
-                    onValueChange={(value: ReservationStatus) =>
-                      setFormData({ ...formData, status: value })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="pending">Pending</SelectItem>
-                      <SelectItem value="confirmed">Confirmed</SelectItem>
-                      <SelectItem value="cancelled">Cancelled</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Button onClick={handleCreateReservation} className="w-full">
-                    Create Reservation
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-
-            {/* Delete Confirmation Dialog */}
-            <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-              <DialogContent className="max-w-[95vw] sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Delete Reservation</DialogTitle>
-                  <DialogDescription>
-                    Are you sure you want to delete this reservation? This action cannot be undone.
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter className="flex-col sm:flex-row gap-2">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setDeleteDialogOpen(false)
-                      setReservationToDelete(null)
-                    }}
-                    className="w-full sm:w-auto"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    onClick={() => reservationToDelete && handleDelete(reservationToDelete)}
-                    className="w-full sm:w-auto"
-                  >
-                    Delete
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+              {/* Delete Confirmation Dialog */}
+              <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                <DialogContent className="max-w-[95vw] sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Delete Reservation</DialogTitle>
+                    <DialogDescription>
+                      Are you sure you want to delete this reservation? This action cannot be undone.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className="flex-col sm:flex-row gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setDeleteDialogOpen(false)
+                        setReservationToDelete(null)
+                      }}
+                      className="w-full sm:w-auto"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => reservationToDelete && handleDelete(reservationToDelete)}
+                      className="w-full sm:w-auto"
+                    >
+                      Delete
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
         </div>
-      </div>
       <Toaster />
     </SidebarProvider>
   )

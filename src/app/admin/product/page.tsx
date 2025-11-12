@@ -68,6 +68,7 @@ import {
 } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
 import Image from "next/image"
+import { Trigger } from "@radix-ui/react-dialog"
 
 // Product data type
 interface Product {
@@ -508,8 +509,8 @@ export default function ProductsAdminPage() {
         const product = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -519,15 +520,16 @@ export default function ProductsAdminPage() {
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-2xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="max-w-[95vw] sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto">
                 {selectedProduct && (
                   <>
-                    <SheetHeader>
-                      <SheetTitle className="md:text-xl">Product Details</SheetTitle>
-                      <SheetDescription className="md:text-md">Complete information for this product</SheetDescription>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6">
+                    <DialogHeader className="mt-4">
+                      <DialogTitle className="md:text-xl">Product Details</DialogTitle>
+                      <DialogDescription className="md:text-md">Complete information for this product</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
+                      {/* Product Details */}
                       <div className="flex justify-center mb-6">
                         <div className="w-32 h-32 rounded-lg overflow-hidden border-2 border-gray-200">
                           <Image
@@ -616,8 +618,8 @@ export default function ProductsAdminPage() {
                     </div>
                   </>
                 )}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
