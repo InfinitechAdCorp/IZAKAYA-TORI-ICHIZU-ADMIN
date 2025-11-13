@@ -391,7 +391,7 @@ export default function AdminAnnouncementsPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+              <DialogContent className="sm:max-w-[100vh] max-h-[90vh] md:max-w-[700px] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedAnnouncement && (
                   <>
                     <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
@@ -400,29 +400,32 @@ export default function AdminAnnouncementsPage() {
                     </DialogHeader>
                     <div className="space-y-3 sm:space-y-4 max-h-[60vh] overflow-y-auto">
                       <style>{scrollbarStyles}</style>
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-4">
-                            <div className="bg-gradient-to-r from-orange-100 to-red-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                      
+
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center mb-4">
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Title</Label>
+                            <p className="text-lg font-semibold mt-1">{selectedAnnouncement.title}</p>
+                          </div>
+
+                          <div className="flex items-center gap-3">
+                            <div className="bg-gradient-to-r from-orange-100 to-red-100 w-12 h-12 p-3 rounded-lg flex items-start gap-2">
                               <Megaphone className="w-6 h-6 text-orange-600" />
                             </div>
-                            <div>
+                            <div className="flex-1 mx-3">
                               <Label className="text-sm font-medium text-gray-500">Status</Label>
-                              <Badge variant={selectedAnnouncement.is_active ? "default" : "secondary"} className="text-sm mt-1">
+                              <Badge
+                                variant={selectedAnnouncement.is_active ? "default" : "secondary"}
+                                className="text-sm mt-1"
+                              >
                                 {selectedAnnouncement.is_active ? "Active" : "Inactive"}
                               </Badge>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-medium text-gray-500">Title</Label>
-                          <p className="text-lg font-semibold mt-1">{selectedAnnouncement.title}</p>
-                        </div>
-
-                        <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
+                        <div className="gap-4 p-4 rounded-lg mr-2 bg-white/70 backdrop-blur-sm shadow-sm">
                           <Label className="text-sm font-medium text-gray-500">Content</Label>
                           <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">
                             {selectedAnnouncement.content}
