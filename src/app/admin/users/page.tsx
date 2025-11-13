@@ -493,12 +493,6 @@ export default function UsersAdminPage() {
                     </SheetHeader>
                     <div className="space-y-6">
                       <Card className="mx-5">
-                        <CardHeader className="pb-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
-                          <h3 className="font-semibold text-lg flex items-center gap-2">
-                            <UserCheck className="w-5 h-5" />
-                            Personal Information
-                          </h3>
-                        </CardHeader>
                         <CardContent className="space-y-4">
                           <div className="grid grid-cols-2 gap-2">
                             <div>

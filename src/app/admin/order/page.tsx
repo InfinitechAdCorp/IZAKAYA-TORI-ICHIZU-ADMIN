@@ -60,6 +60,33 @@ import {
 } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
 
+const scrollbarStyles = `
+  /* Scrollbar width */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Scrollbar track */
+  ::-webkit-scrollbar-track {
+    border-radius: 9999px;
+  }
+
+  /* Scrollbar thumb */
+  ::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+  }
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #f3f4f6;
+`;
+
 // Order data types
 interface OrderItem {
   id: number
@@ -543,7 +570,7 @@ export default function OrdersAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="w-full max-w-[95vw] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] sm:max-h-[80vh] lg:max-h-[90vh] overflow-hidden bg-gradient-to-br from-orange-50 to-red-50">
+              <DialogContent className="sm:max-w-[100vh] max-h-[90vh] md:max-w-[700px] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
                 {loadingOrderDetails ? (
                   <div className="flex items-center justify-center py-12">
                     <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
@@ -554,10 +581,10 @@ export default function OrdersAdminPage() {
                       <DialogTitle className="text-xl font-bold">Order Details - #{selectedOrder.order_number}</DialogTitle>
                       <DialogDescription className="text-orange-100">Complete information for this order</DialogDescription>
                     </DialogHeader>
-
-                    <div className="w-full space-y-4 sm:space-y-6 max-h-[60vh] overflow-y-auto lg:px-4">
+                    <div className="space-y-3 sm:space-y-4 max-h-[60vh] overflow-y-auto">
+                      <style>{scrollbarStyles}</style>
                       {/* Order Status and Quick Actions */}
-                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 mr-2 bg-gray-50 rounded-lg">
                         <div>
                           <div className="flex flex-wrap items-center gap-2 mb-2">
                             {getStatusBadge(selectedOrder.order_status)}
@@ -592,7 +619,7 @@ export default function OrdersAdminPage() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-2">
+                      <div className="grid grid-cols-1 md:grid-cols-2 mr-2 gap-6">
                         {/* Customer Information */}
                         <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0 gap-2">
                           <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
@@ -633,11 +660,11 @@ export default function OrdersAdminPage() {
                           </CardContent>
                         </Card>
                       </div>
-
+                      
                       {/* Order Items */}
-                      <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0 gap-2">
-                          <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
-                          <h3 className="mt-2 font-semibold text-lg flex items-center gap-2">
+                      <Card className="mr-2 mb-2">
+                        <CardHeader className="pb-3">
+                          <h3 className="font-semibold text-lg flex items-center gap-2">
                             <Package className="w-5 h-5" />
                             Order Items ({selectedOrder.order_items?.length || 0})
                           </h3>
