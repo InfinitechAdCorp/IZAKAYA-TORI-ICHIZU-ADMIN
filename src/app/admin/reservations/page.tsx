@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
-import { CheckCircle, ChevronLeft, ChevronRight, Clock, Plus, XCircle } from "lucide-react"
+import { CheckCircle, ChevronLeft, ChevronRight, Clock, Loader2, Plus, XCircle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
@@ -357,10 +357,10 @@ export default function ReservationsAdmin() {
         <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
           <AppSidebar />
           <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
-            <div className="flex items-center justify-center h-screen">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading reservations...</p>
+            <div className="flex items-center justify-center min-h-screen w-full">
+              <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg">
+                <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
+                <span className="text-gray-700 font-medium">Loading reservations...</span>
               </div>
             </div>
           </div>
