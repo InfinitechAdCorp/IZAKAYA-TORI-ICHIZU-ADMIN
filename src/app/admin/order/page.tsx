@@ -77,7 +77,6 @@ const scrollbarStyles = `
 
   /* Scrollbar track */
   ::-webkit-scrollbar-track {
-    background: #f3f4f6;
     border-radius: 9999px;
   }
 
@@ -619,7 +618,7 @@ export default function OrdersAdminPage() {
                     <div className="space-y-3 sm:space-y-4 max-h-[60vh] overflow-y-auto">
                       <style>{scrollbarStyles}</style>
                       {/* Order Status and Quick Actions */}
-                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 mr-2 bg-gray-50 rounded-lg">
                         <div>
                           <div className="flex items-center gap-3 mb-2">
                             {getStatusBadge(selectedOrder.order_status)}
@@ -654,7 +653,7 @@ export default function OrdersAdminPage() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 mr-2 gap-6">
                         {/* Customer Information */}
                         <Card>
                           <CardHeader className="pb-3">
@@ -697,7 +696,7 @@ export default function OrdersAdminPage() {
                       </div>
 
                       {/* Order Items */}
-                      <Card>
+                      <Card className="mr-2 mb-2">
                         <CardHeader className="pb-3">
                           <h3 className="font-semibold text-lg flex items-center gap-2">
                             <Package className="w-5 h-5" />
