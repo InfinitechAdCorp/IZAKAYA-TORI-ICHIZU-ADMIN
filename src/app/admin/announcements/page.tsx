@@ -68,6 +68,34 @@ import {
   flexRender,
 } from "@tanstack/react-table"
 
+const scrollbarStyles = `
+  /* Scrollbar width */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Scrollbar track */
+  ::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 9999px;
+  }
+
+  /* Scrollbar thumb */
+  ::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+  }
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #f3f4f6;
+`;
+
 interface Announcement {
   id: number
   title: string
@@ -370,7 +398,8 @@ export default function AdminAnnouncementsPage() {
                       <DialogTitle className="text-xl font-bold">Announcement Details</DialogTitle>
                       <DialogDescription className="text-orange-100">Complete information for this announcement</DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-6">
+                    <div className="space-y-3 sm:space-y-4 max-h-[60vh] overflow-y-auto">
+                      <style>{scrollbarStyles}</style>
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-4">

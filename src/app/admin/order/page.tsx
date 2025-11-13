@@ -68,6 +68,34 @@ import {
 } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
 
+const scrollbarStyles = `
+  /* Scrollbar width */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Scrollbar track */
+  ::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 9999px;
+  }
+
+  /* Scrollbar thumb */
+  ::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+  }
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #f3f4f6;
+`;
+
 // Order data types
 interface OrderItem {
   id: number
@@ -577,7 +605,7 @@ export default function OrdersAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+              <DialogContent className="sm:max-w-[100vh] max-h-[90vh] md:max-w-[700px] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
                 {loadingOrderDetails ? (
                   <div className="flex items-center justify-center py-12">
                     <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
@@ -588,7 +616,8 @@ export default function OrdersAdminPage() {
                       <DialogTitle className="text-xl font-bold">Order Details - #{selectedOrder.order_number}</DialogTitle>
                       <DialogDescription className="text-orange-100">Complete information for this order</DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
+                    <div className="space-y-3 sm:space-y-4 max-h-[60vh] overflow-y-auto">
+                      <style>{scrollbarStyles}</style>
                       {/* Order Status and Quick Actions */}
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-gray-50 rounded-lg">
                         <div>

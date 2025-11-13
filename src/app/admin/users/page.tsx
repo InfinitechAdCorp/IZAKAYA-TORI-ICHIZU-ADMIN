@@ -519,7 +519,6 @@ export default function UsersAdminPage() {
                     </DialogHeader>
                     <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
                       <Card className="mx-5">
-                        
                         <CardContent className="space-y-4">
                           <div className="grid grid-cols-2 gap-4">
                             <div>
