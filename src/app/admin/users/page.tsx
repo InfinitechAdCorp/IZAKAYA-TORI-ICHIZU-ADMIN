@@ -484,24 +484,20 @@ export default function UsersAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+              <DialogContent className="sm:max-w-[50vh] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedUser && (
                   <>
-                    <SheetHeader>
-                      <SheetTitle className="md:text-xl">User Details - {selectedUser.name}</SheetTitle>
-                      <SheetDescription className="text-md">Complete information for this user</SheetDescription>
-                    </SheetHeader>
-                    <div className="space-y-6">
-                      <Card className="mx-5">
-                        <CardContent className="space-y-4">
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">User Details - {selectedUser.name}</DialogTitle>
+                      <DialogDescription className="text-orange-100">Complete information for this user</DialogDescription>
+                    </DialogHeader>
+                    <div>
+                      <Card className="mx-1">
+                        <CardContent className="space-y-2">
                           <div className="grid grid-cols-2 gap-2">
                             <div>
                               <p className="text-sm font-medium text-gray-500">Full Name</p>
-                              <p className="font-medium">{selectedUser.name}</p>
-                            </div>
-                            <div>
-                              <p className="text-sm font-medium text-gray-500">Role</p>
-                              <Badge variant="outline">{selectedUser.role}</Badge>
+                              <p className="font-medium underline underline-offset-4">{selectedUser.name}</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 text-sm">
@@ -527,7 +523,11 @@ export default function UsersAdminPage() {
                               </div>
                             </div>
                           )}
-                          <div className="flex items-center gap-2 text-sm p-2 border-t">
+                            <div className="mb-3">
+                              <p className="text-sm font-medium text-gray-500">Role</p>
+                              <Badge variant="outline">{selectedUser.role}</Badge>
+                            </div>
+                          <div className="flex items-center gap-2 text-sm p-2 mt-2 border-t">
                             <Calendar className="w-4 h-4 text-gray-400" />
                             <p className=" text-gray-600">
                               Joined on{" "}

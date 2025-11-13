@@ -561,13 +561,13 @@ export default function EventsAdminPage() {
                         </Card>
 
                         <Card>
-                          <CardHeader className="pb-3">
-                            <h3 className="font-semibold text-lg flex items-center gap-2">
+                          <CardHeader>
+                            <h3 className="font-semibold text-lg flex items-center gap-1">
                               <Utensils className="w-5 h-5" />
                               Event Information
                             </h3>
                           </CardHeader>
-                          <CardContent className="space-y-3">
+                          <CardContent className="space-y-1">
                             <div>
                               <Label className="text-sm font-medium text-gray-500">Event Type</Label>
                               <p className="font-medium capitalize">{selectedEvent.event_type}</p>
@@ -587,13 +587,13 @@ export default function EventsAdminPage() {
                       </div>
 
                       <Card className="mr-2">
-                        <CardHeader className="pb-3">
+                        <CardHeader>
                           <h3 className="font-semibold text-lg flex items-center gap-2">
                             <Calendar className="w-5 h-5" />
                             Date & Time
                           </h3>
                         </CardHeader>
-                        <CardContent className="space-y-3">
+                        <CardContent className="space-y-1">
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <Label className="text-sm font-medium text-gray-500">Preferred Date</Label>

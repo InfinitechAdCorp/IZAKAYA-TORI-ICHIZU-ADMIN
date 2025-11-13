@@ -391,7 +391,7 @@ export default function AdminAnnouncementsPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[100vh] max-h-[90vh] md:max-w-[700px] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
+              <DialogContent className="sm:max-w-[100vh] max-h-[90vh] md:max-w-[500px] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedAnnouncement && (
                   <>
                     <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
