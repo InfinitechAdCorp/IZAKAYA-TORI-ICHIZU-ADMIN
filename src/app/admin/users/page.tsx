@@ -23,6 +23,11 @@ import {
   ShoppingBag,
   UserX,
   Send,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Truck,
+  Package,
 } from "lucide-react"
 import {
   DropdownMenu,
@@ -86,7 +91,7 @@ interface Order {
   delivery_city: string
   delivery_zip_code: string
   payment_method: string
-  status: "pending" | "confirmed" | "preparing" | "ready" | "delivered" | "cancelled"
+  order_status: "pending" | "confirmed" | "preparing" | "ready" | "delivered" | "cancelled"
   subtotal: number
   delivery_fee: number
   total_amount: number
@@ -131,6 +136,16 @@ export default function UsersAdminPage() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [globalFilter, setGlobalFilter] = useState("")
 
+  const oderStatuses = [
+    { value: "pending", label: "Pending", color: "bg-yellow-100 text-yellow-800", icon: Clock },
+    { value: "confirmed", label: "Confirmed", color: "bg-blue-100 text-blue-800", icon: CheckCircle },
+    { value: "ready", label: "Ready", color: "bg-indigo-100 text-indigo-800", icon: Package },
+    { value: "out_for_delivery", label: "Out for Delivery", color: "bg-orange-100 text-orange-800", icon: Truck },
+    { value: "delivered", label: "Delivered", color: "bg-emerald-100 text-emerald-800", icon: CheckCircle },
+    { value: "completed", label: "Completed", color: "bg-green-100 text-green-800", icon: CheckCircle },
+    { value: "cancelled", label: "Cancelled", color: "bg-red-100 text-red-800", icon: XCircle },
+  ]
+
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
     const checkMobile = () => {
@@ -140,6 +155,19 @@ export default function UsersAdminPage() {
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
+
+  const getStatusBadge = (status: string) => {
+    const statusInfo = oderStatuses.find((s) => s.value === status)
+    if (!statusInfo) return null
+
+    const Icon = statusInfo.icon
+    return (
+      <Badge className={`text-xs px-2 py-1 ${statusInfo.color}`}>
+        <Icon className="w-3 h-3 mr-1" />
+        {statusInfo.label}
+      </Badge>
+    )
+  }
 
   const fetchUsers = async () => {
     try {
@@ -243,6 +271,7 @@ export default function UsersAdminPage() {
       if (result.success) {
         const ordersData = Array.isArray(result.data) ? result.data : result.data?.data || []
         setUserOrders(ordersData)
+        console.log("userorder", result)
       } else {
         throw new Error(result.message || "Failed to fetch orders")
       }
@@ -484,13 +513,13 @@ export default function UsersAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+              <DialogContent className="sm:max-w-[100vh] max-h-[90vh] md:max-w-[700px] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedUser && (
                   <>
-                    <SheetHeader>
-                      <SheetTitle className="md:text-xl">User Details - {selectedUser.name}</SheetTitle>
-                      <SheetDescription className="text-md">Complete information for this user</SheetDescription>
-                    </SheetHeader>
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="md:text-xl">User Details - {selectedUser.name}</DialogTitle>
+                      <DialogDescription className="text-md text-orange-100">Complete information for this user</DialogDescription>
+                    </DialogHeader>
                     <div className="space-y-6">
                       <Card className="mx-5">
                         <CardContent className="space-y-4">
@@ -501,7 +530,7 @@ export default function UsersAdminPage() {
                             </div>
                             <div>
                               <p className="text-sm font-medium text-gray-500">Role</p>
-                              <Badge variant="outline">{selectedUser.role}</Badge>
+                              <Badge variant="outline">{selectedUser.role.charAt(0).toUpperCase() + selectedUser.role.slice(1)}</Badge>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 text-sm">
@@ -718,124 +747,136 @@ export default function UsersAdminPage() {
         </div>
       </div>
 
-      <Dialog open={showOrdersDialog} onOpenChange={setShowOrdersDialog}>
-        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Orders for {selectedUser?.name}</DialogTitle>
-            <DialogDescription>View all orders placed by this customer</DialogDescription>
-          </DialogHeader>
-          <div className="mt-4">
-            {loadingOrders ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
-                <span className="ml-2 text-gray-600">Loading orders...</span>
-              </div>
-            ) : userOrders.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                <ShoppingBag className="w-12 h-12 mx-auto mb-2 text-gray-400" />
-                <p>No orders found for this user</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {userOrders.map((order) => (
-                  <Card key={order.id} className="border-orange-200">
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <p className="font-semibold text-lg">Order #{order.order_number}</p>
-                            <Badge variant={order.status === "delivered" ? "default" : order.status === "cancelled" ? "destructive" : "outline"}>
-                              {order.status}
-                            </Badge>
-                          </div>
-                          <div className="space-y-1 text-sm text-gray-600">
-                            <div className="flex items-center gap-2">
-                              <MapPin className="w-4 h-4" />
-                              <p>{order.delivery_address}</p>
-                            </div>
-                            {order.delivery_city && (
-                              <p className="ml-6 text-xs">
-                                {order.delivery_city}, {order.delivery_zip_code}
-                              </p>
-                            )}
-                            <div className="flex items-center gap-2">
-                              <Phone className="w-4 h-4" />
-                              <p>{order.customer_phone}</p>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Calendar className="w-4 h-4" />
-                              <p className="text-xs">
-                                {new Date(order.created_at).toLocaleDateString("en-US", {
-                                  month: "long",
-                                  day: "2-digit",
-                                  year: "numeric",
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                })}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-bold text-xl text-orange-600">₱{order.total_amount.toFixed(2)}</p>
-                          <p className="text-xs text-gray-500 mt-1">Subtotal: ₱{order?.subtotal?.toFixed(2)}</p>
-                          <p className="text-xs text-gray-500">Delivery: ₱{order?.delivery_fee?.toFixed(2)}</p>
-                          <Badge variant="outline" className="mt-2 text-xs">
-                            {order.payment_method}
-                          </Badge>
-                        </div>
+     <Dialog open={showOrdersDialog} onOpenChange={setShowOrdersDialog}>
+  <DialogContent className="w-full max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg h-[90vh] overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 p-0 sm:rounded-lg">
+    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 sticky top-0 z-10 rounded-t-lg">
+      <DialogTitle className="text-base sm:text-lg md:text-xl font-bold">
+        Orders for {selectedUser?.name}
+      </DialogTitle>
+      <DialogDescription className="text-orange-100 text-sm">
+        View all orders placed by this customer
+      </DialogDescription>
+    </DialogHeader>
+
+    <div className="mt-4 overflow-y-auto px-3 sm:px-6 pb-6 h-[calc(90vh-100px)] scroll-pb-20">
+      {loadingOrders ? (
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
+          <span className="ml-2 text-gray-600">Loading orders...</span>
+        </div>
+      ) : userOrders.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          <ShoppingBag className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+          <p>No orders found for this user</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {userOrders.map((order) => (
+            <Card key={order.id} className="border-orange-200 gap-2 p-2">
+              <CardContent className="p-2">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3 gap-4">
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <p className="font-semibold text-lg">Order #{order.order_number}</p>
+                      {getStatusBadge(order.order_status)}
+                    </div>
+
+                    <div className="space-y-1 text-sm text-gray-600">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4" />
+                        <p className="break-words">{order.delivery_address}</p>
                       </div>
+                      {order.delivery_city && (
+                        <p className="ml-6 text-xs">
+                          {order.delivery_city}, {order.delivery_zip_code}
+                        </p>
+                      )}
+                      <div className="flex items-center gap-2">
+                        <Phone className="w-4 h-4" />
+                        <p>{order.customer_phone}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        <p className="text-xs">
+                          {new Date(order.created_at).toLocaleDateString("en-US", {
+                            month: "long",
+                            day: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
-                      {order.items && order.items.length > 0 && (
-                        <div className="mt-4 pt-4 border-t border-orange-100">
-                          <p className="text-sm font-semibold mb-2 text-gray-700">Order Items ({order.items.length})</p>
-                          <div className="space-y-2">
-                            {order.items.map((item, index) => (
-                              <div key={index} className="flex items-center gap-3 text-sm bg-orange-50 p-2 rounded">
-                                <div className="flex-1">
-                                  <p className="font-medium">{item.name}</p>
-                                  <p className="text-xs text-gray-600">{item.description}</p>
-                                  <div className="flex gap-1 mt-1">
-                                    <Badge variant="outline" className="text-xs">
-                                      {item.category}
-                                    </Badge>
-                                    {item.is_spicy && (
-                                      <Badge variant="destructive" className="text-xs">
-                                        Spicy
-                                      </Badge>
-                                    )}
-                                    {item.is_vegetarian && (
-                                      <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
-                                        Veg
-                                      </Badge>
-                                    )}
-                                  </div>
-                                </div>
-                                <div className="text-right">
-                                  <p className="font-medium">₱{item.price.toFixed(2)}</p>
-                                  <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
-                                  <p className="font-semibold text-orange-600">₱{(item.price * item.quantity).toFixed(2)}</p>
-                                </div>
-                              </div>
-                            ))}
+                  <div className="text-right md:min-w-[140px]">
+                    <p className="font-bold text-xl text-orange-600">₱{order.total_amount.toFixed(2)}</p>
+                    <p className="text-xs text-gray-500 mt-1">Subtotal: ₱{order?.subtotal?.toFixed(2)}</p>
+                    <p className="text-xs text-gray-500">Delivery: ₱{order?.delivery_fee?.toFixed(2)}</p>
+                    <Badge variant="outline" className="mt-2 text-xs">
+                      {order.payment_method}
+                    </Badge>
+                  </div>
+                </div>
+
+                {order.items?.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-orange-100">
+                    <p className="text-sm font-semibold mb-2 text-gray-700">
+                      Order Items ({order.items.length})
+                    </p>
+                    <div className="space-y-2">
+                      {order.items.map((item, index) => (
+                        <div
+                          key={index}
+                          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm bg-orange-50 p-2 rounded"
+                        >
+                          <div className="flex-1">
+                            <p className="font-medium">{item.name}</p>
+                            <p className="text-xs text-gray-600">{item.description}</p>
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              <Badge variant="outline" className="text-xs">
+                                {item.category}
+                              </Badge>
+                              {item.is_spicy && (
+                                <Badge variant="destructive" className="text-xs">
+                                  Spicy
+                                </Badge>
+                              )}
+                              {item.is_vegetarian && (
+                                <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
+                                  Veg
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-medium">₱{item.price.toFixed(2)}</p>
+                            <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
+                            <p className="font-semibold text-orange-600">
+                              ₱{(item.price * item.quantity).toFixed(2)}
+                            </p>
                           </div>
                         </div>
-                      )}
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-                      {order.notes && (
-                        <div className="mt-4 pt-4 border-t border-orange-100">
-                          <p className="text-sm font-semibold mb-1 text-gray-700">Special Notes:</p>
-                          <p className="text-sm text-gray-600 bg-yellow-50 p-2 rounded">{order.notes}</p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+                {order.notes && (
+                  <div className="mt-4 pt-4 border-t border-orange-100">
+                    <p className="text-sm font-semibold mb-1 text-gray-700">Special Notes:</p>
+                    <p className="text-sm text-gray-600 bg-yellow-50 p-2 rounded">{order.notes}</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  </DialogContent>
+</Dialog>
 
       <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
         <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
@@ -870,11 +911,19 @@ export default function UsersAdminPage() {
             </div>
           </div>
           <DialogFooter className="mt-4">
-            <Button variant="outline" onClick={() => setShowEmailDialog(false)} disabled={sendingEmail} className="flex-1 sm:flex-none border-orange-300 text-orange-600 hover:bg-orange-50">
+            <Button
+              variant="outline"
+              onClick={() => setShowEmailDialog(false)}
+              disabled={sendingEmail}
+              className="flex-1 sm:flex-none border-orange-300 text-orange-600 hover:bg-orange-50"
+            >
               Cancel
             </Button>
-            <Button onClick={sendEmail} disabled={sendingEmail || !emailSubject || !emailMessage}
-            className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg">
+            <Button
+              onClick={sendEmail}
+              disabled={sendingEmail || !emailSubject || !emailMessage}
+              className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg"
+            >
               {sendingEmail ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
