@@ -372,9 +372,9 @@ export default function ChefsAdmin() {
                       <DialogTitle className="text-xl font-bold">Chef Details</DialogTitle>
                       <DialogDescription className="text-orange-100">Complete information for this chef</DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-6">
-                      <div className="flex justify-center mb-6">
-                        <div className="w-52 h-52 aspect-square rounded-lg overflow-hidden border-2 border-orange-200 shadow-md">
+                    <div className="space-y-4">
+                      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-5">
+                        <div className="w-60 h-60 rounded-xl overflow-hidden border-2 border-orange-200 shadow-lg flex-shrink-0">
                           <Image
                             src={getImageUrl(selectedChef.image_url) || "/placeholder.svg"}
                             alt={selectedChef.name}
@@ -383,50 +383,58 @@ export default function ChefsAdmin() {
                             className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
                           />
                         </div>
-                      </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-[800px] mx-auto p-4 sm:px-6 lg:px-8 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
-                        <div className="space-y-4">
-                          <div>
-                            <Label className="text-sm font-medium text-gray-500">Chef Name</Label>
-                            <p className="text-lg sm:text-xl font-semibold break-words">{selectedChef.name}</p>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium text-gray-500">Position</Label>
-                            <Badge variant="outline" className="text-xs sm:text-sm border-orange-300 text-orange-700 bg-orange-50 mt-1">
-                              {selectedChef.position}
-                            </Badge>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium text-gray-500">Specialty</Label>
-                            <p className="text-sm sm:text-base break-words">{selectedChef.specialty}</p>
-                          </div>
-                        </div>
+                        <div className="flex-1 bg-white/70 backdrop-blur-md rounded-xl shadow-md p-6 sm:p-8 max-w-3xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-4">
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Chef Name</Label>
+                              <p className="text-lg sm:text-xl font-semibold text-gray-900 break-words">{selectedChef.name}</p>
+                            </div>
 
-                        <div className="space-y-4">
-                          <div>
-                            <Label className="text-sm font-medium text-gray-500">Experience</Label>
-                            <p className="text-lg sm:text-xl font-bold text-orange-600">{selectedChef.experience_years} years</p>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-medium text-gray-500">Rating</Label>
-                            <div className="text-yellow-500 text-lg sm:text-xl font-medium">
-                              {selectedChef.rating ? "★".repeat(Math.round(selectedChef.rating)) : "Not rated"}
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Position</Label>
+                              <Badge
+                                variant="outline"
+                                className="text-xs sm:text-sm border-orange-300 text-orange-700 bg-orange-50 mt-1"
+                              >
+                                {selectedChef.position}
+                              </Badge>
+                            </div>
+
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Specialty</Label>
+                              <p className="text-sm sm:text-base text-gray-800 break-words">{selectedChef.specialty}</p>
                             </div>
                           </div>
-                          <div>
-                            <Label className="text-sm font-medium text-gray-500">Created On</Label>
-                            <p className="text-sm sm:text-base text-gray-700">
-                              {new Date(selectedChef.created_at).toLocaleDateString("en-US", {
-                                month: "long",
-                                day: "2-digit",
-                                year: "numeric",
-                              })}
-                            </p>
+
+                          <div className="space-y-4">
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Experience</Label>
+                              <p className="text-lg sm:text-xl font-bold text-orange-600">{selectedChef.experience_years} years</p>
+                            </div>
+
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Rating</Label>
+                              <div className="text-yellow-500 text-lg sm:text-xl font-medium">
+                                {selectedChef.rating ? "★".repeat(Math.round(selectedChef.rating)) : "Not rated"}
+                              </div>
+                            </div>
+
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500 uppercase tracking-wide">Created On</Label>
+                              <p className="text-sm sm:text-base text-gray-700">
+                                {new Date(selectedChef.created_at).toLocaleDateString("en-US", {
+                                  month: "long",
+                                  day: "2-digit",
+                                  year: "numeric",
+                                })}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
+
+                      <div className="gap-2 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
                         <Label className="text-sm font-medium text-gray-500">Biography</Label>
                         <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">{selectedChef.bio}</p>
                       </div>
