@@ -9,20 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {
-  MoreHorizontal,
-  Eye,
-  Search,
-  Loader2,
-  ArrowUpDown,
-  Edit,
-  Utensils,
-  Clock,
-  CheckCircle,
-  XCircle,
-  User,
-  Calendar,
-} from "lucide-react"
+import { MoreHorizontal, Eye, Search, Loader2, ArrowUpDown, Edit, Utensils, Clock, CheckCircle, XCircle, User, Calendar } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,14 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
@@ -162,7 +142,7 @@ export default function EventsAdminPage() {
       }
 
       const body: any = { status: newStatus }
-      if (newStatus === 'cancelled' && reason) {
+      if (newStatus === "cancelled" && reason) {
         body.reason = reason
       }
 
@@ -184,7 +164,7 @@ export default function EventsAdminPage() {
 
       toast({
         title: "Success",
-        description: `Event ${newStatus === 'confirmed' ? 'confirmed' : 'declined'} successfully! Email notification sent.`,
+        description: `Event ${newStatus === "confirmed" ? "confirmed" : "declined"} successfully! Email notification sent.`,
       })
 
       fetchEvents()
@@ -287,8 +267,7 @@ export default function EventsAdminPage() {
       toast({
         variant: "destructive",
         title: "Error",
-        description:
-          error instanceof Error ? error.message : "Failed to load events. Please check your authentication.",
+        description: error instanceof Error ? error.message : "Failed to load events. Please check your authentication.",
       })
 
       setEvents([])
@@ -326,24 +305,14 @@ export default function EventsAdminPage() {
           aria-label="Select all"
         />
       ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
+      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
       enableSorting: false,
       enableHiding: false,
     },
     {
       accessorKey: "id",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Event #
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -391,11 +360,7 @@ export default function EventsAdminPage() {
     {
       accessorKey: "status",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Status
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -469,156 +434,154 @@ export default function EventsAdminPage() {
           <div className="flex items-center gap-1">
             <Dialog>
               <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedEvent(event)}
-                  className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2"
-                >
+                <Button variant="ghost" size="sm" onClick={() => setSelectedEvent(event)} className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2">
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
-                {selectedEvent && (
-                  <>
-                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
-                      <DialogTitle className="text-xl font-bold">Event Details - #{selectedEvent.id}</DialogTitle>
-                      <DialogDescription className="text-orange-100">Complete information for this event booking</DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
-                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                        <div>
-                          <div className="flex items-center gap-3 mb-2">
-                            {getStatusBadge(selectedEvent.status)}
-                            {getEventTypeBadge(selectedEvent.event_type)}
-                          </div>
-                          <p className="text-sm text-gray-600">
-                            Event booked on{" "}
-                            {new Date(selectedEvent.created_at).toLocaleDateString("en-US", {
-                              month: "long",
-                              day: "2-digit",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </p>
+
+              {selectedEvent && (
+                <DialogContent className="w-full max-w-[95vw] sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50 rounded-xl shadow-2xl border border-orange-100 p-0">
+                  <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 mb-4 rounded-t-xl shadow-md">
+                    <DialogTitle className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                      <Calendar className="w-5 h-5 text-orange-100" />
+                      Event Details - #{selectedEvent.id}
+                    </DialogTitle>
+                    <DialogDescription className="text-orange-100 text-sm">Complete information for this event booking</DialogDescription>
+                  </DialogHeader>
+
+                  <div className="space-y-6 px-3 sm:px-6 pb-6 max-h-[70vh] overflow-y-auto">
+                    <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm">
+                      <CardContent className="p-4 space-y-3">
+                        <div className="flex flex-wrap items-center gap-3 mb-2">
+                          {getStatusBadge(selectedEvent.status)}
+                          {getEventTypeBadge(selectedEvent.event_type)}
                         </div>
-                      </div>
+                        <p className="text-sm text-gray-600">
+                          Event booked on{" "}
+                          {new Date(selectedEvent.created_at).toLocaleDateString("en-US", {
+                            month: "long",
+                            day: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </p>
+                      </CardContent>
+                    </Card>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <Card>
-                          <CardHeader className="pb-3">
-                            <h3 className="font-semibold text-lg flex items-center gap-2">
-                              <User className="w-5 h-5" />
-                              Customer Information
-                            </h3>
-                          </CardHeader>
-                          <CardContent className="space-y-3">
-                            <div>
-                              <Label className="text-sm font-medium text-gray-500">Name</Label>
-                              <p className="font-medium">{selectedEvent.name}</p>
-                            </div>
-                            <div>
-                              <Label className="text-sm font-medium text-gray-500">Email</Label>
-                              <p className="text-sm">{selectedEvent.email}</p>
-                            </div>
-                            {selectedEvent.userId && (
-                              <div>
-                                <Label className="text-sm font-medium text-gray-500">User ID</Label>
-                                <p className="text-sm font-mono">{selectedEvent.userId}</p>
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
-
-                        <Card>
-                          <CardHeader className="pb-3">
-                            <h3 className="font-semibold text-lg flex items-center gap-2">
-                              <Utensils className="w-5 h-5" />
-                              Event Information
-                            </h3>
-                          </CardHeader>
-                          <CardContent className="space-y-3">
-                            <div>
-                              <Label className="text-sm font-medium text-gray-500">Event Type</Label>
-                              <p className="font-medium capitalize">{selectedEvent.event_type}</p>
-                            </div>
-                            <div>
-                              <Label className="text-sm font-medium text-gray-500">Number of Guests</Label>
-                              <p className="font-medium">{selectedEvent.guests} people</p>
-                            </div>
-                            <div>
-                              <Label className="text-sm font-medium text-gray-500">Venue Area</Label>
-                              <p className="font-medium capitalize">
-                                {selectedEvent.venueArea ? selectedEvent.venueArea.replace("_", " ") : "Not specified"}
-                              </p>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
-
-                      <Card>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm">
                         <CardHeader className="pb-3">
-                          <h3 className="font-semibold text-lg flex items-center gap-2">
-                            <Calendar className="w-5 h-5" />
-                            Date & Time
+                          <h3 className="font-semibold text-lg flex items-center gap-2 text-gray-800">
+                            <User className="w-5 h-5 text-orange-600" />
+                            Customer Information
                           </h3>
                         </CardHeader>
                         <CardContent className="space-y-3">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <Label className="text-sm font-medium text-gray-500">Preferred Date</Label>
-                              <p className="font-medium">
-                                {new Date(selectedEvent.preferred_date).toLocaleDateString("en-US", {
-                                  month: "long",
-                                  day: "numeric",
-                                  year: "numeric",
-                                })}
-                              </p>
-                            </div>
-                            <div>
-                              <Label className="text-sm font-medium text-gray-500">Preferred Time</Label>
-                              <p className="font-medium">{selectedEvent.preferred_time}</p>
-                            </div>
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Name</Label>
+                            <p className="font-medium">{selectedEvent.name}</p>
                           </div>
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Email</Label>
+                            <p className="text-sm break-all">{selectedEvent.email}</p>
+                          </div>
+                          {selectedEvent.userId && (
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500">User ID</Label>
+                              <p className="text-sm font-mono text-gray-700">{selectedEvent.userId}</p>
+                            </div>
+                          )}
                         </CardContent>
                       </Card>
 
-                      {selectedEvent.status === "pending" && (
-                        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
-                          <Button
-                            onClick={() => handleStatusUpdate(selectedEvent.id, "confirmed", true)}
-                            disabled={isSheetUpdating}
-                            className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg"
-                          >
-                            {isSheetUpdating ? (
-                              <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Processing...
-                              </>
-                            ) : (
-                              <>
-                                <CheckCircle className="mr-2 h-4 w-4" />
-                                Confirm Event
-                              </>
-                            )}
-                          </Button>
-                          <Button
-                            onClick={() => openDeclineDialog(selectedEvent.id, true)}
-                            disabled={isSheetUpdating}
-                            variant="outline"
-                            className="flex-1 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400"
-                          >
-                            <XCircle className="mr-2 h-4 w-4" />
-                            Decline Event
-                          </Button>
-                        </div>
-                      )}
+                      <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm">
+                        <CardHeader className="pb-3">
+                          <h3 className="font-semibold text-lg flex items-center gap-2 text-gray-800">
+                            <Utensils className="w-5 h-5 text-orange-600" />
+                            Event Information
+                          </h3>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Event Type</Label>
+                            <p className="font-medium capitalize">{selectedEvent.event_type}</p>
+                          </div>
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Number of Guests</Label>
+                            <p className="font-medium">{selectedEvent.guests} people</p>
+                          </div>
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Venue Area</Label>
+                            <p className="font-medium capitalize">
+                              {selectedEvent.venueArea ? selectedEvent.venueArea.replace("_", " ") : "Not specified"}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
                     </div>
-                  </>
-                )}
-              </DialogContent>
+
+                    <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm">
+                      <CardHeader className="pb-3">
+                        <h3 className="font-semibold text-lg flex items-center gap-2 text-gray-800">
+                          <Calendar className="w-5 h-5 text-orange-600" />
+                          Date & Time
+                        </h3>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Preferred Date</Label>
+                            <p className="font-medium">
+                              {new Date(selectedEvent.preferred_date).toLocaleDateString("en-US", {
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric",
+                              })}
+                            </p>
+                          </div>
+                          <div>
+                            <Label className="text-sm font-medium text-gray-500">Preferred Time</Label>
+                            <p className="font-medium">{selectedEvent.preferred_time}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {selectedEvent.status === "pending" && (
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-orange-100">
+                        <Button
+                          onClick={() => handleStatusUpdate(selectedEvent.id, "confirmed", true)}
+                          disabled={isSheetUpdating}
+                          className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-md"
+                        >
+                          {isSheetUpdating ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Processing...
+                            </>
+                          ) : (
+                            <>
+                              <CheckCircle className="mr-2 h-4 w-4" />
+                              Confirm Event
+                            </>
+                          )}
+                        </Button>
+                        <Button
+                          onClick={() => openDeclineDialog(selectedEvent.id, true)}
+                          disabled={isSheetUpdating}
+                          variant="outline"
+                          className="flex-1 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400"
+                        >
+                          <XCircle className="mr-2 h-4 w-4" />
+                          Decline Event
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </DialogContent>
+              )}
             </Dialog>
 
             <DropdownMenu>
@@ -635,7 +598,7 @@ export default function EventsAdminPage() {
                   <DropdownMenuItem
                     key={status.value}
                     onClick={() => {
-                      if (status.value === 'cancelled') {
+                      if (status.value === "cancelled") {
                         openDeclineDialog(event.id, false)
                       } else {
                         handleStatusUpdate(event.id, status.value)
@@ -718,9 +681,7 @@ export default function EventsAdminPage() {
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Events
-              </span>
+              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Events</span>
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
@@ -753,9 +714,7 @@ export default function EventsAdminPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm font-medium text-gray-600">{status.label}</p>
-                          <p className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                            {count}
-                          </p>
+                          <p className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">{count}</p>
                         </div>
                         <div className="bg-gradient-to-r from-orange-100 to-red-100 p-2 rounded-lg">
                           <Icon className="w-6 h-6 text-orange-600" />
@@ -822,14 +781,8 @@ export default function EventsAdminPage() {
                         <Label htmlFor="items-per-page" className="text-sm text-gray-600 whitespace-nowrap">
                           Items per page:
                         </Label>
-                        <Select
-                          value={itemsPerPage === -1 ? "all" : itemsPerPage.toString()}
-                          onValueChange={handleItemsPerPageChange}
-                        >
-                          <SelectTrigger
-                            id="items-per-page"
-                            className="w-[100px] border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                          >
+                        <Select value={itemsPerPage === -1 ? "all" : itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+                          <SelectTrigger id="items-per-page" className="w-[100px] border-orange-200 focus:border-orange-400 focus:ring-orange-400">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -850,10 +803,7 @@ export default function EventsAdminPage() {
                               <tr className="border-b border-orange-200">
                                 {table.getHeaderGroups().map((headerGroup) =>
                                   headerGroup.headers.map((header) => (
-                                    <th
-                                      key={header.id}
-                                      className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide"
-                                    >
+                                    <th key={header.id} className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide">
                                       {header.isPlaceholder ? null : (
                                         <div className="flex items-center gap-2">
                                           {typeof header.column.columnDef.header === "function"
@@ -862,7 +812,7 @@ export default function EventsAdminPage() {
                                         </div>
                                       )}
                                     </th>
-                                  ))
+                                  )),
                                 )}
                               </tr>
                             </thead>
@@ -893,9 +843,7 @@ export default function EventsAdminPage() {
                             <Utensils className="w-8 h-8 text-orange-500" />
                           </div>
                           <p className="text-lg font-medium text-gray-700">No events found</p>
-                          {globalFilter && (
-                            <p className="text-sm mt-1 text-gray-500">Try adjusting your search terms or filters</p>
-                          )}
+                          {globalFilter && <p className="text-sm mt-1 text-gray-500">Try adjusting your search terms or filters</p>}
                         </div>
                       )}
 
@@ -991,11 +939,7 @@ export default function EventsAdminPage() {
               >
                 Cancel
               </Button>
-              <Button
-                onClick={handleDeclineConfirm}
-                disabled={!declineReason.trim()}
-                className="bg-red-600 hover:bg-red-700 text-white"
-              >
+              <Button onClick={handleDeclineConfirm} disabled={!declineReason.trim()} className="bg-red-600 hover:bg-red-700 text-white">
                 Decline & Send Email
               </Button>
             </DialogFooter>
