@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react"
+import { CheckCircle, ChevronLeft, ChevronRight, Clock, Plus, XCircle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
@@ -30,6 +30,13 @@ interface Reservation {
 }
 
 type ReservationStatus = "pending" | "confirmed" | "cancelled"
+
+const eventStatuses = [
+  { value: "pending", label: "Pending", color: "bg-yellow-100 text-yellow-800", icon: Clock },
+  { value: "confirmed", label: "Confirmed", color: "bg-blue-100 text-blue-800", icon: CheckCircle },
+  { value: "completed", label: "Completed", color: "bg-green-100 text-green-800", icon: CheckCircle },
+  { value: "cancelled", label: "Cancelled", color: "bg-red-100 text-red-800", icon: XCircle },
+]
 
 export default function ReservationsAdmin() {
   const [reservations, setReservations] = useState<Reservation[]>([])
@@ -328,6 +335,19 @@ export default function ReservationsAdmin() {
     }
   }
 
+  const getStatusBadge = (status: string) => {
+    const statusInfo = eventStatuses.find((s) => s.value === status)
+    if (!statusInfo) return null
+
+    const Icon = statusInfo.icon
+    return (
+      <Badge className={`text-xs px-2 py-1 ${statusInfo.color}`}>
+        <Icon className="w-3 h-3 mr-1" />
+        {statusInfo.label}
+      </Badge>
+    )
+  }
+
   const days = getDaysInMonth(currentDate)
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
@@ -378,7 +398,10 @@ export default function ReservationsAdmin() {
                 <Button variant="outline" size="icon" onClick={nextMonth}>
                   <ChevronRight className="w-4 h-4" />
                 </Button>
-                <Button onClick={() => setIsAddingReservation(true)} className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg">
+                <Button
+                  onClick={() => setIsAddingReservation(true)}
+                  className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg"
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">New Reservation</span>
                   <span className="sm:hidden">New</span>
@@ -430,88 +453,81 @@ export default function ReservationsAdmin() {
 
             {/* Reservation Details Dialog */}
             <Dialog open={!!selectedReservation} onOpenChange={() => setSelectedReservation(null)}>
-              <DialogContent className="max-w-[95vw] sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle className="flex items-center gap-2">
-                    <span>Reservation Details</span>
-                    {selectedReservation && (
-                      <Badge
-                        variant={
-                          selectedReservation.status === "confirmed"
-                            ? "default"
-                            : selectedReservation.status === "cancelled"
-                            ? "destructive"
-                            : "secondary"
-                        }
-                      >
-                        {selectedReservation.status.charAt(0).toUpperCase() + selectedReservation.status.slice(1)}
-                      </Badge>
-                    )}
-                  </DialogTitle>
-                </DialogHeader>
-                {selectedReservation && (
-                  <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto">
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600">Name</label>
-                      <p className="text-base sm:text-lg">{selectedReservation.name}</p>
-                    </div>
-
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600">Email</label>
-                      <p className="text-sm sm:text-base break-all">{selectedReservation.email}</p>
-                    </div>
-
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600">Phone</label>
-                      <p className="text-sm sm:text-base">{selectedReservation.phone}</p>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                      <div>
-                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Date</label>
-                        <p className="text-sm sm:text-base">{formatDate(selectedReservation.date)}</p>
+              {selectedReservation && (
+                <DialogContent className="gap-0 sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+                  <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                    <DialogTitle className="text-xl font-bold">
+                      <span>Reservation Details</span>
+                    </DialogTitle>
+                    <DialogDescription className="text-orange-100">Complete information for this reservation</DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-3 bg-white/60 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-orange-100">
+                        <div>
+                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Name</Label>
+                          <p className="text-base sm:text-lg font-medium text-gray-800">{selectedReservation.name}</p>
+                        </div>
+                        <div>
+                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Email</Label>
+                          <p className="text-sm sm:text-base text-gray-700 break-all">{selectedReservation.email}</p>
+                        </div>
+                        <div>
+                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Phone</Label>
+                          <p className="text-sm sm:text-base text-gray-700">{selectedReservation.phone}</p>
+                        </div>
                       </div>
-                      <div>
-                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Time</label>
-                        <p className="text-sm sm:text-base">{formatTime(selectedReservation.time)}</p>
-                      </div>
-                    </div>
 
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600">Guests</label>
-                      <p className="text-sm sm:text-base">{selectedReservation.guests} people</p>
+                      <div className="space-y-3 bg-white/60 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-orange-100">
+                        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                          <div>
+                            <Label className="text-xs sm:text-sm font-semibold text-gray-600">Date</Label>
+                            <p className="text-sm sm:text-base text-gray-800">{formatDate(selectedReservation.date)}</p>
+                          </div>
+                          <div>
+                            <Label className="text-xs sm:text-sm font-semibold text-gray-600">Time</Label>
+                            <p className="text-sm sm:text-base text-gray-800">{formatTime(selectedReservation.time)}</p>
+                          </div>
+                        </div>
+                        <div>
+                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Guests</Label>
+                          <p className="text-sm sm:text-base text-gray-800">
+                            {selectedReservation.guests} {selectedReservation.guests > 1 ? "people" : "person"}
+                          </p>
+                        </div>
+                        <div>
+                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Status</Label>
+                          <div className="mt-1">{getStatusBadge(selectedReservation.status)}</div>
+                        </div>
+                      </div>
                     </div>
 
                     {selectedReservation.special_requests && (
-                      <div>
-                        <label className="text-xs sm:text-sm font-semibold text-gray-600">Special Requests</label>
-                        <p className="text-xs sm:text-sm">{selectedReservation.special_requests}</p>
+                      <div className="bg-white/60 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-orange-100">
+                        <Label className="text-xs sm:text-sm font-semibold text-gray-600 block mb-2">Special Requests</Label>
+                        <p className="text-sm sm:text-base text-gray-700 whitespace-pre-wrap">{selectedReservation.special_requests}</p>
                       </div>
                     )}
 
-                    <div>
-                      <label className="text-xs sm:text-sm font-semibold text-gray-600 block mb-2">Status</label>
-                      <Select
-                        value={selectedReservation.status}
-                        onValueChange={(value: ReservationStatus) => handleStatusChange(selectedReservation.id, value)}
+                    <div className="flex flex-col sm:flex-row justify-end gap-3">
+                      <Button
+                        variant="outline"
+                        onClick={() => setSelectedReservation(null)}
+                        className="border-gray-300 text-gray-700 hover:bg-gray-100"
                       >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="pending">Pending</SelectItem>
-                          <SelectItem value="confirmed">Confirmed</SelectItem>
-                          <SelectItem value="cancelled">Cancelled</SelectItem>
-                        </SelectContent>
-                      </Select>
+                        Close
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        onClick={() => openDeleteDialog(selectedReservation.id)}
+                        className="bg-red-500 hover:bg-red-600 text-white"
+                      >
+                        Delete Reservation
+                      </Button>
                     </div>
-
-                    <Button variant="destructive" className="w-full" onClick={() => openDeleteDialog(selectedReservation.id)}>
-                      Delete Reservation
-                    </Button>
                   </div>
-                )}
-              </DialogContent>
+                </DialogContent>
+              )}
             </Dialog>
 
             {/* Create Reservation Dialog */}

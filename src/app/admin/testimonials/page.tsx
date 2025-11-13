@@ -429,22 +429,24 @@ export default function TestimonialsAdmin() {
                               </Badge>
                             </div>
                           </div>
-                          <div>
-                            <Label className="text-sm font-medium text-gray-500">Submitted On</Label>
-                            <p className="text-sm mt-1">
-                              {new Date(selectedTestimonial.created_at).toLocaleDateString("en-US", {
-                                month: "long",
-                                day: "2-digit",
-                                year: "numeric",
-                              })}
-                            </p>
-                          </div>
                         </div>
                       </div>
 
                       <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
-                        <Label className="text-sm font-medium text-gray-500">Message</Label>
-                        <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">
+                        <div className="flex flex-row justify-between">
+                          <Label className="text-sm font-medium text-gray-500">Message</Label>
+                            <div className="flex justify-between gap-3">
+                              <Label className="text-sm font-medium text-gray-500">Submitted On</Label>
+                                <p className="text-sm rounded-md">
+                                  {new Date(selectedTestimonial.created_at).toLocaleDateString("en-US", {
+                                    month: "long",
+                                    day: "2-digit",
+                                    year: "numeric",
+                                  })}
+                                </p>
+                            </div>
+                          </div>
+                        <p className="text-sm mt-1 p-3 whitespace-pre-wrap border-1">
                           {selectedTestimonial.message}
                         </p>
                       </div>
