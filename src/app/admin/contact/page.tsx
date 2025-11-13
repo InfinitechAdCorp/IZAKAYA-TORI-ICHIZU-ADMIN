@@ -440,13 +440,13 @@ export default function AdminContact() {
                       </div>
 
                       <Card className="gap-2 p-2">
-                        <CardHeader className="p-2">
+                        <CardHeader className="p-1">
                           <h3 className="font-semibold text-lg flex items-center gap-2">
                             <Mail className="w-5 h-5" />
                             Message
                           </h3>
                         </CardHeader>
-                        <CardContent className="space-y-3 gap-2">
+                        <CardContent className="space-y-3 p-3 gap-2">
                           <p className="text-sm whitespace-pre-wrap rounded-md">
                             {selectedContact.message}
                           </p>

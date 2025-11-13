@@ -49,6 +49,33 @@ import { Checkbox } from "@/components/ui/checkbox"
 import Image from "next/image"
 import { Trigger } from "@radix-ui/react-dialog"
 
+const scrollbarStyles = `
+  /* Scrollbar width */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Scrollbar track */
+  ::-webkit-scrollbar-track {
+    border-radius: 9999px;
+  }
+
+  /* Scrollbar thumb */
+  ::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+  }
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #f3f4f6;
+`;
+
 // Product data type
 interface Product {
   id: number
@@ -481,14 +508,15 @@ export default function ProductsAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+              <DialogContent className="sm:max-w-[100vh] max-h-[90vh] md:max-w-[700px] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedProduct && (
                   <>
                     <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
                       <DialogTitle className="text-xl font-bold">Product Details</DialogTitle>
                       <DialogDescription className="text-orange-100">Complete information for this product</DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] snap-y snap-start">
+                    <div className="space-y-3 sm:space-y-4 max-h-[60vh] overflow-y-auto">
+                      <style>{scrollbarStyles}</style>
                       {/* Product Details */}
                       <div className="flex justify-center mb-6">
                         <div className="w-full aspect-square max-w-xs mx-auto lg:mx-0 rounded-xl overflow-hidden border-2 border-dashed border-orange-300 bg-gradient-to-br from-orange-50 to-red-50 shadow-lg">
