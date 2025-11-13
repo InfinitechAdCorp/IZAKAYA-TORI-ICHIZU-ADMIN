@@ -422,9 +422,9 @@ export default function AdminAnnouncementsPage() {
                           <p className="text-lg font-semibold mt-1">{selectedAnnouncement.title}</p>
                         </div>
 
-                        <div>
+                        <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
                           <Label className="text-sm font-medium text-gray-500">Content</Label>
-                          <p className="text-sm mt-1 p-3 bg-gray-50 rounded-md whitespace-pre-wrap">
+                          <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">
                             {selectedAnnouncement.content}
                           </p>
                         </div>
@@ -598,7 +598,7 @@ export default function AdminAnnouncementsPage() {
                 <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
                   <div className="flex flex-col gap-4 p-4">
                     <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-                      <div className="relative flex-1 max-w-sm">
+                      <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/70" />
                         <Input
                           placeholder="Search announcements..."
@@ -620,7 +620,7 @@ export default function AdminAnnouncementsPage() {
                             <span className="sm:hidden">Add</span>
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto mx-4 bg-gradient-to-br from-orange-50 to-red-50">
+                        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                           <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
                             <DialogTitle className="text-xl font-bold">
                               {editingId ? "Edit Announcement" : "Add New Announcement"}

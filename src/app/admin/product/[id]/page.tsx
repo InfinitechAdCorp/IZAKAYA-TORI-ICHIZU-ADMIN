@@ -68,6 +68,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -103,6 +104,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
+      setIsTablet(window.innerWidth < 1024 || window.innerWidth < 1279)
     }
     checkMobile()
     window.addEventListener("resize", checkMobile)
@@ -207,13 +209,13 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       const response = await fetch(`/api/product/${params.id}`, {
         method: "POST", // Use POST with _method for file uploads
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: formDataToSend,
       })
 
       const result = await response.json()
-      
+
       if (!response.ok) {
         if (response.status === 401) {
           toast({
@@ -297,9 +299,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Edit Product
-              </span>
+              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Edit Product</span>
             </div>
           )}
           <main className="flex-1 overflow-auto p-4 md:p-6">
@@ -324,8 +324,8 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                 </div>
               </div>
 
-              <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100">
-                <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
+              <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
+                <CardHeader className="py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
                   <CardTitle className="flex items-center gap-2 text-xl font-bold">
                     <span>Product Details</span>
                     {(formData.is_spicy || formData.is_vegetarian || formData.is_featured) && (
@@ -469,50 +469,57 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
 
                         <div className="space-y-4">
                           <Label className="text-base font-medium text-gray-700">Properties</Label>
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div className="flex items-center space-x-3 p-3 border-2 border-orange-200 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 transition-all duration-200">
+                          <div
+                            className={`${
+                              isMobile ? "grid grid-cols-1 sm:grid-cols-3 gap-4" : isTablet ? "flex flex-wrap gap-4" : "flex sm:flex-cols-1 gap-4"
+                            }`}
+                          >
+                            <div
+                              className={`${
+                                !isMobile && "w-42"
+                              } flex items-center space-x-3 p-3 border-2 border-orange-200 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 transition-all duration-200`}
+                            >
                               <Switch
                                 id="is_featured"
                                 checked={formData.is_featured}
                                 onCheckedChange={(checked) => handleSwitchChange("is_featured", checked)}
                                 disabled={saving}
                               />
-                              <Label
-                                htmlFor="is_featured"
-                                className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium"
-                              >
+                              <Label htmlFor="is_featured" className="flex items-center cursor-pointer text-gray-700 font-medium">
                                 <Star className="w-4 h-4 text-yellow-500" />
                                 Featured
                               </Label>
                             </div>
 
-                            <div className="flex items-center space-x-3 p-3 border-2 border-orange-200 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 transition-all duration-200">
+                            <div
+                              className={`${
+                                !isMobile && "w-42"
+                              } flex items-center space-x-3 p-3 border-2 border-orange-200 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 transition-all duration-200`}
+                            >
                               <Switch
                                 id="is_spicy"
                                 checked={formData.is_spicy}
                                 onCheckedChange={(checked) => handleSwitchChange("is_spicy", checked)}
                                 disabled={saving}
                               />
-                              <Label
-                                htmlFor="is_spicy"
-                                className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium"
-                              >
+                              <Label htmlFor="is_spicy" className="flex items-center cursor-pointer text-gray-700 font-medium">
                                 <Flame className="w-4 h-4 text-red-500" />
                                 Spicy
                               </Label>
                             </div>
 
-                            <div className="flex items-center space-x-3 p-3 border-2 border-orange-200 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 transition-all duration-200">
+                            <div
+                              className={`${
+                                !isMobile && "w-42"
+                              } flex items-center space-x-3 p-3 border-2 border-orange-200 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 transition-all duration-200`}
+                            >
                               <Switch
                                 id="is_vegetarian"
                                 checked={formData.is_vegetarian}
                                 onCheckedChange={(checked) => handleSwitchChange("is_vegetarian", checked)}
                                 disabled={saving}
                               />
-                              <Label
-                                htmlFor="is_vegetarian"
-                                className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium"
-                              >
+                              <Label htmlFor="is_vegetarian" className="flex items-center cursor-pointer text-gray-700 font-medium">
                                 <Leaf className="w-4 h-4 text-green-500" />
                                 Vegetarian
                               </Label>
@@ -572,9 +579,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
                       </p>
                     </div>
                     <div>
-                      <Label className="text-xs text-gray-600 uppercase tracking-wide font-semibold">
-                        Last Updated
-                      </Label>
+                      <Label className="text-xs text-gray-600 uppercase tracking-wide font-semibold">Last Updated</Label>
                       <p className="text-gray-800 font-medium">
                         {new Date(product.updated_at).toLocaleDateString("en-US", {
                           month: "short",

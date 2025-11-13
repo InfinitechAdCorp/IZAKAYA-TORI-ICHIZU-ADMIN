@@ -27,12 +27,12 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogTrigger,
 } from "@/components/ui/dialog"
 import {
   DropdownMenu,
@@ -78,7 +78,7 @@ interface Testimonial {
 export default function TestimonialsAdmin() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
   const [loading, setLoading] = useState(true)
-  const [isAdding, setIsAdding] = useState(false)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null)
   const [deletingId, setDeletingId] = useState<number | null>(null)
@@ -172,7 +172,7 @@ export default function TestimonialsAdmin() {
         title: "Success",
         description: editingId ? "Testimonial updated successfully" : "Testimonial created successfully",
       })
-
+      setIsCreateModalOpen(false)
       resetForm()
       await fetchTestimonials()
     } catch (error) {
@@ -196,7 +196,6 @@ export default function TestimonialsAdmin() {
       status: "pending",
     })
     setEditingId(null)
-    setIsAdding(false)
   }
 
   async function handleDelete(id: number) {
@@ -239,7 +238,7 @@ export default function TestimonialsAdmin() {
       status: testimonial.status,
     })
     setEditingId(testimonial.id)
-    setIsAdding(true)
+    setIsCreateModalOpen(true)
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
@@ -443,9 +442,9 @@ export default function TestimonialsAdmin() {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
                         <Label className="text-sm font-medium text-gray-500">Message</Label>
-                        <p className="text-sm mt-1 p-3 bg-gray-50 rounded-md whitespace-pre-wrap">
+                        <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">
                           {selectedTestimonial.message}
                         </p>
                       </div>
@@ -582,20 +581,42 @@ export default function TestimonialsAdmin() {
                 </div>
               </div>
 
-              {isAdding && (
-                <Card className="border-2 border-orange-200 shadow-xl">
-                  <CardHeader className="border-b bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h2 className="text-2xl font-bold">
-                          {editingId ? "Edit Testimonial" : "Create New Testimonial"}
-                        </h2>
-                        <p className="text-orange-100 mt-1">Fill in the testimonial details</p>
+              <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
+                  <div className="flex flex-col gap-4 p-4">
+                    <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+                      <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/70" />
+                        <Input
+                          placeholder="Search testimonials..."
+                          value={globalFilter || ""}
+                          onChange={(event) => setGlobalFilter(event.target.value)}
+                          className="pl-9 pr-3 py-2 w-full bg-white/20 border-white/30 text-white placeholder:text-white/70 focus:bg-white/30 focus:border-white/50 transition-all duration-200"
+                        />
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-6 bg-white">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+
+                      <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+                        <DialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            onClick={resetForm}
+                            className="shrink-0 bg-white text-orange-600 hover:bg-orange-50 hover:text-orange-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                          >
+                            <Plus className="mr-2 h-4 w-4" />
+                            <span className="hidden sm:inline">Add Testimonial</span>
+                            <span className="sm:hidden">Add</span>
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+                           <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                            <DialogTitle className="text-xl font-bold">
+                              {editingId ? "Edit Testimonial" : "Create New Testimonial"}
+                            </DialogTitle>
+                            <DialogDescription className="text-orange-100">
+                              Fill in the testimonial details
+                            </DialogDescription>
+                          </DialogHeader>
+                          <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-2">
                           <Label htmlFor="client_name" className="text-gray-700 font-medium">
@@ -628,7 +649,7 @@ export default function TestimonialsAdmin() {
                         </div>
                       </div>
 
-                      <div className="grid md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
                           <Label htmlFor="rating" className="text-gray-700 font-medium">
                             Rating
@@ -693,7 +714,10 @@ export default function TestimonialsAdmin() {
                         <Button
                           type="button"
                           variant="outline"
-                          onClick={resetForm}
+                           onClick={() => {
+                                  setIsCreateModalOpen(false)
+                                  resetForm()
+                                }}
                           disabled={isSubmitting}
                           className="flex-1 sm:flex-none border-orange-300 text-orange-600 hover:bg-orange-50"
                         >
@@ -717,33 +741,9 @@ export default function TestimonialsAdmin() {
                         </Button>
                       </DialogFooter>
                     </form>
-                  </CardContent>
-                </Card>
-              )}
-
-              <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                  <div className="flex flex-col gap-4 p-4">
-                    <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-                      <div className="relative flex-1 max-w-sm">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/70" />
-                        <Input
-                          placeholder="Search testimonials..."
-                          value={globalFilter || ""}
-                          onChange={(event) => setGlobalFilter(event.target.value)}
-                          className="pl-9 pr-3 py-2 w-full bg-white/20 border-white/30 text-white placeholder:text-white/70 focus:bg-white/30 focus:border-white/50 transition-all duration-200"
-                        />
-                      </div>
-
-                      <Button
-                        size="sm"
-                        onClick={() => setIsAdding(true)}
-                        className="shrink-0 bg-white text-orange-600 hover:bg-orange-50 hover:text-orange-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
-                      >
-                        <Plus className="mr-2 h-4 w-4" />
-                        <span className="hidden sm:inline">Add Testimonial</span>
-                        <span className="sm:hidden">Add</span>
-                      </Button>
+                        </DialogContent>
+                      </Dialog>
+                      
                     </div>
                   </div>
                 </div>

@@ -328,17 +328,19 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
   const [apiError, setApiError] = useState<string | null>(null)
   const [timePeriod, setTimePeriod] = useState<TimePeriod>("weekly")
   const [exporting, setExporting] = useState(false)
 
   useEffect(() => {
-    const checkMobile = () => {
+    const checkWidthSize = () => {
       setIsMobile(window.innerWidth < 768)
+      setIsTablet(window.innerWidth < 1024 || window.innerWidth  < 1279)
     }
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
+    checkWidthSize()
+    window.addEventListener("resize", checkWidthSize)
+    return () => window.removeEventListener("resize", checkWidthSize)
   }, [])
 
   useEffect(() => {
@@ -517,7 +519,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+              <div className={`grid grid-cols-1 ${isMobile ? "grid-cols-2" : isTablet ? "grid-cols-3" : "grid-cols-5 "}  gap-6`}>
                 <Card className="border-red-200 bg-gradient-to-br from-red-500 to-orange-500 text-white shadow-xl">
                   <CardHeader>
                     <CardTitle className="text-sm font-medium text-red-100">Total Sales</CardTitle>

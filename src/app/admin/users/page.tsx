@@ -33,14 +33,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -407,24 +400,14 @@ export default function UsersAdminPage() {
           aria-label="Select all"
         />
       ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
+      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
       enableSorting: false,
       enableHiding: false,
     },
     {
       accessorKey: "id",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           ID
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -434,11 +417,7 @@ export default function UsersAdminPage() {
     {
       accessorKey: "name",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -500,12 +479,7 @@ export default function UsersAdminPage() {
           <div className="flex items-center gap-1">
             <Dialog>
               <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedUser(user)}
-                  className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2"
-                >
+                <Button variant="ghost" size="sm" onClick={() => setSelectedUser(user)} className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2">
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
@@ -513,14 +487,14 @@ export default function UsersAdminPage() {
               <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedUser && (
                   <>
-                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
-                      <DialogTitle className="text-xl font-bold">User Details - {selectedUser.name}</DialogTitle>
-                      <DialogDescription className="text-orange-100">Complete information for this user</DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto snap-y snap-start">
+                    <SheetHeader>
+                      <SheetTitle className="md:text-xl">User Details - {selectedUser.name}</SheetTitle>
+                      <SheetDescription className="text-md">Complete information for this user</SheetDescription>
+                    </SheetHeader>
+                    <div className="space-y-6">
                       <Card className="mx-5">
                         <CardContent className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-2 gap-2">
                             <div>
                               <p className="text-sm font-medium text-gray-500">Full Name</p>
                               <p className="font-medium">{selectedUser.name}</p>
@@ -553,9 +527,9 @@ export default function UsersAdminPage() {
                               </div>
                             </div>
                           )}
-                          <div className="flex items-center gap-2 text-sm pt-2 border-t">
+                          <div className="flex items-center gap-2 text-sm p-2 border-t">
                             <Calendar className="w-4 h-4 text-gray-400" />
-                            <p className="text-gray-600">
+                            <p className=" text-gray-600">
                               Joined on{" "}
                               {new Date(selectedUser.created_at).toLocaleDateString("en-US", {
                                 month: "long",
@@ -644,18 +618,14 @@ export default function UsersAdminPage() {
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Users
-              </span>
+              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Users</span>
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
             <div className="max-w-full space-y-4 sm:space-y-6">
               <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100">
-                  <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                    Users
-                  </h1>
+                  <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Users</h1>
                   <p className="text-sm sm:text-base text-gray-600 mt-1">Manage customer accounts and information</p>
                 </div>
                 <div className="flex items-center gap-4 bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-orange-100">
@@ -671,7 +641,7 @@ export default function UsersAdminPage() {
                 <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
                   <div className="flex flex-col gap-4 p-4">
                     <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-                      <div className="relative flex-1 max-w-sm">
+                      <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/70" />
                         <Input
                           placeholder="Search users..."
@@ -696,10 +666,7 @@ export default function UsersAdminPage() {
                               <tr className="border-b border-orange-200">
                                 {table.getHeaderGroups().map((headerGroup) =>
                                   headerGroup.headers.map((header) => (
-                                    <th
-                                      key={header.id}
-                                      className="text-left p-2 sm:p-3 text-xs sm:text-sm font-semibold text-gray-700"
-                                    >
+                                    <th key={header.id} className="text-left p-2 sm:p-3 text-xs sm:text-sm font-semibold text-gray-700">
                                       {header.isPlaceholder ? null : (
                                         <div>
                                           {typeof header.column.columnDef.header === "function"
@@ -716,7 +683,9 @@ export default function UsersAdminPage() {
                               {table.getRowModel().rows.map((row, index) => (
                                 <tr
                                   key={row.id}
-                                  className={`border-b border-orange-100 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all duration-200 ${index % 2 === 0 ? "bg-white" : "bg-orange-25"}`}
+                                  className={`border-b border-orange-100 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all duration-200 ${
+                                    index % 2 === 0 ? "bg-white" : "bg-orange-25"
+                                  }`}
                                 >
                                   {row.getVisibleCells().map((cell) => (
                                     <td key={cell.id} className="p-2 sm:p-3 text-xs sm:text-sm">
@@ -775,15 +744,7 @@ export default function UsersAdminPage() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
                             <p className="font-semibold text-lg">Order #{order.order_number}</p>
-                            <Badge
-                              variant={
-                                order.status === "delivered"
-                                  ? "default"
-                                  : order.status === "cancelled"
-                                    ? "destructive"
-                                    : "outline"
-                              }
-                            >
+                            <Badge variant={order.status === "delivered" ? "default" : order.status === "cancelled" ? "destructive" : "outline"}>
                               {order.status}
                             </Badge>
                           </div>
@@ -817,8 +778,8 @@ export default function UsersAdminPage() {
                         </div>
                         <div className="text-right">
                           <p className="font-bold text-xl text-orange-600">₱{order.total_amount.toFixed(2)}</p>
-                          <p className="text-xs text-gray-500 mt-1">Subtotal: ₱{order.subtotal.toFixed(2)}</p>
-                          <p className="text-xs text-gray-500">Delivery: ₱{order.delivery_fee.toFixed(2)}</p>
+                          <p className="text-xs text-gray-500 mt-1">Subtotal: ₱{order?.subtotal?.toFixed(2)}</p>
+                          <p className="text-xs text-gray-500">Delivery: ₱{order?.delivery_fee?.toFixed(2)}</p>
                           <Badge variant="outline" className="mt-2 text-xs">
                             {order.payment_method}
                           </Badge>
@@ -853,9 +814,7 @@ export default function UsersAdminPage() {
                                 <div className="text-right">
                                   <p className="font-medium">₱{item.price.toFixed(2)}</p>
                                   <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
-                                  <p className="font-semibold text-orange-600">
-                                    ₱{(item.price * item.quantity).toFixed(2)}
-                                  </p>
+                                  <p className="font-semibold text-orange-600">₱{(item.price * item.quantity).toFixed(2)}</p>
                                 </div>
                               </div>
                             ))}
@@ -879,10 +838,10 @@ export default function UsersAdminPage() {
       </Dialog>
 
       <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Send Email to {selectedUser?.name}</DialogTitle>
-            <DialogDescription>Compose and send an email to this customer</DialogDescription>
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+          <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
+            <DialogTitle className="text-xl font-bold">Send Email to {selectedUser?.name}</DialogTitle>
+            <DialogDescription className="text-orange-100">Compose and send an email to this customer</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 mt-4">
             <div>
@@ -911,10 +870,11 @@ export default function UsersAdminPage() {
             </div>
           </div>
           <DialogFooter className="mt-4">
-            <Button variant="outline" onClick={() => setShowEmailDialog(false)} disabled={sendingEmail}>
+            <Button variant="outline" onClick={() => setShowEmailDialog(false)} disabled={sendingEmail} className="flex-1 sm:flex-none border-orange-300 text-orange-600 hover:bg-orange-50">
               Cancel
             </Button>
-            <Button onClick={sendEmail} disabled={sendingEmail || !emailSubject || !emailMessage}>
+            <Button onClick={sendEmail} disabled={sendingEmail || !emailSubject || !emailMessage}
+            className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg">
               {sendingEmail ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -936,18 +896,13 @@ export default function UsersAdminPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will deactivate the user account for <strong>{userToDeactivate?.name}</strong>. The user will no
-              longer be able to access their account, but their data will be preserved. You can reactivate this user
-              later if needed.
+              This will deactivate the user account for <strong>{userToDeactivate?.name}</strong>. The user will no longer be able to access their
+              account, but their data will be preserved. You can reactivate this user later if needed.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={deactivatingUser}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={deactivateUser}
-              disabled={deactivatingUser}
-              className="bg-red-600 hover:bg-red-700"
-            >
+            <AlertDialogAction onClick={deactivateUser} disabled={deactivatingUser} className="bg-red-600 hover:bg-red-700">
               {deactivatingUser ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
