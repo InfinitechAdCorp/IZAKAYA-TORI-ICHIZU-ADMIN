@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react"
+import { CheckCircle, ChevronLeft, ChevronRight, Clock, Plus, XCircle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
@@ -30,6 +30,13 @@ interface Reservation {
 }
 
 type ReservationStatus = "pending" | "confirmed" | "cancelled"
+
+const eventStatuses = [
+  { value: "pending", label: "Pending", color: "bg-yellow-100 text-yellow-800", icon: Clock },
+  { value: "confirmed", label: "Confirmed", color: "bg-blue-100 text-blue-800", icon: CheckCircle },
+  { value: "completed", label: "Completed", color: "bg-green-100 text-green-800", icon: CheckCircle },
+  { value: "cancelled", label: "Cancelled", color: "bg-red-100 text-red-800", icon: XCircle },
+]
 
 export default function ReservationsAdmin() {
   const [reservations, setReservations] = useState<Reservation[]>([])
@@ -328,6 +335,19 @@ export default function ReservationsAdmin() {
     }
   }
 
+  const getStatusBadge = (status: string) => {
+    const statusInfo = eventStatuses.find((s) => s.value === status)
+    if (!statusInfo) return null
+
+    const Icon = statusInfo.icon
+    return (
+      <Badge className={`text-xs px-2 py-1 ${statusInfo.color}`}>
+        <Icon className="w-3 h-3 mr-1" />
+        {statusInfo.label}
+      </Badge>
+    )
+  }
+
   const days = getDaysInMonth(currentDate)
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
@@ -378,7 +398,10 @@ export default function ReservationsAdmin() {
                 <Button variant="outline" size="icon" onClick={nextMonth}>
                   <ChevronRight className="w-4 h-4" />
                 </Button>
-                <Button onClick={() => setIsAddingReservation(true)} className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg">
+                <Button
+                  onClick={() => setIsAddingReservation(true)}
+                  className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg"
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">New Reservation</span>
                   <span className="sm:hidden">New</span>
@@ -430,30 +453,18 @@ export default function ReservationsAdmin() {
 
             {/* Reservation Details Dialog */}
             <Dialog open={!!selectedReservation} onOpenChange={() => setSelectedReservation(null)}>
-              <DialogContent className="max-w-[95vw] sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle className="flex items-center gap-2">
+              <DialogContent className="gap-0 sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+                <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                  <DialogTitle className="text-xl font-bold">
                     <span>Reservation Details</span>
-                    {selectedReservation && (
-                      <Badge
-                        variant={
-                          selectedReservation.status === "confirmed"
-                            ? "default"
-                            : selectedReservation.status === "cancelled"
-                            ? "destructive"
-                            : "secondary"
-                        }
-                      >
-                        {selectedReservation.status.charAt(0).toUpperCase() + selectedReservation.status.slice(1)}
-                      </Badge>
-                    )}
+                   
                   </DialogTitle>
                 </DialogHeader>
                 {selectedReservation && (
                   <div className="space-y-3 sm:space-y-4 max-h-[70vh] overflow-y-auto">
-                    <div>
+                     <div>
                       <label className="text-xs sm:text-sm font-semibold text-gray-600">Name</label>
-                      <p className="text-base sm:text-lg">{selectedReservation.name}</p>
+                      <p className="text-base font-medium sm:text-lg">{selectedReservation.name}</p>
                     </div>
 
                     <div>
@@ -491,7 +502,8 @@ export default function ReservationsAdmin() {
 
                     <div>
                       <label className="text-xs sm:text-sm font-semibold text-gray-600 block mb-2">Status</label>
-                      <Select
+                       {getStatusBadge(selectedReservation?.status || "")}
+                      {/* <Select
                         value={selectedReservation.status}
                         onValueChange={(value: ReservationStatus) => handleStatusChange(selectedReservation.id, value)}
                       >
@@ -503,12 +515,12 @@ export default function ReservationsAdmin() {
                           <SelectItem value="confirmed">Confirmed</SelectItem>
                           <SelectItem value="cancelled">Cancelled</SelectItem>
                         </SelectContent>
-                      </Select>
+                      </Select> */}
                     </div>
 
-                    <Button variant="destructive" className="w-full" onClick={() => openDeleteDialog(selectedReservation.id)}>
+                    {/* <Button variant="destructive" className="w-full" onClick={() => openDeleteDialog(selectedReservation.id)}>
                       Delete Reservation
-                    </Button>
+                    </Button> */}
                   </div>
                 )}
               </DialogContent>
