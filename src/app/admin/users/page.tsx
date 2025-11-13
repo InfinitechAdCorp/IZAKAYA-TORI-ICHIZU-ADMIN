@@ -530,8 +530,9 @@ export default function UsersAdminPage() {
                             </div>
                             <div>
                               <p className="text-sm font-medium text-gray-500">Role</p>
-                              <Badge variant="outline" className='capitalize'>{selectedUser.role}</Badge>
-                              <p className="font-medium underline underline-offset-4">{selectedUser.name}</p>
+                              <Badge variant="outline" className="capitalize">
+                                {selectedUser.role}
+                              </Badge>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 text-sm">
@@ -557,10 +558,7 @@ export default function UsersAdminPage() {
                               </div>
                             </div>
                           )}
-                            <div className="mb-3">
-                              <p className="text-sm font-medium text-gray-500">Role</p>
-                              <Badge variant="outline">{selectedUser.role}</Badge>
-                            </div>
+
                           <div className="flex items-center gap-2 text-sm p-2 mt-2 border-t">
                             <Calendar className="w-4 h-4 text-gray-400" />
                             <p className=" text-gray-600">
@@ -752,136 +750,128 @@ export default function UsersAdminPage() {
         </div>
       </div>
 
-     <Dialog open={showOrdersDialog} onOpenChange={setShowOrdersDialog}>
-  <DialogContent className="w-full max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg h-[90vh] overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 p-0 sm:rounded-lg">
-    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 sticky top-0 z-10 rounded-t-lg">
-      <DialogTitle className="text-base sm:text-lg md:text-xl font-bold">
-        Orders for {selectedUser?.name}
-      </DialogTitle>
-      <DialogDescription className="text-orange-100 text-sm">
-        View all orders placed by this customer
-      </DialogDescription>
-    </DialogHeader>
+      <Dialog open={showOrdersDialog} onOpenChange={setShowOrdersDialog}>
+        <DialogContent className="w-full max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg h-[90vh] overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 p-0 sm:rounded-lg">
+          <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 sticky top-0 z-10 rounded-t-lg">
+            <DialogTitle className="text-base sm:text-lg md:text-xl font-bold">Orders for {selectedUser?.name}</DialogTitle>
+            <DialogDescription className="text-orange-100 text-sm">View all orders placed by this customer</DialogDescription>
+          </DialogHeader>
 
-    <div className="mt-4 overflow-y-auto px-3 sm:px-6 pb-6 h-[calc(90vh-100px)] scroll-pb-20">
-      {loadingOrders ? (
-        <div className="flex items-center justify-center py-8">
-          <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
-          <span className="ml-2 text-gray-600">Loading orders...</span>
-        </div>
-      ) : userOrders.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
-          <ShoppingBag className="w-12 h-12 mx-auto mb-2 text-gray-400" />
-          <p>No orders found for this user</p>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {userOrders.map((order) => (
-            <Card key={order.id} className="border-orange-200 gap-2 p-2">
-              <CardContent className="p-2">
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3 gap-4">
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <p className="font-semibold text-lg">Order #{order.order_number}</p>
-                      <span className='capitalize'>{getStatusBadge(order.order_status)}</span>
-                    </div>
+          <div className="mt-4 overflow-y-auto px-3 sm:px-6 pb-6 h-[calc(90vh-100px)] scroll-pb-20">
+            {loadingOrders ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
+                <span className="ml-2 text-gray-600">Loading orders...</span>
+              </div>
+            ) : userOrders.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <ShoppingBag className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                <p>No orders found for this user</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {userOrders.map((order) => (
+                  <Card key={order.id} className="border-orange-200 gap-2 p-2">
+                    <CardContent className="p-2">
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3 gap-4">
+                        <div className="flex-1">
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <p className="font-semibold text-lg">Order #{order.order_number}</p>
+                            <span className="capitalize">{getStatusBadge(order.order_status)}</span>
+                          </div>
 
-                    <div className="space-y-1 text-sm text-gray-600">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
-                        <p className="break-words">{order.delivery_address}</p>
-                      </div>
-                      {order.delivery_city && (
-                        <p className="ml-6 text-xs">
-                          {order.delivery_city}, {order.delivery_zip_code}
-                        </p>
-                      )}
-                      <div className="flex items-center gap-2">
-                        <Phone className="w-4 h-4" />
-                        <p>{order.customer_phone}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        <p className="text-xs">
-                          {new Date(order.created_at).toLocaleDateString("en-US", {
-                            month: "long",
-                            day: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="text-right md:min-w-[140px]">
-                    <p className="font-bold text-xl text-orange-600">₱{order.total_amount.toFixed(2)}</p>
-                    <p className="text-xs text-gray-500 mt-1">Subtotal: ₱{order?.subtotal?.toFixed(2)}</p>
-                    <p className="text-xs text-gray-500">Delivery: ₱{order?.delivery_fee?.toFixed(2)}</p>
-                    <Badge variant="outline" className="mt-2 text-xs capitalize">
-                      {order.payment_method}
-                    </Badge>
-                  </div>
-                </div>
-
-                {order.items?.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-orange-100">
-                    <p className="text-sm font-semibold mb-2 text-gray-700">
-                      Order Items ({order.items.length})
-                    </p>
-                    <div className="space-y-2">
-                      {order.items.map((item, index) => (
-                        <div
-                          key={index}
-                          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm bg-orange-50 p-2 rounded"
-                        >
-                          <div className="flex-1">
-                            <p className="font-medium">{item.name}</p>
-                            <p className="text-xs text-gray-600">{item.description}</p>
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              <Badge variant="outline" className="text-xs">
-                                {item.category}
-                              </Badge>
-                              {item.is_spicy && (
-                                <Badge variant="destructive" className="text-xs">
-                                  Spicy
-                                </Badge>
-                              )}
-                              {item.is_vegetarian && (
-                                <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
-                                  Veg
-                                </Badge>
-                              )}
+                          <div className="space-y-1 text-sm text-gray-600">
+                            <div className="flex items-center gap-2">
+                              <MapPin className="w-4 h-4" />
+                              <p className="break-words">{order.delivery_address}</p>
+                            </div>
+                            {order.delivery_city && (
+                              <p className="ml-6 text-xs">
+                                {order.delivery_city}, {order.delivery_zip_code}
+                              </p>
+                            )}
+                            <div className="flex items-center gap-2">
+                              <Phone className="w-4 h-4" />
+                              <p>{order.customer_phone}</p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-4 h-4" />
+                              <p className="text-xs">
+                                {new Date(order.created_at).toLocaleDateString("en-US", {
+                                  month: "long",
+                                  day: "2-digit",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                              </p>
                             </div>
                           </div>
-                          <div className="text-right">
-                            <p className="font-medium">₱{item.price.toFixed(2)}</p>
-                            <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
-                            <p className="font-semibold text-orange-600">
-                              ₱{(item.price * item.quantity).toFixed(2)}
-                            </p>
+                        </div>
+
+                        <div className="text-right md:min-w-[140px]">
+                          <p className="font-bold text-xl text-orange-600">₱{order.total_amount.toFixed(2)}</p>
+                          <p className="text-xs text-gray-500 mt-1">Subtotal: ₱{order?.subtotal?.toFixed(2)}</p>
+                          <p className="text-xs text-gray-500">Delivery: ₱{order?.delivery_fee?.toFixed(2)}</p>
+                          <Badge variant="outline" className="mt-2 text-xs capitalize">
+                            {order.payment_method}
+                          </Badge>
+                        </div>
+                      </div>
+
+                      {order.items?.length > 0 && (
+                        <div className="mt-4 pt-4 border-t border-orange-100">
+                          <p className="text-sm font-semibold mb-2 text-gray-700">Order Items ({order.items.length})</p>
+                          <div className="space-y-2">
+                            {order.items.map((item, index) => (
+                              <div
+                                key={index}
+                                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm bg-orange-50 p-2 rounded"
+                              >
+                                <div className="flex-1">
+                                  <p className="font-medium">{item.name}</p>
+                                  <p className="text-xs text-gray-600">{item.description}</p>
+                                  <div className="flex flex-wrap gap-1 mt-1">
+                                    <Badge variant="outline" className="text-xs">
+                                      {item.category}
+                                    </Badge>
+                                    {item.is_spicy && (
+                                      <Badge variant="destructive" className="text-xs">
+                                        Spicy
+                                      </Badge>
+                                    )}
+                                    {item.is_vegetarian && (
+                                      <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
+                                        Veg
+                                      </Badge>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <p className="font-medium">₱{item.price.toFixed(2)}</p>
+                                  <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
+                                  <p className="font-semibold text-orange-600">₱{(item.price * item.quantity).toFixed(2)}</p>
+                                </div>
+                              </div>
+                            ))}
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                      )}
 
-                {order.notes && (
-                  <div className="mt-4 pt-4 border-t border-orange-100">
-                    <p className="text-sm font-semibold mb-1 text-gray-700">Special Notes:</p>
-                    <p className="text-sm text-gray-600 bg-yellow-50 p-2 rounded">{order.notes}</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-    </div>
-  </DialogContent>
-</Dialog>
+                      {order.notes && (
+                        <div className="mt-4 pt-4 border-t border-orange-100">
+                          <p className="text-sm font-semibold mb-1 text-gray-700">Special Notes:</p>
+                          <p className="text-sm text-gray-600 bg-yellow-50 p-2 rounded">{order.notes}</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
         <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
