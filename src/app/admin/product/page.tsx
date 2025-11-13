@@ -748,7 +748,7 @@ export default function ProductsAdminPage() {
                         <DialogTrigger asChild>
                           <Button
                             size="sm"
-                            className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 w-full h-full sm:w-96 sm:h-10"
+                            className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 w-auto h-full sm:w-96 sm:h-10"
                           >
                             <Plus className="mr-2 h-4 w-4" />
                             <span className="hidden sm:inline">Add Product</span>
