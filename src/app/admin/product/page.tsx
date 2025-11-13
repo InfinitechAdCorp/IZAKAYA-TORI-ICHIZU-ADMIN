@@ -483,7 +483,7 @@ export default function ProductsAdminPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedProduct && (
-                  <div>
+                  <>
                     <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
                       <DialogTitle className="text-xl font-bold">Product Details</DialogTitle>
                       <DialogDescription className="text-orange-100">Complete information for this product</DialogDescription>

@@ -59,6 +59,7 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
+import { DialogTrigger } from "@radix-ui/react-dialog"
 
 // User data types
 interface User {
@@ -476,24 +477,24 @@ export default function UsersAdminPage() {
         const user = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button variant="ghost" size="sm" onClick={() => setSelectedUser(user)} className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2">
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-2xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedUser && (
                   <>
                     <SheetHeader>
                       <SheetTitle className="md:text-xl">User Details - {selectedUser.name}</SheetTitle>
                       <SheetDescription className="text-md">Complete information for this user</SheetDescription>
                     </SheetHeader>
-                    <div className="mt-6 space-y-2">
-                      <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
-                        <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
-                          <h3 className="mt-2 font-semibold text-lg flex items-center gap-2">
+                    <div className="space-y-6">
+                      <Card className="mx-5">
+                        <CardHeader className="pb-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
+                          <h3 className="font-semibold text-lg flex items-center gap-2">
                             <UserCheck className="w-5 h-5" />
                             Personal Information
                           </h3>
@@ -548,8 +549,8 @@ export default function UsersAdminPage() {
                     </div>
                   </>
                 )}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

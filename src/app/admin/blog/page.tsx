@@ -334,23 +334,23 @@ export default function BlogPostsAdmin() {
         const post = row.original
         return (
           <div className="flex items-center gap-1">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button variant="ghost" size="sm" onClick={() => setSelectedPost(post)} className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2">
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
-              </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-2xl overflow-y-auto">
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedPost && (
                   <>
-                    <SheetHeader>
-                      <SheetTitle>{selectedPost.title}</SheetTitle>
-                      <SheetDescription>
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">{selectedPost.title}</DialogTitle>
+                      <DialogDescription className="text-orange-100">
                         By {selectedPost.author} • {new Date(selectedPost.created_at).toLocaleDateString()}
-                      </SheetDescription>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6">
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-6">
                       {selectedPost.video_url && (
                         <div className="rounded-lg overflow-hidden bg-black">
                           <video
@@ -379,8 +379,8 @@ export default function BlogPostsAdmin() {
                     </div>
                   </>
                 )}
-              </SheetContent>
-            </Sheet>
+              </DialogContent>
+            </Dialog>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
