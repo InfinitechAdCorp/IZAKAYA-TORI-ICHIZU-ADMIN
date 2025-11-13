@@ -44,6 +44,33 @@ import {
 } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
 
+const scrollbarStyles = `
+  /* Scrollbar width */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Scrollbar track */
+  ::-webkit-scrollbar-track {
+    border-radius: 9999px;
+  }
+
+  /* Scrollbar thumb */
+  ::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+  }
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af #f3f4f6;
+`;
+
 interface BlogPost {
   id: number
   title: string
@@ -341,7 +368,7 @@ export default function BlogPostsAdmin() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+              <DialogContent className="sm:max-w-[100vh] max-h-[90vh] md:max-w-[700px] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedPost && (
                   <>
                     <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
@@ -350,9 +377,10 @@ export default function BlogPostsAdmin() {
                         By {selectedPost.author} • {new Date(selectedPost.created_at).toLocaleDateString()}
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-6">
+                    <div className="space-y-3 sm:space-y-4 max-h-[60vh] overflow-y-auto">
+                      <style>{scrollbarStyles}</style>
                       {selectedPost.video_url && (
-                        <div className="rounded-lg overflow-hidden bg-black">
+                        <div className="mr-2 rounded-lg overflow-hidden bg-black">
                           <video
                             src={`${API_URL}${selectedPost.video_url}`}
                             controls
@@ -364,17 +392,17 @@ export default function BlogPostsAdmin() {
                         </div>
                       )}
                       {!selectedPost.video_url && selectedPost.thumbnail_url && (
-                        <div className="rounded-lg overflow-hidden">
+                        <div className="mr-2 rounded-lg overflow-hidden">
                           <img src={`${API_URL}${selectedPost.thumbnail_url}`} alt={selectedPost.title} className="w-full object-cover" />
                         </div>
                       )}
-                          <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
-                        <Label className="text-sm font-medium text-gray-500">Excerpt</Label>
-                        <p className="text-sm mt-1 p-3 rounded-md">{selectedPost.excerpt}</p>
-                      </div>
-                          <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
-                        <Label className="text-sm font-medium text-gray-500">Content</Label>
-                        <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">{selectedPost.content}</p>
+                        <div className="gap-4 p-4 mr-2 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
+                          <Label className="text-sm font-medium text-gray-500">Excerpt</Label>
+                          <p className="text-sm mt-1 p-3 rounded-md">{selectedPost.excerpt}</p>
+                        </div>
+                        <div className="gap-4 p-4 mr-2 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
+                          <Label className="text-sm font-medium text-gray-500">Content</Label>
+                          <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">{selectedPost.content}</p>
                       </div>
                     </div>
                   </>
