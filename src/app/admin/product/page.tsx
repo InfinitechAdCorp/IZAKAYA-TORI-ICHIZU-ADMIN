@@ -508,7 +508,7 @@ export default function ProductsAdminPage() {
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[100vh] max-h-[90vh] md:max-w-[700px] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
+              <DialogContent className="max-h-[100vh] md:max-w-[100vh] overflow-y-hidden bg-gradient-to-br from-orange-50 to-red-50">
                 {selectedProduct && (
                   <>
                     <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
@@ -518,89 +518,100 @@ export default function ProductsAdminPage() {
                     <div className="space-y-3 sm:space-y-4 max-h-[60vh] overflow-y-auto">
                       <style>{scrollbarStyles}</style>
                       {/* Product Details */}
-                      <div className="flex justify-center mb-6">
-                        <div className="w-full aspect-square max-w-xs mx-auto lg:mx-0 rounded-xl overflow-hidden border-2 border-dashed border-orange-300 bg-gradient-to-br from-orange-50 to-red-50 shadow-lg">
+                      <div className="flex flex-col mr-2 lg:flex-row gap-8 mb-8">
+                        <div className="w-full lg:w-1/3 max-w-sm mx-auto lg:mx-0 rounded-xl overflow-hidden border-2 border-dashed border-orange-300 bg-gradient-to-br from-orange-50 to-red-50 shadow-lg aspect-square">
                           <Image
                             src={getImageUrl(selectedProduct.image) || "/placeholder.svg"}
                             alt={selectedProduct.name}
-                            width={300}
-                            height={300}
+                            width={400}
+                            height={400}
                             className="object-cover w-full h-full"
                           />
                         </div>
-                      </div>
+                        <div className="flex-1 flex flex-col gap-6">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="space-y-4">
+                              <div>
+                                <Label className="text-base font-medium text-gray-700">Product Name</Label>
+                                <p className="text-sm">{selectedProduct.name}</p>
+                              </div>
+                              <div>
+                                <Label className="text-base font-medium text-gray-700">Category</Label>
+                                <Badge variant="outline" className="mt-2 text-sm border-orange-300 text-orange-600">
+                                  {selectedProduct.category}
+                                </Badge>
+                              </div>
+                            </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-5">
-                        <div className="space-y-4">
-                          <div>
-                            <Label className="text-base font-medium text-gray-700">Product Name</Label>
-                            <p className="text-sm">{selectedProduct.name}</p>
-                          </div>
-                          <div>
-                            <Label className="text-base font-medium text-gray-700">Category</Label>
-                            <Badge variant="outline" className="mt-2 text-sm border-orange-300 text-orange-600">
-                              {selectedProduct.category}
-                            </Badge>
-                          </div>
-                          <div>
-                            <Label className="text-base font-medium text-gray-700">Price</Label>
-                            <p className="text-sm font-bold text-green-600">₱{formatPrice(selectedProduct.price)}</p>
-                          </div>
-                        </div>
-                        <div className="space-y-4">
-                          <div>
-                            <Label className="text-base font-medium text-gray-700">Properties</Label>
-                            <div className="flex gap-2 mt-1 flex-wrap">
-                              {selectedProduct.is_featured && (
-                                <Badge variant="secondary" className="text-sm bg-yellow-100 text-yellow-800">
-                                  <Star className="w-3 h-3 mr-1" />
-                                  Featured
-                                </Badge>
-                              )}
-                              {selectedProduct.is_spicy && (
-                                <Badge variant="destructive" className="text-sm">
-                                  <Flame className="w-3 h-3 mr-1" />
-                                  Spicy
-                                </Badge>
-                              )}
-                              {selectedProduct.is_vegetarian && (
-                                <Badge variant="secondary" className="text-sm bg-green-100 text-green-800">
-                                  <Leaf className="w-3 h-3 mr-1" />
-                                  Vegetarian
-                                </Badge>
-                              )}
-                              {!selectedProduct.is_featured && !selectedProduct.is_spicy && !selectedProduct.is_vegetarian && (
-                                <span className="text-sm text-gray-500">None</span>
-                              )}
+                            <div className="space-y-4">
+                              <div>
+                                <Label className="text-base font-medium text-gray-700">Price</Label>
+                                <p className="text-sm font-bold text-green-600">₱{formatPrice(selectedProduct.price)}</p>
+                              </div>
+                              <div>
+                                <Label className="text-base font-medium text-gray-700">Properties</Label>
+                                <div className="flex gap-2 mt-1 flex-wrap">
+                                  {selectedProduct.is_featured && (
+                                    <Badge variant="secondary" className="text-sm bg-yellow-100 text-yellow-800">
+                                      <Star className="w-3 h-3 mr-1" />
+                                      Featured
+                                    </Badge>
+                                  )}
+                                  {selectedProduct.is_spicy && (
+                                    <Badge variant="destructive" className="text-sm">
+                                      <Flame className="w-3 h-3 mr-1" />
+                                      Spicy
+                                    </Badge>
+                                  )}
+                                  {selectedProduct.is_vegetarian && (
+                                    <Badge variant="secondary" className="text-sm bg-green-100 text-green-800">
+                                      <Leaf className="w-3 h-3 mr-1" />
+                                      Vegetarian
+                                    </Badge>
+                                  )}
+                                  {!selectedProduct.is_featured &&
+                                    !selectedProduct.is_spicy &&
+                                    !selectedProduct.is_vegetarian && (
+                                      <span className="text-sm text-gray-500">None</span>
+                                    )}
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div>
-                            <Label className="text-base font-medium text-gray-700">Created On</Label>
-                            <p className="text-sm">
-                              {new Date(selectedProduct.created_at).toLocaleDateString("en-US", {
-                                month: "long",
-                                day: "2-digit",
-                                year: "numeric",
-                              })}
+
+                          <div className="bg-orange-50 rounded-xl border border-orange-100 shadow-sm p-4">
+                            <Label className="text-base font-medium text-gray-700">Description</Label>
+                            <p className="text-sm mt-2 text-gray-700 whitespace-pre-wrap leading-relaxed">
+                              {selectedProduct.description}
                             </p>
-                          </div>
-                          <div>
-                            <Label className="text-base font-medium text-gray-700">Last Updated</Label>
-                            <p className="text-sm">
-                              {new Date(selectedProduct.updated_at).toLocaleDateString("en-US", {
-                                month: "long",
-                                day: "2-digit",
-                                year: "numeric",
-                              })}
-                            </p>
+                              <div className="flex space-between justify-center-safe space-x-4 border-t border-orange-200 pt-2 mt-3">
+                                <div>
+                                  <Label className="text-base font-medium text-gray-700">Created On</Label>
+                                  <p className="text-sm">
+                                    {new Date(selectedProduct.created_at).toLocaleDateString("en-US", {
+                                      month: "long",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                    })}
+                                  </p>
+                                </div>
+                                <div className="w-[1px] h-auto bg-orange-200"></div>
+                                <div>
+                                  <Label className="text-base font-medium text-gray-700">Last Updated</Label>
+                                  <p className="text-sm">
+                                    {new Date(selectedProduct.updated_at).toLocaleDateString("en-US", {
+                                      month: "long",
+                                      day: "2-digit",
+                                      year: "numeric",
+                                    })}
+                                  </p>
+                                </div>
+                              </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="p-5">
-                        <Label className="text-base font-medium text-gray-700">Description</Label>
-                        <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">{selectedProduct.description}</p>
-                      </div>
+                      
                     </div>
                   </>
                 )}

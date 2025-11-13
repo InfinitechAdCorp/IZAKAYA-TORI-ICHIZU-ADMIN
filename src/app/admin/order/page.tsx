@@ -645,7 +645,7 @@ export default function OrdersAdminPage() {
                         </Card>
 
                         {/* Delivery Information */}
-                       <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0 gap-2">
+                        <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0 gap-2">
                           <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
                             <h3 className="mt-2 font-semibold text-lg flex items-center gap-2">
                               <MapPin className="w-5 h-5" />
@@ -663,16 +663,16 @@ export default function OrdersAdminPage() {
                       
                       {/* Order Items */}
                       <Card className="mr-2 mb-2">
-                        <CardHeader className="pb-3">
+                        <CardHeader>
                           <h3 className="font-semibold text-lg flex items-center gap-2">
                             <Package className="w-5 h-5" />
                             Order Items ({selectedOrder.order_items?.length || 0})
                           </h3>
                         </CardHeader>
-                        <CardContent className="px-4 gap-2">
-                          <div className="space-y-3 pb-4">
+                        <CardContent className="px-4 gap-1">
+                          <div className="space-y-2">
                             {(selectedOrder.order_items || []).map((item, index) => (
-                              <div key={index} className="flex items-center border rounded-lg px-4">
+                              <div key={index} className="flex items-center border rounded-lg p-4">
                                 <div className="flex-1 min-w-0">
                                   <h4 className="font-semibold text-base truncate">{item.name}</h4>
                                   <p className="text-xs text-gray-500 truncate mb-2">{item.description}</p>
