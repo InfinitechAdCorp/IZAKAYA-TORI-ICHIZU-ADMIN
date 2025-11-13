@@ -451,7 +451,7 @@ export default function EventsAdminPage() {
                   </DialogHeader>
 
                   <div className="space-y-6 px-3 sm:px-6 pb-6 max-h-[70vh] overflow-y-auto">
-                    <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm">
+                    <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm gap-2 py-2">
                       <CardContent className="p-4 space-y-3">
                         <div className="flex flex-wrap items-center gap-3 mb-2">
                           {getStatusBadge(selectedEvent.status)}
@@ -471,8 +471,8 @@ export default function EventsAdminPage() {
                     </Card>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm">
-                        <CardHeader className="pb-3">
+                      <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm gap-2 py-2">
+                        <CardHeader className="pb-0">
                           <h3 className="font-semibold text-lg flex items-center gap-2 text-gray-800">
                             <User className="w-5 h-5 text-orange-600" />
                             Customer Information
@@ -496,8 +496,8 @@ export default function EventsAdminPage() {
                         </CardContent>
                       </Card>
 
-                      <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm">
-                        <CardHeader className="pb-3">
+                      <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm gap-2 py-2">
+                        <CardHeader className="pb-0">
                           <h3 className="font-semibold text-lg flex items-center gap-2 text-gray-800">
                             <Utensils className="w-5 h-5 text-orange-600" />
                             Event Information
@@ -522,8 +522,8 @@ export default function EventsAdminPage() {
                       </Card>
                     </div>
 
-                    <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm">
-                      <CardHeader className="pb-3">
+                    <Card className="bg-white/70 backdrop-blur-sm border-orange-100 shadow-sm gap-2 py-2">
+                      <CardHeader className="pb-0">
                         <h3 className="font-semibold text-lg flex items-center gap-2 text-gray-800">
                           <Calendar className="w-5 h-5 text-orange-600" />
                           Date & Time
