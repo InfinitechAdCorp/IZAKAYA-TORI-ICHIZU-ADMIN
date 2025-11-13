@@ -472,7 +472,7 @@ export default function UsersAdminPage() {
       accessorKey: "role",
       header: "Role",
       cell: ({ row }) => (
-        <Badge variant="outline" className="text-xs">
+        <Badge variant="outline" className="text-xs capitalize">
           {row.original.role}
         </Badge>
       ),
@@ -530,7 +530,7 @@ export default function UsersAdminPage() {
                             </div>
                             <div>
                               <p className="text-sm font-medium text-gray-500">Role</p>
-                              <Badge variant="outline">{selectedUser.role.charAt(0).toUpperCase() + selectedUser.role.slice(1)}</Badge>
+                              <Badge variant="outline" className='capitalize'>{selectedUser.role}</Badge>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 text-sm">
@@ -778,7 +778,7 @@ export default function UsersAdminPage() {
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
                       <p className="font-semibold text-lg">Order #{order.order_number}</p>
-                      {getStatusBadge(order.order_status)}
+                      <span className='capitalize'>{getStatusBadge(order.order_status)}</span>
                     </div>
 
                     <div className="space-y-1 text-sm text-gray-600">
@@ -814,7 +814,7 @@ export default function UsersAdminPage() {
                     <p className="font-bold text-xl text-orange-600">₱{order.total_amount.toFixed(2)}</p>
                     <p className="text-xs text-gray-500 mt-1">Subtotal: ₱{order?.subtotal?.toFixed(2)}</p>
                     <p className="text-xs text-gray-500">Delivery: ₱{order?.delivery_fee?.toFixed(2)}</p>
-                    <Badge variant="outline" className="mt-2 text-xs">
+                    <Badge variant="outline" className="mt-2 text-xs capitalize">
                       {order.payment_method}
                     </Badge>
                   </div>
