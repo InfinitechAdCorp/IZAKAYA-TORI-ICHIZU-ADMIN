@@ -574,7 +574,7 @@ export default function ProductsAdminPage() {
                         <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">{selectedProduct.description}</p>
                       </div>
                     </div>
-                  </div>
+                  </>
                 )}
               </DialogContent>
             </Dialog>
