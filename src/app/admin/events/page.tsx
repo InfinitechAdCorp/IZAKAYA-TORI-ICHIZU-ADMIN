@@ -755,7 +755,7 @@ export default function EventsAdminPage() {
             <div className="max-w-full space-y-4 sm:space-y-6">
               <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100 flex-1">
-                  <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                  <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
                     Events Management
                   </h1>
                   <p className="text-sm sm:text-base text-gray-600 mt-1">Manage event bookings and track status</p>

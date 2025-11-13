@@ -734,35 +734,21 @@ export default function ProductsAdminPage() {
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
-            <div className="max-w-full space-y-4 sm:space-y-6">
-              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100">
-                  <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                    Products Management
-                  </h1>
-                  <p className="text-sm sm:text-base text-gray-600 mt-1">Manage Izakaya's menu items with style</p>
-                </div>
-              </div>
+            <div className="w-full space-y-4 sm:space-y-6">
+              <div className="justify-between ">
+                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100 grid grid-cols-2">
+                  <div className="space-y-1">
+                    <h1 className="text-xl sm:text-4xl py-2 font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                      Products Management </h1>
+                    <p className="text-sm sm:text-base text-gray-600 mt-1">Manage Izakaya's menu items with style</p>
+                  </div>
 
-              <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                  <div className="flex flex-col gap-4 p-4">
-                    <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-                      <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/70" />
-                        <Input
-                          placeholder="Search products..."
-                          value={globalFilter || ""}
-                          onChange={(event) => setGlobalFilter(event.target.value)}
-                          className="pl-9 pr-3 py-2 w-full bg-white/20 border-white/30 text-white placeholder:text-white/70 focus:bg-white/30 focus:border-white/50 transition-all duration-200"
-                        />
-                      </div>
-
+                    <div className="space-y-1">
                       <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
                         <DialogTrigger asChild>
                           <Button
                             size="sm"
-                            className="shrink-0 bg-white text-orange-600 hover:bg-orange-50 hover:text-orange-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                            className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 w-full h-full sm:w-96 sm:h-10"
                           >
                             <Plus className="mr-2 h-4 w-4" />
                             <span className="hidden sm:inline">Add Product</span>
@@ -961,12 +947,32 @@ export default function ProductsAdminPage() {
                           </form>
                         </DialogContent>
                       </Dialog>
+
+                      
+                        <div className="">
+                          <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+                            <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
+                              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 border" />
+                              <Input
+                                placeholder="Search products..."
+                                value={globalFilter || ""}
+                                onChange={(event) => setGlobalFilter(event.target.value)}
+                                className="pl-9 pr-3 py-2 w-full bg-white/20 placeholder:text-gray/70 focus:bg-white/30 focus:border-white/50 transition-all duration-200"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      
                     </div>
-                  </div>
                 </div>
+
+
+              </div>
+
+              <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
                 <CardContent className="p-0 bg-white">
                   <div className="px-6">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 mt-5">
                       <div className="text-sm text-gray-600 font-medium">
                         Showing {startIndex + 1} to {Math.min(endIndex, totalItems)} of {totalItems} products
                       </div>
