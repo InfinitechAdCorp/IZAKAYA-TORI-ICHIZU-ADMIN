@@ -7,18 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import { 
-  Trash2, 
-  Edit2, 
-  Plus, 
-  Search, 
-  Loader2, 
-  ArrowUpDown, 
-  Eye, 
-  MoreHorizontal,
-  Upload,
-  Star
-} from "lucide-react"
+import { Trash2, Edit2, Plus, Search, Loader2, ArrowUpDown, Eye, MoreHorizontal, Upload, Star } from "lucide-react"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -30,15 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import {
   AlertDialog,
@@ -268,13 +249,7 @@ export default function ChefsAdmin() {
           aria-label="Select all"
         />
       ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
+      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
       enableSorting: false,
       enableHiding: false,
     },
@@ -296,11 +271,7 @@ export default function ChefsAdmin() {
     {
       accessorKey: "name",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Chef Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -338,11 +309,7 @@ export default function ChefsAdmin() {
     {
       accessorKey: "experience_years",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Experience
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -393,12 +360,7 @@ export default function ChefsAdmin() {
           <div className="flex items-center gap-1">
             <Dialog>
               <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedChef(chef)}
-                  className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2"
-                >
+                <Button variant="ghost" size="sm" onClick={() => setSelectedChef(chef)} className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2">
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
@@ -412,48 +374,51 @@ export default function ChefsAdmin() {
                     </DialogHeader>
                     <div className="space-y-6">
                       <div className="flex justify-center mb-6">
-                        <div className="w-32 h-32 rounded-lg overflow-hidden border-2 border-gray-200">
+                        <div className="w-52 h-52 aspect-square rounded-lg overflow-hidden border-2 border-orange-200 shadow-md">
                           <Image
                             src={getImageUrl(selectedChef.image_url) || "/placeholder.svg"}
                             alt={selectedChef.name}
-                            width={128}
-                            height={128}
-                            className="object-cover w-full h-full"
+                            width={300}
+                            height={300}
+                            className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
                           />
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-self-center">
-                        <div className="space-y-4 mx-5">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8">
+                        {/* Left Column */}
+                        <div className="space-y-4">
                           <div>
                             <Label className="text-sm font-medium text-gray-500">Chef Name</Label>
-                            <p className="text-lg font-semibold">{selectedChef.name}</p>
+                            <p className="text-lg sm:text-xl font-semibold break-words">{selectedChef.name}</p>
                           </div>
                           <div>
                             <Label className="text-sm font-medium text-gray-500">Position</Label>
-                            <Badge variant="outline" className="text-sm">
+                            <Badge variant="outline" className="text-xs sm:text-sm border-orange-300 text-orange-700 bg-orange-50 mt-1">
                               {selectedChef.position}
                             </Badge>
                           </div>
                           <div>
                             <Label className="text-sm font-medium text-gray-500">Specialty</Label>
-                            <p className="text-sm">{selectedChef.specialty}</p>
+                            <p className="text-sm sm:text-base break-words">{selectedChef.specialty}</p>
                           </div>
                         </div>
+
+                        {/* Right Column */}
                         <div className="space-y-4">
                           <div>
                             <Label className="text-sm font-medium text-gray-500">Experience</Label>
-                            <p className="text-lg font-bold text-orange-600">{selectedChef.experience_years} years</p>
+                            <p className="text-lg sm:text-xl font-bold text-orange-600">{selectedChef.experience_years} years</p>
                           </div>
                           <div>
                             <Label className="text-sm font-medium text-gray-500">Rating</Label>
-                            <div className="text-yellow-500 text-xl">
+                            <div className="text-yellow-500 text-lg sm:text-xl font-medium">
                               {selectedChef.rating ? "★".repeat(Math.round(selectedChef.rating)) : "Not rated"}
                             </div>
                           </div>
                           <div>
                             <Label className="text-sm font-medium text-gray-500">Created On</Label>
-                            <p className="text-sm">
+                            <p className="text-sm sm:text-base text-gray-700">
                               {new Date(selectedChef.created_at).toLocaleDateString("en-US", {
                                 month: "long",
                                 day: "2-digit",
@@ -463,12 +428,9 @@ export default function ChefsAdmin() {
                           </div>
                         </div>
                       </div>
-
-                      <div className="mx-5">
+                      <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
                         <Label className="text-sm font-medium text-gray-500">Biography</Label>
-                        <p className="text-sm mt-1 p-3 bg-gray-50 rounded-md whitespace-pre-wrap">
-                          {selectedChef.bio}
-                        </p>
+                        <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">{selectedChef.bio}</p>
                       </div>
                     </div>
                   </>
@@ -499,8 +461,7 @@ export default function ChefsAdmin() {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the chef "{chef.name}" and
-                        remove them from the system.
+                        This action cannot be undone. This will permanently delete the chef "{chef.name}" and remove them from the system.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -591,9 +552,7 @@ export default function ChefsAdmin() {
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Chefs
-              </span>
+              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Chefs</span>
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
@@ -603,9 +562,7 @@ export default function ChefsAdmin() {
                   <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
                     Chefs Management
                   </h1>
-                  <p className="text-sm sm:text-base text-gray-600 mt-1">
-                    Manage your culinary team with excellence
-                  </p>
+                  <p className="text-sm sm:text-base text-gray-600 mt-1">Manage your culinary team with excellence</p>
                 </div>
               </div>
 
@@ -637,12 +594,8 @@ export default function ChefsAdmin() {
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                           <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
-                            <DialogTitle className="text-xl font-bold">
-                              {editingId ? "Edit Chef" : "Add New Chef"}
-                            </DialogTitle>
-                            <DialogDescription className="text-orange-100">
-                              Fill in the details for the chef profile.
-                            </DialogDescription>
+                            <DialogTitle className="text-xl font-bold">{editingId ? "Edit Chef" : "Add New Chef"}</DialogTitle>
+                            <DialogDescription className="text-orange-100">Fill in the details for the chef profile.</DialogDescription>
                           </DialogHeader>
                           <form onSubmit={handleSubmit} className="space-y-6 py-4">
                             <div className="grid grid-cols-1 gap-4">
@@ -861,16 +814,8 @@ export default function ChefsAdmin() {
                               {table.getHeaderGroups().map((headerGroup) => (
                                 <tr key={headerGroup.id} className="border-b border-orange-200">
                                   {headerGroup.headers.map((header) => (
-                                    <th
-                                      key={header.id}
-                                      className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide"
-                                    >
-                                      {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
-                                          )}
+                                    <th key={header.id} className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide">
+                                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                                     </th>
                                   ))}
                                 </tr>
@@ -924,7 +869,7 @@ export default function ChefsAdmin() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                               disabled={currentPage === 1}
                               className="border-orange-300 text-orange-600 hover:bg-orange-50 disabled:opacity-50"
                             >
@@ -933,7 +878,7 @@ export default function ChefsAdmin() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
                               disabled={currentPage === totalPages}
                               className="border-orange-300 text-orange-600 hover:bg-orange-50 disabled:opacity-50"
                             >
