@@ -33,15 +33,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -54,7 +46,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
-import { useState, useEffect } from "react"   
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 import {
@@ -403,8 +395,7 @@ export default function OrdersAdminPage() {
       toast({
         variant: "destructive",
         title: "Error",
-        description:
-          error instanceof Error ? error.message : "Failed to load orders. Please check your authentication.",
+        description: error instanceof Error ? error.message : "Failed to load orders. Please check your authentication.",
       })
 
       setOrders([])
@@ -444,24 +435,14 @@ export default function OrdersAdminPage() {
           aria-label="Select all"
         />
       ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
+      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
       enableSorting: false,
       enableHiding: false,
     },
     {
       accessorKey: "order_number",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Order #
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -495,11 +476,7 @@ export default function OrdersAdminPage() {
     {
       accessorKey: "order_status",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Status
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -523,18 +500,12 @@ export default function OrdersAdminPage() {
     {
       accessorKey: "total",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Total
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="font-semibold text-middle">₱{(row.original.total_amount || 0).toFixed(2)}</div>
-      ),
+      cell: ({ row }) => <div className="font-semibold text-middle">₱{(row.original.total_amount || 0).toFixed(2)}</div>,
     },
     {
       accessorKey: "created_at",
@@ -567,17 +538,12 @@ export default function OrdersAdminPage() {
           <div className="flex items-center gap-1">
             <Dialog>
               <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => fetchOrderDetails(order.id)}
-                  className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2"
-                >
+                <Button variant="ghost" size="sm" onClick={() => fetchOrderDetails(order.id)} className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2">
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
               </DialogTrigger>
-               <DialogContent className={`${isMobile ? 'max-w-[320px]' : "max-w-[600px]"} w-full max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50 gap-0`}>
+              <DialogContent className="w-full max-w-[95vw] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] sm:max-h-[80vh] lg:max-h-[90vh] overflow-hidden bg-gradient-to-br from-orange-50 to-red-50">
                 {loadingOrderDetails ? (
                   <div className="flex items-center justify-center py-12">
                     <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
@@ -588,11 +554,12 @@ export default function OrdersAdminPage() {
                       <DialogTitle className="text-xl font-bold">Order Details - #{selectedOrder.order_number}</DialogTitle>
                       <DialogDescription className="text-orange-100">Complete information for this order</DialogDescription>
                     </DialogHeader>
-                    <div className={`${isMobile ? 'max-w-[260px]' : "max-w-[540px]"} w-full space-y-3 sm:space-y-4 max-h-[70vh] snap-y snap-start`}>
+
+                    <div className="w-full space-y-4 sm:space-y-6 max-h-[60vh] overflow-y-auto lg:px-4">
                       {/* Order Status and Quick Actions */}
-                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 rounded-lg">
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
                         <div>
-                          <div className="flex items-center gap-3 mb-2">
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
                             {getStatusBadge(selectedOrder.order_status)}
                             {getPaymentMethodBadge(selectedOrder.payment_method)}
                           </div>
@@ -718,7 +685,7 @@ export default function OrdersAdminPage() {
 
                       {/* Additional Notes */}
                       {selectedOrder.notes && (
-                        <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0 pb-2">
+                        <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
                           <CardHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-t-lg">
                             <h3 className="mt-2 font-semibold text-lg flex items-center gap-2">Special Notes</h3>
                           </CardHeader>
@@ -761,7 +728,7 @@ export default function OrdersAdminPage() {
                   <Edit className="mr-2 h-4 w-4" />
                   Edit Order
                 </DropdownMenuItem> */}
-               <DropdownMenuItem
+                <DropdownMenuItem
                   onClick={() => {
                     setOrderToDelete(order)
                     setDeleteDialogOpen(true)
@@ -822,9 +789,7 @@ export default function OrdersAdminPage() {
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Orders
-              </span>
+              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Orders</span>
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
@@ -832,12 +797,8 @@ export default function OrdersAdminPage() {
               {/* Header */}
               <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100">
-                  <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                    Orders
-                  </h1>
-                  <p className="text-sm sm:text-base text-gray-600 mt-1">
-                    Manage customer orders and track delivery status
-                  </p>
+                  <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Orders</h1>
+                  <p className="text-sm sm:text-base text-gray-600 mt-1">Manage customer orders and track delivery status</p>
                   <p className="text-xs text-gray-500 mt-1">Showing all orders from all customers (Admin View)</p>
                 </div>
                 <div className="flex items-center gap-4 bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-orange-100">
@@ -861,9 +822,7 @@ export default function OrdersAdminPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm font-medium text-gray-600">{status.label}</p>
-                          <p className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                            {count}
-                          </p>
+                          <p className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">{count}</p>
                         </div>
                         <div className="bg-gradient-to-r from-orange-100 to-red-100 p-2 rounded-lg">
                           <Icon className="w-6 h-6 text-orange-600" />
@@ -905,7 +864,6 @@ export default function OrdersAdminPage() {
                         </Select>
 
                         <Select value={paymentMethodFilter} onValueChange={setPaymentMethodFilter}>
-                          
                           <SelectTrigger className="w-32 bg-white/20 border-white/30 text-white focus:bg-white/30 focus:border-white/50">
                             <SelectValue placeholder="Payment" />
                           </SelectTrigger>
@@ -935,10 +893,7 @@ export default function OrdersAdminPage() {
                               <tr className="border-b border-orange-200">
                                 {table.getHeaderGroups().map((headerGroup) =>
                                   headerGroup.headers.map((header) => (
-                                    <th
-                                      key={header.id}
-                                      className="text-left p-2 sm:p-3 text-xs sm:text-sm font-semibold text-gray-700"
-                                    >
+                                    <th key={header.id} className="text-left p-2 sm:p-3 text-xs sm:text-sm font-semibold text-gray-700">
                                       {header.isPlaceholder ? null : (
                                         <div>
                                           {typeof header.column.columnDef.header === "function"
@@ -955,7 +910,9 @@ export default function OrdersAdminPage() {
                               {table.getRowModel().rows.map((row, index) => (
                                 <tr
                                   key={row.id}
-                                  className={`border-b border-orange-100 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all duration-200 ${index % 2 === 0 ? "bg-white" : "bg-orange-25"}`}
+                                  className={`border-b border-orange-100 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all duration-200 ${
+                                    index % 2 === 0 ? "bg-white" : "bg-orange-25"
+                                  }`}
                                 >
                                   {row.getVisibleCells().map((cell) => (
                                     <td key={cell.id} className="p-2 sm:p-3 text-xs sm:text-sm">
@@ -976,9 +933,7 @@ export default function OrdersAdminPage() {
                             <Package className="w-8 h-8 text-orange-500" />
                           </div>
                           <p className="text-lg font-medium text-gray-700">No orders found</p>
-                          {globalFilter && (
-                            <p className="text-sm mt-1 text-gray-500">Try adjusting your search terms or filters</p>
-                          )}
+                          {globalFilter && <p className="text-sm mt-1 text-gray-500">Try adjusting your search terms or filters</p>}
                         </div>
                       )}
                     </div>
@@ -996,17 +951,13 @@ export default function OrdersAdminPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure you want to delete this order?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete order{" "}
-              <span className="font-semibold">#{orderToDelete?.order_number}</span> from the system.
+              This action cannot be undone. This will permanently delete order <span className="font-semibold">#{orderToDelete?.order_number}</span>{" "}
+              from the system.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDeleteOrder}
-              disabled={deleting}
-              className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
-            >
+            <AlertDialogAction onClick={handleDeleteOrder} disabled={deleting} className="bg-red-600 hover:bg-red-700 focus:ring-red-600">
               {deleting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
