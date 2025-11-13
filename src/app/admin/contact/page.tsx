@@ -386,14 +386,14 @@ export default function AdminContact() {
                     </DialogHeader>
                     <div className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <Card>
-                          <CardHeader className="pb-3">
+                        <Card className="gap-2 p-2">
+                          <CardHeader className="p-2">
                             <h3 className="font-semibold text-lg flex items-center gap-2">
                               <User className="w-5 h-5" />
                               Contact Information
                             </h3>
                           </CardHeader>
-                          <CardContent className="space-y-3">
+                          <CardContent className="space-y-3 gap-2">
                             <div>
                               <Label className="text-sm font-medium text-gray-500">Name</Label>
                               <p className="font-medium">{selectedContact.name}</p>
@@ -411,14 +411,14 @@ export default function AdminContact() {
                           </CardContent>
                         </Card>
 
-                        <Card>
-                          <CardHeader className="pb-3">
+                        <Card className="gap-2 p-2">
+                          <CardHeader className="p-2">
                             <h3 className="font-semibold text-lg flex items-center gap-2">
                               <MessageSquare className="w-5 h-5" />
                               Inquiry Details
                             </h3>
                           </CardHeader>
-                          <CardContent className="space-y-3">
+                          <CardContent className="space-y-3 gap-2">
                             <div>
                               <Label className="text-sm font-medium text-gray-500">Subject</Label>
                               <p className="font-medium">{selectedContact.subject}</p>
@@ -439,15 +439,15 @@ export default function AdminContact() {
                         </Card>
                       </div>
 
-                      <Card>
-                        <CardHeader className="pb-3">
+                      <Card className="gap-2 p-2">
+                        <CardHeader className="p-2">
                           <h3 className="font-semibold text-lg flex items-center gap-2">
                             <Mail className="w-5 h-5" />
                             Message
                           </h3>
                         </CardHeader>
-                        <CardContent>
-                          <p className="text-sm whitespace-pre-wrap p-3 bg-gray-50 rounded-md">
+                        <CardContent className="space-y-3 gap-2">
+                          <p className="text-sm whitespace-pre-wrap rounded-md">
                             {selectedContact.message}
                           </p>
                         </CardContent>

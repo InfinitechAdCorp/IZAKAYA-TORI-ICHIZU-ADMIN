@@ -368,13 +368,13 @@ export default function BlogPostsAdmin() {
                           <img src={`${API_URL}${selectedPost.thumbnail_url}`} alt={selectedPost.title} className="w-full object-cover" />
                         </div>
                       )}
-                      <div>
+                          <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
                         <Label className="text-sm font-medium text-gray-500">Excerpt</Label>
-                        <p className="text-sm mt-1 p-3 bg-gray-50 rounded-md">{selectedPost.excerpt}</p>
+                        <p className="text-sm mt-1 p-3 rounded-md">{selectedPost.excerpt}</p>
                       </div>
-                      <div>
+                          <div className="gap-4 p-4 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
                         <Label className="text-sm font-medium text-gray-500">Content</Label>
-                        <p className="text-sm mt-1 p-3 bg-gray-50 rounded-md whitespace-pre-wrap">{selectedPost.content}</p>
+                        <p className="text-sm mt-1 p-3 rounded-md whitespace-pre-wrap">{selectedPost.content}</p>
                       </div>
                     </div>
                   </>

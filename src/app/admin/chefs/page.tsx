@@ -385,8 +385,7 @@ export default function ChefsAdmin() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8">
-                        {/* Left Column */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full max-w-[800px] mx-auto p-4 sm:px-6 lg:px-8 rounded-lg bg-white/70 backdrop-blur-sm shadow-sm">
                         <div className="space-y-4">
                           <div>
                             <Label className="text-sm font-medium text-gray-500">Chef Name</Label>
@@ -404,7 +403,6 @@ export default function ChefsAdmin() {
                           </div>
                         </div>
 
-                        {/* Right Column */}
                         <div className="space-y-4">
                           <div>
                             <Label className="text-sm font-medium text-gray-500">Experience</Label>
