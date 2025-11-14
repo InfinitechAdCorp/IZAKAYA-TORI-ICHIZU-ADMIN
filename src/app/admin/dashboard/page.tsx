@@ -8,7 +8,21 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react"
 import { Loader2, Download, FileText } from "lucide-react"
-import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import {
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  TooltipProps,
+} from "recharts"
 
 interface AnalyticsData {
   keyMetrics: {
@@ -437,6 +451,29 @@ export default function AdminDashboard() {
 
   console.log("[v0] Rendering dashboard with analytics:", analytics)
 
+  const CategoryDataTooltip = ({ active, payload, }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length > 0) {
+      const data = payload[0].payload as {
+        category: string
+        total_sold: number
+        revenue?: number
+      }
+
+      return (
+        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-3">
+          <p className="text-sm font-semibold text-gray-700">{data.category}</p>
+          <p className="text-sm text-gray-600">
+            Orders: <span className="font-medium">{data.total_sold}</span>
+          </p>
+          <p className="text-sm text-gray-600">
+            Revenue: <span className="font-medium">${data.revenue}</span>
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
   return (
     <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
@@ -704,13 +741,14 @@ export default function AdminDashboard() {
                         <CartesianGrid strokeDasharray="3 3" stroke="#fecaca" />
                         <XAxis dataKey="category" type="category" width={80} tick={{ fontSize: 12 }} stroke="#fffff" />
                         <YAxis type="number" domain={[0, (dataMax: number) => Math.max(dataMax + 500, 5000)]} />
-                        <Tooltip
+                        {/* <Tooltip
                           contentStyle={{
                             backgroundColor: "#fef2f2",
                             border: "1px solid #fecaca",
                             borderRadius: "8px",
                           }}
-                        />
+                        /> */}
+                        <Tooltip content={<CategoryDataTooltip />} />
                         <Bar dataKey="revenue" fill="#ef4444" barSize={30} />
                       </BarChart>
                     </ResponsiveContainer>
