@@ -349,7 +349,6 @@ export default function AdminDashboard() {
           if (data.data.error) {
             setApiError(data.data.error)
           }
-          console.log("data", data)
           console.log("[v0] Analytics data set successfully")
         } else {
           throw new Error(data.message || "Failed to fetch analytics")
@@ -678,16 +677,6 @@ export default function AdminDashboard() {
                             </div>
                             <div>
                               <h3 className="font-semibold text-red-800">{product.name}</h3>
-                              <div className="flex items-center space-x-2 mt-1">
-                                <Badge variant="outline" className="text-xs border-red-300 text-red-700">
-                                  {product.category}
-                                </Badge>
-                                {product.is_spicy && (
-                                  <Badge variant="outline" className="text-xs border-orange-300 text-orange-700">
-                                    🌶️ Spicy
-                                  </Badge>
-                                )}
-                              </div>
                             </div>
                           </div>
                           <div className="text-right">
