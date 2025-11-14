@@ -304,7 +304,6 @@ export default function ReservationsAdmin() {
               },
             }),
           })
-
           if (emailResponse.ok) {
             console.log("✅ Email sent successfully")
           } else {
@@ -315,12 +314,10 @@ export default function ReservationsAdmin() {
           // Don't show error to user - status update succeeded
         }
       }
-
       toast({
         title: "Success",
         description: "Status updated and email sent",
       })
-
       fetchReservations()
       if (selectedReservation?.id === id) {
         setSelectedReservation({ ...selectedReservation, status: newStatus })
@@ -456,9 +453,7 @@ export default function ReservationsAdmin() {
               {selectedReservation && (
                 <DialogContent className="gap-0 sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
                   <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
-                    <DialogTitle className="text-xl font-bold">
-                      <span>Reservation Details</span>
-                    </DialogTitle>
+                    <DialogTitle className="text-xl font-bold">Reservation Details</DialogTitle>
                     <DialogDescription className="text-orange-100">Complete information for this reservation</DialogDescription>
                   </DialogHeader>
                   <div className="space-y-6">
@@ -497,7 +492,23 @@ export default function ReservationsAdmin() {
                         </div>
                         <div>
                           <Label className="text-xs sm:text-sm font-semibold text-gray-600">Status</Label>
-                          <div className="mt-1">{getStatusBadge(selectedReservation.status)}</div>
+                          <div className="mt-1 flex flex-col sm:flex-row sm:items-center sm:gap-3">
+                            {getStatusBadge(selectedReservation.status)}
+                            <Select
+                              defaultValue={selectedReservation.status}
+                              onValueChange={(value: ReservationStatus) => handleStatusChange(selectedReservation.id, value)}
+                            >
+                              <SelectTrigger className="mt-2 sm:mt-0 w-full sm:w-40 border-orange-200 focus:border-orange-400 focus:ring-orange-400">
+                                <SelectValue placeholder="Change status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="pending">Pending</SelectItem>
+                                <SelectItem value="confirmed">Confirmed</SelectItem>
+                                <SelectItem value="completed">Completed</SelectItem>
+                                <SelectItem value="cancelled">Cancelled</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -628,7 +639,7 @@ export default function ReservationsAdmin() {
                     </Label>
                     <Select value={formData.status} onValueChange={(value: ReservationStatus) => setFormData({ ...formData, status: value })}>
                       <SelectTrigger className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400">
-                        <SelectValue />
+                        <SelectValue placeholder="Select Status" />
                       </SelectTrigger>
                       <SelectContent className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400">
                         <SelectItem value="pending">Pending</SelectItem>
