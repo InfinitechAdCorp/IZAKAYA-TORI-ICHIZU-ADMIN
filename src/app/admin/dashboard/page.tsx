@@ -459,7 +459,7 @@ export default function AdminDashboard() {
             Orders: <span className="font-medium">{data.total_sold}</span>
           </p>
           <p className="text-sm text-gray-600">
-            Revenue: <span className="font-medium">${data.revenue}</span>
+            Revenue: <span className="font-medium">₱{data.revenue}</span>
           </p>
         </div>
       )

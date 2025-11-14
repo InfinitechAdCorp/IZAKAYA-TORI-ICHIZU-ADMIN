@@ -304,7 +304,6 @@ export default function ReservationsAdmin() {
               },
             }),
           })
-
           if (emailResponse.ok) {
             console.log("✅ Email sent successfully")
           } else {
@@ -315,12 +314,10 @@ export default function ReservationsAdmin() {
           // Don't show error to user - status update succeeded
         }
       }
-
       toast({
         title: "Success",
         description: "Status updated and email sent",
       })
-
       fetchReservations()
       if (selectedReservation?.id === id) {
         setSelectedReservation({ ...selectedReservation, status: newStatus })
