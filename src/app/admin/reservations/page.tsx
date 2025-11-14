@@ -382,308 +382,321 @@ export default function ReservationsAdmin() {
               </span>
             </div>
           )}
-
-          <div className="p-4 md:p-6 lg:p-8 max-w-auto mx-auto flex-1">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
-              <div className="flex items-center gap-2 sm:gap-4">
-                <h2 className="text-xl sm:text-2xl font-bold">{formatMonthYear(currentDate)}</h2>
-                <Button variant="outline" size="sm" onClick={goToToday}>
-                  Today
-                </Button>
-              </div>
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <Button variant="outline" size="icon" onClick={previousMonth}>
-                  <ChevronLeft className="w-4 h-4" />
-                </Button>
-                <Button variant="outline" size="icon" onClick={nextMonth}>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-                <Button
-                  onClick={() => setIsAddingReservation(true)}
-                  className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">New Reservation</span>
-                  <span className="sm:hidden">New</span>
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-7 gap-1 sm:gap-2">
-              {weekDays.map((day) => (
-                <div key={day} className="p-1 sm:p-2 text-center font-semibold text-xs sm:text-sm text-gray-600">
-                  <span className="hidden sm:inline">{day}</span>
-                  <span className="sm:hidden">{day.substring(0, 1)}</span>
+          <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
+            <div className="w-full space-y-4 sm:space-y-6">
+              <div className="justify-between space-y-2">
+                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                  <div className="space-y-1">
+                    <h1 className="sm:text-4xl text-3xl pb-2 font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                      Reservation Management</h1>
+                      <p className="text-sm sm:text-base text-gray-600 mt-1">Effortlessly oversee all table bookings in one place.</p>
+                  </div>
                 </div>
-              ))}
-
-              {days.map((date, index) => {
-                const dayReservations = getReservationsForDate(date)
-
-                return (
-                  <Card
-                    key={index}
-                    className={`min-h-[80px] sm:min-h-[100px] lg:min-h-[120px] ${!date ? "invisible" : ""} ${
-                      isToday(date) ? "ring-2 ring-blue-500" : ""
-                    }`}
-                  >
-                    <CardContent className="p-1 sm:p-2">
-                      {date && (
-                        <>
-                          <div className="text-xs sm:text-sm font-semibold mb-1 sm:mb-2 text-gray-700">{date.getDate()}</div>
-                          <div className="space-y-0.5 sm:space-y-1">
-                            {dayReservations.map((reservation) => (
-                              <button
-                                key={reservation.id}
-                                onClick={() => setSelectedReservation(reservation)}
-                                className="w-full text-left px-1 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs truncate transition-colors bg-green-100 hover:bg-green-200 text-green-800 font-medium"
-                              >
-                                <span className="hidden sm:inline">{reservation.time.substring(0, 5)} - </span>
-                                {reservation.name}
-                              </button>
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </CardContent>
-                  </Card>
-                )
-              })}
-            </div>
-
-            {/* Reservation Details Dialog */}
-            <Dialog open={!!selectedReservation} onOpenChange={() => setSelectedReservation(null)}>
-              {selectedReservation && (
-                <DialogContent className="gap-0 sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
-                  <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
-                    <DialogTitle className="text-xl font-bold">
-                      <span>Reservation Details</span>
-                    </DialogTitle>
-                    <DialogDescription className="text-orange-100">Complete information for this reservation</DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-3 bg-white/60 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-orange-100">
-                        <div>
-                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Name</Label>
-                          <p className="text-base sm:text-lg font-medium text-gray-800">{selectedReservation.name}</p>
-                        </div>
-                        <div>
-                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Email</Label>
-                          <p className="text-sm sm:text-base text-gray-700 break-all">{selectedReservation.email}</p>
-                        </div>
-                        <div>
-                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Phone</Label>
-                          <p className="text-sm sm:text-base text-gray-700">{selectedReservation.phone}</p>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3 bg-white/60 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-orange-100">
-                        <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                          <div>
-                            <Label className="text-xs sm:text-sm font-semibold text-gray-600">Date</Label>
-                            <p className="text-sm sm:text-base text-gray-800">{formatDate(selectedReservation.date)}</p>
-                          </div>
-                          <div>
-                            <Label className="text-xs sm:text-sm font-semibold text-gray-600">Time</Label>
-                            <p className="text-sm sm:text-base text-gray-800">{formatTime(selectedReservation.time)}</p>
-                          </div>
-                        </div>
-                        <div>
-                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Guests</Label>
-                          <p className="text-sm sm:text-base text-gray-800">
-                            {selectedReservation.guests} {selectedReservation.guests > 1 ? "people" : "person"}
-                          </p>
-                        </div>
-                        <div>
-                          <Label className="text-xs sm:text-sm font-semibold text-gray-600">Status</Label>
-                          <div className="mt-1">{getStatusBadge(selectedReservation.status)}</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {selectedReservation.special_requests && (
-                      <div className="bg-white/60 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-orange-100">
-                        <Label className="text-xs sm:text-sm font-semibold text-gray-600 block mb-2">Special Requests</Label>
-                        <p className="text-sm sm:text-base text-gray-700 whitespace-pre-wrap">{selectedReservation.special_requests}</p>
-                      </div>
-                    )}
-
-                    <div className="flex flex-col sm:flex-row justify-end gap-3">
-                      <Button
-                        variant="outline"
-                        onClick={() => setSelectedReservation(null)}
-                        className="border-gray-300 text-gray-700 hover:bg-gray-100"
-                      >
-                        Close
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        onClick={() => openDeleteDialog(selectedReservation.id)}
-                        className="bg-red-500 hover:bg-red-600 text-white"
-                      >
-                        Delete Reservation
-                      </Button>
-                    </div>
+              </div>
+              {/* Calendar */}
+              <div className="rounded-lg p-4 max-w-auto mx-auto flex-1 p-4 bg-white/70 backdrop-blur-sm shadow-lg border border-orange-100 hover:shadow-xl transition-all duration-200">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
+                  <div className="flex items-center gap-2 sm:gap-4">
+                    <h2 className="text-xl sm:text-2xl font-bold">{formatMonthYear(currentDate)}</h2>
+                    <Button variant="outline" size="sm" onClick={goToToday}>
+                      Today
+                    </Button>
                   </div>
-                </DialogContent>
-              )}
-            </Dialog>
-
-            {/* Create Reservation Dialog */}
-            <Dialog open={isAddingReservation} onOpenChange={setIsAddingReservation}>
-              <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
-                <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
-                  <DialogTitle className="text-xl font-bold">Create New Reservation</DialogTitle>
-                  <DialogDescription className="text-orange-100">Fill in the details for the new reservation.</DialogDescription>
-                </DialogHeader>
-                <div className="space-y-3 sm:space-y-4">
-                  <div>
-                    <Label htmlFor="name" className="text-gray-700 font-medium">
-                      Name
-                    </Label>
-                    <Input
-                      placeholder="Name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="name" className="text-gray-700 font-medium">
-                      Email
-                    </Label>
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="name" className="text-gray-700 font-medium">
-                      Phone
-                    </Label>
-                    <Input
-                      placeholder="Phone"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                    />
-                  </div>{" "}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <div>
-                      <Label htmlFor="name" className="text-gray-700 font-medium">
-                        Date
-                      </Label>
-                      <Input
-                        type="date"
-                        value={formData.date}
-                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                        className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="name" className="text-gray-700 font-medium">
-                        Time
-                      </Label>
-                      <Input
-                        type="time"
-                        value={formData.time}
-                        onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                        className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="name" className="text-gray-700 font-medium">
-                      Number of Guests
-                    </Label>
-                    <Input
-                      type="number"
-                      placeholder="Number of Guests"
-                      min="1"
-                      max="20"
-                      value={formData.guests}
-                      onChange={(e) => setFormData({ ...formData, guests: parseInt(e.target.value) })}
-                      className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="name" className="text-gray-700 font-medium">
-                      Special Requests (Optional)
-                    </Label>
-                    <Textarea
-                      placeholder="Special Requests (Optional)"
-                      value={formData.special_requests}
-                      onChange={(e) => setFormData({ ...formData, special_requests: e.target.value })}
-                      className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                      rows={3}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="name" className="text-gray-700 font-medium">
-                      Status
-                    </Label>
-                    <Select value={formData.status} onValueChange={(value: ReservationStatus) => setFormData({ ...formData, status: value })}>
-                      <SelectTrigger className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400">
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="confirmed">Confirmed</SelectItem>
-                        <SelectItem value="cancelled">Cancelled</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <DialogFooter className="gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => {
-                        setIsAddingReservation(false)
-                      }}
-                      className="flex-1 sm:flex-none border-orange-300 text-orange-600 hover:bg-orange-50"
-                    >
-                      Cancel
+                  <div className="flex items-center gap-2 w-full sm:w-auto">
+                    <Button variant="outline" size="icon" onClick={previousMonth}>
+                      <ChevronLeft className="w-4 h-4" />
+                    </Button>
+                    <Button variant="outline" size="icon" onClick={nextMonth}>
+                      <ChevronRight className="w-4 h-4" />
                     </Button>
                     <Button
-                      onClick={handleCreateReservation}
+                      onClick={() => setIsAddingReservation(true)}
                       className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg"
                     >
-                      Create Reservation
+                      <Plus className="w-4 h-4 mr-2" />
+                      <span className="hidden sm:inline">New Reservation</span>
+                      <span className="sm:hidden">New</span>
                     </Button>
-                  </DialogFooter>
+                  </div>
                 </div>
-              </DialogContent>
-            </Dialog>
 
-            {/* Delete Confirmation Dialog */}
-            <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-              <DialogContent className="max-w-[95vw] sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Delete Reservation</DialogTitle>
-                  <DialogDescription>Are you sure you want to delete this reservation? This action cannot be undone.</DialogDescription>
-                </DialogHeader>
-                <DialogFooter className="flex-col sm:flex-row gap-2">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setDeleteDialogOpen(false)
-                      setReservationToDelete(null)
-                    }}
-                    className="w-full sm:w-auto"
-                  >
-                    Cancel
-                  </Button>
-                  <Button variant="destructive" onClick={() => reservationToDelete && handleDelete(reservationToDelete)} className="w-full sm:w-auto">
-                    Delete
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
+                <div className="grid grid-cols-7 gap-1 sm:gap-2">
+                  {weekDays.map((day) => (
+                    <div key={day} className="p-1 sm:p-2 text-center font-semibold text-xs sm:text-sm text-gray-600">
+                      <span className="hidden sm:inline">{day}</span>
+                      <span className="sm:hidden">{day.substring(0, 1)}</span>
+                    </div>
+                  ))}
+
+                  {days.map((date, index) => {
+                    const dayReservations = getReservationsForDate(date)
+
+                    return (
+                      <Card
+                        key={index}
+                        className={`min-h-[80px] sm:min-h-[100px] lg:min-h-[120px] ${!date ? "invisible" : ""} ${
+                          isToday(date) ? "ring-2 ring-blue-500" : ""
+                        }`}
+                      >
+                        <CardContent className="p-1 sm:p-2">
+                          {date && (
+                            <>
+                              <div className="text-xs sm:text-sm font-semibold mb-1 sm:mb-2 text-gray-700">{date.getDate()}</div>
+                              <div className="space-y-0.5 sm:space-y-1">
+                                {dayReservations.map((reservation) => (
+                                  <button
+                                    key={reservation.id}
+                                    onClick={() => setSelectedReservation(reservation)}
+                                    className="w-full text-left px-1 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs truncate transition-colors bg-green-100 hover:bg-green-200 text-green-800 font-medium"
+                                  >
+                                    <span className="hidden sm:inline">{reservation.time.substring(0, 5)} - </span>
+                                    {reservation.name}
+                                  </button>
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </CardContent>
+                      </Card>
+                    )
+                  })}
+                </div>
+
+                {/* Reservation Details Dialog */}
+                <Dialog open={!!selectedReservation} onOpenChange={() => setSelectedReservation(null)}>
+                  {selectedReservation && (
+                    <DialogContent className="gap-0 sm:max-w-[750px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+                      <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 -m-6 mb-4 rounded-t-lg">
+                        <DialogTitle className="text-xl font-bold">
+                          <span>Reservation Details</span>
+                        </DialogTitle>
+                        <DialogDescription className="text-orange-100">Complete information for this reservation</DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-3 bg-white/60 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-orange-100">
+                            <div>
+                              <Label className="text-xs sm:text-sm font-semibold text-gray-600">Name</Label>
+                              <p className="text-base sm:text-lg font-medium text-gray-800">{selectedReservation.name}</p>
+                            </div>
+                            <div>
+                              <Label className="text-xs sm:text-sm font-semibold text-gray-600">Email</Label>
+                              <p className="text-sm sm:text-base text-gray-700 break-all">{selectedReservation.email}</p>
+                            </div>
+                            <div>
+                              <Label className="text-xs sm:text-sm font-semibold text-gray-600">Phone</Label>
+                              <p className="text-sm sm:text-base text-gray-700">{selectedReservation.phone}</p>
+                            </div>
+                          </div>
+
+                          <div className="space-y-3 bg-white/60 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-orange-100">
+                            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                              <div>
+                                <Label className="text-xs sm:text-sm font-semibold text-gray-600">Date</Label>
+                                <p className="text-sm sm:text-base text-gray-800">{formatDate(selectedReservation.date)}</p>
+                              </div>
+                              <div>
+                                <Label className="text-xs sm:text-sm font-semibold text-gray-600">Time</Label>
+                                <p className="text-sm sm:text-base text-gray-800">{formatTime(selectedReservation.time)}</p>
+                              </div>
+                            </div>
+                            <div>
+                              <Label className="text-xs sm:text-sm font-semibold text-gray-600">Guests</Label>
+                              <p className="text-sm sm:text-base text-gray-800">
+                                {selectedReservation.guests} {selectedReservation.guests > 1 ? "people" : "person"}
+                              </p>
+                            </div>
+                            <div>
+                              <Label className="text-xs sm:text-sm font-semibold text-gray-600">Status</Label>
+                              <div className="mt-1">{getStatusBadge(selectedReservation.status)}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {selectedReservation.special_requests && (
+                          <div className="bg-white/60 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-orange-100">
+                            <Label className="text-xs sm:text-sm font-semibold text-gray-600 block mb-2">Special Requests</Label>
+                            <p className="text-sm sm:text-base text-gray-700 whitespace-pre-wrap">{selectedReservation.special_requests}</p>
+                          </div>
+                        )}
+
+                        <div className="flex flex-col sm:flex-row justify-end gap-3">
+                          <Button
+                            variant="outline"
+                            onClick={() => setSelectedReservation(null)}
+                            className="border-gray-300 text-gray-700 hover:bg-gray-100"
+                          >
+                            Close
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            onClick={() => openDeleteDialog(selectedReservation.id)}
+                            className="bg-red-500 hover:bg-red-600 text-white"
+                          >
+                            Delete Reservation
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  )}
+                </Dialog>
+
+                {/* Create Reservation Dialog */}
+                <Dialog open={isAddingReservation} onOpenChange={setIsAddingReservation}>
+                  <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+                    <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
+                      <DialogTitle className="text-xl font-bold">Create New Reservation</DialogTitle>
+                      <DialogDescription className="text-orange-100">Fill in the details for the new reservation.</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-3 sm:space-y-4">
+                      <div>
+                        <Label htmlFor="name" className="text-gray-700 font-medium">
+                          Name
+                        </Label>
+                        <Input
+                          placeholder="Name"
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="name" className="text-gray-700 font-medium">
+                          Email
+                        </Label>
+                        <Input
+                          type="email"
+                          placeholder="Email"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="name" className="text-gray-700 font-medium">
+                          Phone
+                        </Label>
+                        <Input
+                          placeholder="Phone"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                        />
+                      </div>{" "}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        <div>
+                          <Label htmlFor="name" className="text-gray-700 font-medium">
+                            Date
+                          </Label>
+                          <Input
+                            type="date"
+                            value={formData.date}
+                            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                            className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="name" className="text-gray-700 font-medium">
+                            Time
+                          </Label>
+                          <Input
+                            type="time"
+                            value={formData.time}
+                            onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                            className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label htmlFor="name" className="text-gray-700 font-medium">
+                          Number of Guests
+                        </Label>
+                        <Input
+                          type="number"
+                          placeholder="Number of Guests"
+                          min="1"
+                          max="20"
+                          value={formData.guests}
+                          onChange={(e) => setFormData({ ...formData, guests: parseInt(e.target.value) })}
+                          className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="name" className="text-gray-700 font-medium">
+                          Special Requests (Optional)
+                        </Label>
+                        <Textarea
+                          placeholder="Special Requests (Optional)"
+                          value={formData.special_requests}
+                          onChange={(e) => setFormData({ ...formData, special_requests: e.target.value })}
+                          className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                          rows={3}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="name" className="text-gray-700 font-medium">
+                          Status
+                        </Label>
+                        <Select value={formData.status} onValueChange={(value: ReservationStatus) => setFormData({ ...formData, status: value })}>
+                          <SelectTrigger className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400">
+                            <SelectItem value="pending">Pending</SelectItem>
+                            <SelectItem value="confirmed">Confirmed</SelectItem>
+                            <SelectItem value="cancelled">Cancelled</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <DialogFooter className="gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => {
+                            setIsAddingReservation(false)
+                          }}
+                          className="flex-1 sm:flex-none border-orange-300 text-orange-600 hover:bg-orange-50"
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          onClick={handleCreateReservation}
+                          className="flex-1 sm:flex-none bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-lg"
+                        >
+                          Create Reservation
+                        </Button>
+                      </DialogFooter>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Delete Confirmation Dialog */}
+                <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                  <DialogContent className="max-w-[95vw] sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Delete Reservation</DialogTitle>
+                      <DialogDescription>Are you sure you want to delete this reservation? This action cannot be undone.</DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="flex-col sm:flex-row gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setDeleteDialogOpen(false)
+                          setReservationToDelete(null)
+                        }}
+                        className="w-full sm:w-auto"
+                      >
+                        Cancel
+                      </Button>
+                      <Button variant="destructive" onClick={() => reservationToDelete && handleDelete(reservationToDelete)} className="w-full sm:w-auto">
+                        Delete
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+          </main>
         </div>
       </div>
       <Toaster />
