@@ -158,11 +158,7 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
       ["Product Name", "Orders", "Revenue"],
       ...analytics.popularProducts
         .slice(0, 10)
-        .map((p) => [
-          (p.name || "").substring(0, 40),
-          String(p.total_sold || 0),
-          `P${(p.revenue || 0).toLocaleString()}`,
-        ]),
+        .map((p) => [(p.name || "").substring(0, 40), String(p.total_sold || 0), `P${(p.revenue || 0).toLocaleString()}`]),
     ]
 
     autoTable.default(doc, {
@@ -448,7 +444,7 @@ export default function AdminDashboard() {
 
   console.log("[v0] Rendering dashboard with analytics:", analytics)
 
-  const CategoryDataTooltip = ({ active, payload, }: TooltipProps<number, string>) => {
+  const CategoryDataTooltip = ({ active, payload }: TooltipProps<number, string>) => {
     if (active && payload && payload.length > 0) {
       const data = payload[0].payload as {
         category: string
@@ -464,6 +460,44 @@ export default function AdminDashboard() {
           </p>
           <p className="text-sm text-gray-600">
             Revenue: <span className="font-medium">${data.revenue}</span>
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
+  const OrderStatusDataTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length > 0) {
+      const data = payload[0].payload as {
+        status: string
+        count: number
+      }
+
+      return (
+        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-3">
+          <p className="text-sm font-semibold text-gray-700 capitalize">{data.status}</p>
+          <p className="text-sm text-gray-600">
+            Count: <span className="font-medium">{data.count}</span>
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
+  const PaymentMethodDataTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length > 0) {
+      const data = payload[0].payload as {
+        payment_method: string
+        count: number
+      }
+
+      return (
+        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-3">
+          <p className="text-sm font-semibold text-gray-700 capitalize">{data.payment_method}</p>
+          <p className="text-sm text-gray-600">
+            Count: <span className="font-medium">{data.count}</span>
           </p>
         </div>
       )
@@ -644,7 +678,7 @@ export default function AdminDashboard() {
                               <Cell key={`cell-${index}`} fill={statusColors[entry.status as keyof typeof statusColors]} />
                             ))}
                           </Pie>
-                          <Tooltip />
+                          <Tooltip content={OrderStatusDataTooltip}/>
                         </PieChart>
                       </ResponsiveContainer>
                     ) : (
@@ -663,15 +697,18 @@ export default function AdminDashboard() {
                       <ResponsiveContainer width="100%" height={250}>
                         <BarChart data={analytics.paymentMethodData}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#fecaca" />
-                          <XAxis dataKey="payment_method" stroke="#dc2626" />
-                          <YAxis stroke="#dc2626" />
-                          <Tooltip
-                            contentStyle={{
-                              backgroundColor: "#fef2f2",
-                              border: "1px solid #fecaca",
-                              borderRadius: "8px",
-                            }}
+                          <XAxis
+                            dataKey="payment_method"
+                            stroke="#dc2626"
+                            tickFormatter={(value: string) =>
+                              value
+                                .split(" ")
+                                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(" ")
+                            }
                           />
+                          <YAxis stroke="#dc2626" />
+                          <Tooltip content={PaymentMethodDataTooltip} />
                           <Bar dataKey="count" fill="#ef4444" />
                         </BarChart>
                       </ResponsiveContainer>
@@ -738,13 +775,6 @@ export default function AdminDashboard() {
                         <CartesianGrid strokeDasharray="3 3" stroke="#fecaca" />
                         <XAxis dataKey="category" type="category" width={80} tick={{ fontSize: 12 }} stroke="#fffff" />
                         <YAxis type="number" domain={[0, (dataMax: number) => Math.max(dataMax + 500, 5000)]} />
-                        {/* <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#fef2f2",
-                            border: "1px solid #fecaca",
-                            borderRadius: "8px",
-                          }}
-                        /> */}
                         <Tooltip content={<CategoryDataTooltip />} />
                         <Bar dataKey="revenue" fill="#ef4444" barSize={30} />
                       </BarChart>
