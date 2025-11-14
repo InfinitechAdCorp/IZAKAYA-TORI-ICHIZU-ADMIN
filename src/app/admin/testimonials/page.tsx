@@ -446,7 +446,7 @@ export default function TestimonialsAdmin() {
                                 </p>
                             </div>
                           </div>
-                        <p className="text-sm mt-1 p-3 whitespace-pre-wrap border-1">
+                        <p className="text-sm mt-1 p-3 whitespace-pre-wrap">
                           {selectedTestimonial.message}
                         </p>
                       </div>
@@ -496,7 +496,7 @@ export default function TestimonialsAdmin() {
                             Deleting...
                           </>
                         ) : (
-                          "Delete Testimonial"
+                          <span className="text-white">Delete Testimonial</span>
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>

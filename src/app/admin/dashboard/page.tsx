@@ -21,6 +21,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  TooltipProps,
 } from "recharts"
 
 interface AnalyticsData {
@@ -33,9 +34,9 @@ interface AnalyticsData {
   }
   revenueData: Array<{ date: string; revenue: number; orders: number }>
   orderStatusData: Array<{ status: string; count: number; percentage: number }>
-  paymentMethodData: Array<{ method: string; count: number; percentage: number }>
-  popularProducts: Array<{ name: string; orders: number; revenue: number; category: string; is_spicy: boolean }>
-  categoryData: Array<{ category: string; orders: number; revenue: number }>
+  paymentMethodData: Array<{ payment_method: string; count: number; percentage: number }>
+  popularProducts: Array<{ name: string; total_sold: number; revenue: number; category: string; is_spicy: boolean }>
+  categoryData: Array<{ category: string; total_sold: number; revenue: number }>
   productsCount: number
   totalReservations: number
 }
@@ -86,7 +87,11 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
   doc.setFontSize(11)
   doc.setFont("helvetica", "normal")
   const periodText = `Period: ${timePeriod.charAt(0).toUpperCase() + timePeriod.slice(1)}`
-  const generatedText = `Generated: ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })} at ${new Date().toLocaleTimeString()}`
+  const generatedText = `Generated: ${new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })} at ${new Date().toLocaleTimeString()}`
 
   doc.text(periodText, margin, 24)
   doc.text(generatedText, margin, 30)
@@ -105,7 +110,6 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
     ["Average Order Value", `P${(analytics.keyMetrics?.averageOrderValue || 0).toLocaleString()}`],
     ["Total Customers", String(analytics.keyMetrics?.totalCustomers || 0)],
     ["Total Reservations", String(analytics.totalReservations || 0)],
-    ["Growth Rate", `+${analytics.keyMetrics?.growthRate || 0}%`],
   ]
 
   autoTable.default(doc, {
@@ -151,15 +155,10 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
     doc.text("Popular Products", margin, yPosition)
 
     const productsTableData = [
-      ["Product Name", "Category", "Orders", "Revenue"],
+      ["Product Name", "Orders", "Revenue"],
       ...analytics.popularProducts
         .slice(0, 10)
-        .map((p) => [
-          (p.name || "").substring(0, 20),
-          (p.category || "").substring(0, 12),
-          String(p.orders || 0),
-          `P${(p.revenue || 0).toLocaleString()}`,
-        ]),
+        .map((p) => [(p.name || "").substring(0, 40), String(p.total_sold || 0), `P${(p.revenue || 0).toLocaleString()}`]),
     ]
 
     autoTable.default(doc, {
@@ -191,10 +190,9 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
         fillColor: [255, 250, 240],
       },
       columnStyles: {
-        0: { cellWidth: 50, halign: "left" },
-        1: { cellWidth: 35, halign: "center" },
-        2: { cellWidth: 30, halign: "center" },
-        3: { cellWidth: 65, halign: "right" },
+        0: { cellWidth: 85, halign: "left" },
+        1: { cellWidth: 30, halign: "center" },
+        2: { cellWidth: 65, halign: "right" },
       },
     })
 
@@ -209,11 +207,7 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
 
     const categoryTableData = [
       ["Category", "Orders", "Revenue"],
-      ...analytics.categoryData.map((c) => [
-        c.category || "",
-        String(c.orders || 0),
-        `P${(c.revenue || 0).toLocaleString()}`,
-      ]),
+      ...analytics.categoryData.map((c) => [c.category || "", String(c.total_sold || 0), `P${(c.revenue || 0).toLocaleString()}`]),
     ]
 
     autoTable.default(doc, {
@@ -258,26 +252,26 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
 
     doc.setDrawColor(200, 200, 200)
     doc.setLineWidth(0.3)
-    doc.line(margin, pageHeight - 25, pageWidth - margin, pageHeight - 25)
+    doc.line(margin, pageHeight - 15, pageWidth - margin, pageHeight - 15)
 
     doc.setFontSize(8)
     doc.setTextColor(150, 150, 150)
     const pageNumberText = `Page ${i} of ${totalPages}`
-    doc.text(pageNumberText, pageWidth - margin - 15, pageHeight - 20)
+    doc.text(pageNumberText, pageWidth - margin - 15, pageHeight - 10)
 
     if (i === totalPages) {
       doc.setTextColor(0, 0, 0)
       doc.setFontSize(10)
       doc.setFont("helvetica", "bold")
-      doc.text("Authorized Signature:", margin, pageHeight - 18)
+      doc.text("Authorized Signature:", margin, pageHeight - 28)
 
       doc.setFont("helvetica", "normal")
       doc.setFontSize(8)
-      doc.line(margin, pageHeight - 12, margin + 40, pageHeight - 12)
-      doc.text("Signature", margin, pageHeight - 8)
+      doc.line(margin, pageHeight - 22, margin + 40, pageHeight - 22)
+      doc.text("Signature", margin, pageHeight - 18)
 
-      doc.line(margin + 50, pageHeight - 12, margin + 90, pageHeight - 12)
-      doc.text("Date", margin + 50, pageHeight - 8)
+      doc.line(margin + 50, pageHeight - 22, margin + 90, pageHeight - 22)
+      doc.text("Date", margin + 50, pageHeight - 18)
     }
   }
 
@@ -336,7 +330,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const checkWidthSize = () => {
       setIsMobile(window.innerWidth < 768)
-      setIsTablet(window.innerWidth < 1024 || window.innerWidth  < 1279)
+      setIsTablet(window.innerWidth < 1024 || window.innerWidth < 1279)
     }
     checkWidthSize()
     window.addEventListener("resize", checkWidthSize)
@@ -401,13 +395,9 @@ export default function AdminDashboard() {
     }
   }
 
-  function previousProduct() {
+  function previousProduct() {}
 
-  }
-
-  function nextProduct() {
-
-  }
+  function nextProduct() {}
 
   if (loading) {
     return (
@@ -437,9 +427,7 @@ export default function AdminDashboard() {
               <div className="text-center bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-lg max-w-md">
                 <h2 className="text-2xl font-bold text-red-800 mb-4">Failed to load analytics</h2>
                 <p className="text-red-600 mb-4">{error || "No data available"}</p>
-                <p className="text-sm text-red-500 mb-4">
-                  Please ensure your API server is running and properly configured.
-                </p>
+                <p className="text-sm text-red-500 mb-4">Please ensure your API server is running and properly configured.</p>
                 <button
                   onClick={() => window.location.reload()}
                   className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
@@ -456,6 +444,67 @@ export default function AdminDashboard() {
 
   console.log("[v0] Rendering dashboard with analytics:", analytics)
 
+  const CategoryDataTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length > 0) {
+      const data = payload[0].payload as {
+        category: string
+        total_sold: number
+        revenue?: number
+      }
+
+      return (
+        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-3">
+          <p className="text-sm font-semibold text-gray-700">{data.category}</p>
+          <p className="text-sm text-gray-600">
+            Orders: <span className="font-medium">{data.total_sold}</span>
+          </p>
+          <p className="text-sm text-gray-600">
+            Revenue: <span className="font-medium">${data.revenue}</span>
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
+  const OrderStatusDataTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length > 0) {
+      const data = payload[0].payload as {
+        status: string
+        count: number
+      }
+
+      return (
+        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-3">
+          <p className="text-sm font-semibold text-gray-700 capitalize">{data.status}</p>
+          <p className="text-sm text-gray-600">
+            Count: <span className="font-medium">{data.count}</span>
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
+  const PaymentMethodDataTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+    if (active && payload && payload.length > 0) {
+      const data = payload[0].payload as {
+        payment_method: string
+        count: number
+      }
+
+      return (
+        <div className="bg-white shadow-md border border-gray-200 rounded-lg p-3">
+          <p className="text-sm font-semibold text-gray-700 capitalize">{data.payment_method}</p>
+          <p className="text-sm text-gray-600">
+            Count: <span className="font-medium">{data.count}</span>
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
   return (
     <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
@@ -464,9 +513,7 @@ export default function AdminDashboard() {
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Dashboard
-              </span>
+              <span className="text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Dashboard</span>
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
@@ -525,12 +572,8 @@ export default function AdminDashboard() {
                     <CardTitle className="text-sm font-medium text-red-100">Total Sales</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
-                      ₱{(analytics.keyMetrics?.totalRevenue || 0).toLocaleString()}
-                    </div>
-                    <p className="text-xs text-red-100 mt-1">
-                      +{analytics.keyMetrics?.growthRate || 0}% from last month
-                    </p>
+                    <div className="text-2xl font-bold">₱{(analytics.keyMetrics?.totalRevenue || 0).toLocaleString()}</div>
+                    <p className="text-xs text-red-100 mt-1">+{analytics.keyMetrics?.growthRate || 0}% from last month</p>
                   </CardContent>
                 </Card>
 
@@ -539,9 +582,7 @@ export default function AdminDashboard() {
                     <CardTitle className="text-sm font-medium text-orange-100">Total Orders</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
-                      {(analytics.keyMetrics?.totalOrders || 0).toLocaleString()}
-                    </div>
+                    <div className="text-2xl font-bold">{(analytics.keyMetrics?.totalOrders || 0).toLocaleString()}</div>
                     <p className="text-xs text-orange-100 mt-1">Last 30 days</p>
                   </CardContent>
                 </Card>
@@ -551,9 +592,7 @@ export default function AdminDashboard() {
                     <CardTitle className="text-sm font-medium text-red-100">Avg Order Value</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
-                      ₱{(analytics.keyMetrics?.averageOrderValue || 0).toLocaleString()}
-                    </div>
+                    <div className="text-2xl font-bold">₱{(analytics.keyMetrics?.averageOrderValue || 0).toLocaleString()}</div>
                     <p className="text-xs text-red-100 mt-1">Per order average</p>
                   </CardContent>
                 </Card>
@@ -563,9 +602,7 @@ export default function AdminDashboard() {
                     <CardTitle className="text-sm font-medium text-orange-100">Total Customers</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
-                      {(analytics.keyMetrics?.totalCustomers || 0).toLocaleString()}
-                    </div>
+                    <div className="text-2xl font-bold">{(analytics.keyMetrics?.totalCustomers || 0).toLocaleString()}</div>
                     <p className="text-xs text-orange-100 mt-1">Unique customers</p>
                   </CardContent>
                 </Card>
@@ -584,9 +621,7 @@ export default function AdminDashboard() {
               <Card className="border-red-200 bg-white/70 backdrop-blur-sm shadow-xl">
                 <CardHeader>
                   <CardTitle className="text-red-800">Revenue Trends</CardTitle>
-                  <CardDescription className="text-red-600">
-                    Daily revenue and order count for the last 30 days
-                  </CardDescription>
+                  <CardDescription className="text-red-600">Daily revenue and order count for the last 30 days</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {analytics.revenueData && analytics.revenueData.length > 0 ? (
@@ -606,9 +641,7 @@ export default function AdminDashboard() {
                       </AreaChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="h-[300px] flex items-center justify-center text-gray-500">
-                      No revenue data available
-                    </div>
+                    <div className="h-[300px] flex items-center justify-center text-gray-500">No revenue data available</div>
                   )}
                 </CardContent>
               </Card>
@@ -629,22 +662,27 @@ export default function AdminDashboard() {
                             cy="50%"
                             outerRadius={80}
                             dataKey="count"
-                            label={({ status, percentage }) => `${status} (${percentage}%)`}
+                            label={({ status, count }) => {
+                              const total = analytics.orderStatusData.reduce((sum, item) => sum + item.count, 0)
+                              const percentage = ((count / total) * 100).toFixed(2)
+                              const formattedStatus = status
+                                .toLowerCase()
+                                .split(" ")
+                                .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(" ")
+
+                              return `${formattedStatus} ${percentage}%`
+                            }}
                           >
                             {analytics.orderStatusData.map((entry, index) => (
-                              <Cell
-                                key={`cell-${index}`}
-                                fill={statusColors[entry.status as keyof typeof statusColors]}
-                              />
+                              <Cell key={`cell-${index}`} fill={statusColors[entry.status as keyof typeof statusColors]} />
                             ))}
                           </Pie>
-                          <Tooltip />
+                          <Tooltip content={OrderStatusDataTooltip}/>
                         </PieChart>
                       </ResponsiveContainer>
                     ) : (
-                      <div className="h-[250px] flex items-center justify-center text-gray-500">
-                        No order status data available
-                      </div>
+                      <div className="h-[250px] flex items-center justify-center text-gray-500">No order status data available</div>
                     )}
                   </CardContent>
                 </Card>
@@ -659,22 +697,23 @@ export default function AdminDashboard() {
                       <ResponsiveContainer width="100%" height={250}>
                         <BarChart data={analytics.paymentMethodData}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#fecaca" />
-                          <XAxis dataKey="method" stroke="#dc2626" />
-                          <YAxis stroke="#dc2626" />
-                          <Tooltip
-                            contentStyle={{
-                              backgroundColor: "#fef2f2",
-                              border: "1px solid #fecaca",
-                              borderRadius: "8px",
-                            }}
+                          <XAxis
+                            dataKey="payment_method"
+                            stroke="#dc2626"
+                            tickFormatter={(value: string) =>
+                              value
+                                .split(" ")
+                                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(" ")
+                            }
                           />
+                          <YAxis stroke="#dc2626" />
+                          <Tooltip content={PaymentMethodDataTooltip} />
                           <Bar dataKey="count" fill="#ef4444" />
                         </BarChart>
                       </ResponsiveContainer>
                     ) : (
-                      <div className="h-[250px] flex items-center justify-center text-gray-500">
-                        No payment method data available
-                      </div>
+                      <div className="h-[250px] flex items-center justify-center text-gray-500">No payment method data available</div>
                     )}
                   </CardContent>
                 </Card>
@@ -682,18 +721,18 @@ export default function AdminDashboard() {
 
               <Card className="border-red-200 bg-white/70 backdrop-blur-sm shadow-xl">
                 <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex flex-col gap-1">
-                      <CardTitle className="text-red-800">Popular Products</CardTitle>
-                      <CardDescription className="text-red-600">Top selling items by order count</CardDescription>
-                    </div>
-                      <div className="flex items-center gap-2 mt-2 sm:mt-0">
-                        <Button variant="outline" size="icon" onClick={previousProduct}>
-                          <ChevronLeft className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="icon" onClick={nextProduct}>
-                          <ChevronRight className="w-4 h-4" />
-                        </Button>
-                      </div>
+                  <div className="flex flex-col gap-1">
+                    <CardTitle className="text-red-800">Popular Products</CardTitle>
+                    <CardDescription className="text-red-600">Top selling items by order count</CardDescription>
+                  </div>
+                  <div className="flex items-center gap-2 mt-2 sm:mt-0">
+                    <Button variant="outline" size="icon" onClick={previousProduct}>
+                      <ChevronLeft className="w-4 h-4" />
+                    </Button>
+                    <Button variant="outline" size="icon" onClick={nextProduct}>
+                      <ChevronRight className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   {analytics.popularProducts && analytics.popularProducts.length > 0 ? (
@@ -709,20 +748,10 @@ export default function AdminDashboard() {
                             </div>
                             <div>
                               <h3 className="font-semibold text-red-800">{product.name}</h3>
-                              <div className="flex items-center space-x-2 mt-1">
-                                <Badge variant="outline" className="text-xs border-red-300 text-red-700">
-                                  {product.category}
-                                </Badge>
-                                {product.is_spicy && (
-                                  <Badge variant="outline" className="text-xs border-orange-300 text-orange-700">
-                                    🌶️ Spicy
-                                  </Badge>
-                                )}
-                              </div>
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="font-bold text-red-800">{product.orders} orders</div>
+                            <div className="font-bold text-red-800">{product.total_sold} orders</div>
                             <div className="text-sm text-red-600">₱{product.revenue.toLocaleString()}</div>
                           </div>
                         </div>
@@ -744,28 +773,14 @@ export default function AdminDashboard() {
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={analytics.categoryData} layout="horizontal" margin={{ left: 0, right: 20, top: 10, bottom: 10 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#fecaca" />
-                        <XAxis type="number" stroke="#dc2626" />
-                        <YAxis 
-                          dataKey="category" 
-                          type="category" 
-                          stroke="#dc2626" 
-                          width={80}
-                          tick={{ fontSize: 12 }}
-                        />
-                        <Tooltip
-                          contentStyle={{
-                            backgroundColor: "#fef2f2",
-                            border: "1px solid #fecaca",
-                            borderRadius: "8px",
-                          }}
-                        />
-                        <Bar dataKey="revenue" fill="#ef4444" />
+                        <XAxis dataKey="category" type="category" width={80} tick={{ fontSize: 12 }} stroke="#fffff" />
+                        <YAxis type="number" domain={[0, (dataMax: number) => Math.max(dataMax + 500, 5000)]} />
+                        <Tooltip content={<CategoryDataTooltip />} />
+                        <Bar dataKey="revenue" fill="#ef4444" barSize={30} />
                       </BarChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="h-[300px] flex items-center justify-center text-gray-500">
-                      No category data available
-                    </div>
+                    <div className="h-[300px] flex items-center justify-center text-gray-500">No category data available</div>
                   )}
                 </CardContent>
               </Card>

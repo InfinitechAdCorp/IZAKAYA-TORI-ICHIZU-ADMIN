@@ -7,32 +7,11 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
-import {
-  Mail,
-  Reply,
-  Trash2,
-  Eye,
-  Search,
-  Loader2,
-  ArrowUpDown,
-  MoreHorizontal,
-  MessageSquare,
-  User,
-  Calendar,
-  Phone,
-} from "lucide-react"
+import { Mail, Reply, Trash2, Eye, Search, Loader2, ArrowUpDown, MoreHorizontal, MessageSquare, User, Calendar, Phone } from "lucide-react"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Badge } from "@/components/ui/badge"
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-} from "@/components/ui/dialog"
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,6 +29,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import {
@@ -286,24 +266,14 @@ export default function AdminContact() {
           aria-label="Select all"
         />
       ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
+      cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
       enableSorting: false,
       enableHiding: false,
     },
     {
       accessorKey: "name",
       header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 h-auto font-normal"
-        >
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="p-0 h-auto font-normal">
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -332,9 +302,7 @@ export default function AdminContact() {
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="text-sm text-gray-600 max-w-xs truncate hidden md:block">{row.original.subject}</div>
-      ),
+      cell: ({ row }) => <div className="text-sm text-gray-600 max-w-xs truncate hidden md:block">{row.original.subject}</div>,
     },
     {
       accessorKey: "created_at",
@@ -367,12 +335,7 @@ export default function AdminContact() {
           <div className="flex items-center gap-1">
             <Dialog>
               <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedContact(contact)}
-                  className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2"
-                >
+                <Button variant="ghost" size="sm" onClick={() => setSelectedContact(contact)} className="h-8 w-8 p-0 sm:h-auto sm:w-auto sm:px-2">
                   <Eye className="h-4 w-4" />
                   <span className="ml-1 sr-only sm:not-sr-only hidden sm:inline">View</span>
                 </Button>
@@ -447,9 +410,7 @@ export default function AdminContact() {
                           </h3>
                         </CardHeader>
                         <CardContent className="space-y-3 p-3 gap-2">
-                          <p className="text-sm whitespace-pre-wrap rounded-md">
-                            {selectedContact.message}
-                          </p>
+                          <p className="text-sm whitespace-pre-wrap rounded-md">{selectedContact.message}</p>
                         </CardContent>
                       </Card>
 
@@ -481,18 +442,20 @@ export default function AdminContact() {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <AlertDialog>
-                  <AlertDialogTitle asChild>
-                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                      <Trash2 className="text-red-600 focus:text-red-600 mr-2 h-4 w-4" />
-                      Delete Inquiry
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem
+                      onSelect={(e) => e.preventDefault()} // prevent dropdown from closing too early
+                    >
+                      <Trash2 className="text-red-600 mr-2 h-4 w-4" />
+                      <span className="text-base text-red-600">Delete Inquiry</span>
                     </DropdownMenuItem>
-                  </AlertDialogTitle>
+                  </AlertDialogTrigger>
+
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the inquiry from "{contact.name}" and
-                        remove it from the system.
+                        This action cannot be undone. This will permanently delete the inquiry from "{contact.name}" and remove it from the system.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -508,7 +471,7 @@ export default function AdminContact() {
                             Deleting...
                           </>
                         ) : (
-                          "Delete Inquiry"
+                          <span className="text-white">Delete Inquiry</span>
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -639,14 +602,8 @@ export default function AdminContact() {
                         <Label htmlFor="items-per-page" className="text-sm text-gray-600 whitespace-nowrap">
                           Items per page:
                         </Label>
-                        <Select
-                          value={itemsPerPage === -1 ? "all" : itemsPerPage.toString()}
-                          onValueChange={handleItemsPerPageChange}
-                        >
-                          <SelectTrigger
-                            id="items-per-page"
-                            className="w-[100px] border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                          >
+                        <Select value={itemsPerPage === -1 ? "all" : itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+                          <SelectTrigger id="items-per-page" className="w-[100px] border-orange-200 focus:border-orange-400 focus:ring-orange-400">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -667,10 +624,7 @@ export default function AdminContact() {
                               <tr className="border-b border-orange-200">
                                 {table.getHeaderGroups().map((headerGroup) =>
                                   headerGroup.headers.map((header) => (
-                                    <th
-                                      key={header.id}
-                                      className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide"
-                                    >
+                                    <th key={header.id} className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide">
                                       {header.isPlaceholder ? null : (
                                         <div className="flex items-center gap-2">
                                           {typeof header.column.columnDef.header === "function"
@@ -679,7 +633,7 @@ export default function AdminContact() {
                                         </div>
                                       )}
                                     </th>
-                                  ))
+                                  )),
                                 )}
                               </tr>
                             </thead>
@@ -710,9 +664,7 @@ export default function AdminContact() {
                             <Mail className="w-8 h-8 text-orange-500" />
                           </div>
                           <p className="text-lg font-medium text-gray-700">No inquiries found</p>
-                          {globalFilter && (
-                            <p className="text-sm mt-1 text-gray-500">Try adjusting your search terms</p>
-                          )}
+                          {globalFilter && <p className="text-sm mt-1 text-gray-500">Try adjusting your search terms</p>}
                         </div>
                       )}
 
@@ -801,7 +753,9 @@ export default function AdminContact() {
                     >
                       <div className="flex flex-col items-start">
                         <span className="font-semibold text-sm">{template.title}</span>
-                        <span className="text-xs text-gray-500 line-clamp-1">{template.content}</span>
+                        <span className={`text-xs text-wrap ${selectedTemplate === template.title ? "text-gray-100" : "text-gray-500"}`}>
+                          {template.content}
+                        </span>
                       </div>
                     </Button>
                   ))}

@@ -657,7 +657,7 @@ export default function ProductsAdminPage() {
                             Deleting...
                           </>
                         ) : (
-                          "Delete Product"
+                          <span className="text-white">Delete Product</span>
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>
