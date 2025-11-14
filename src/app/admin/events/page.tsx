@@ -675,12 +675,6 @@ export default function EventsAdminPage() {
                     Mark as {status.label}
                   </DropdownMenuItem>
                 ))}
-
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push(`/admin/event/${event.id}/edit`)}>
-                  <Edit className="mr-2 h-4 w-4" />
-                  Edit Event
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

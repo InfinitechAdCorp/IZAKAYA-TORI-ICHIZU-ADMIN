@@ -537,7 +537,7 @@ export default function AdminDashboard() {
                           className={`capitalize ${
                             timePeriod === period
                               ? "bg-orange-600 hover:bg-orange-700 text-white"
-                              : "border-orange-300 text-orange-700 hover:bg-orange-50"
+                              : "border-orange-300 text-orange-700"
                           }`}
                         >
                           {period}
