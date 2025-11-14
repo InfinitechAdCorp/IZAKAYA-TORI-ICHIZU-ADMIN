@@ -496,7 +496,7 @@ export default function TestimonialsAdmin() {
                             Deleting...
                           </>
                         ) : (
-                          "Delete Testimonial"
+                          <span className="text-white">Delete Testimonial</span>
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>

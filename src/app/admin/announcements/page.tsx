@@ -503,7 +503,7 @@ export default function AdminAnnouncementsPage() {
                             Deleting...
                           </>
                         ) : (
-                          "Delete Announcement"
+                          <span className="text-white">Delete Announcement</span>
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>

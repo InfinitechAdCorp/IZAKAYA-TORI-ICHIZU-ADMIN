@@ -483,7 +483,7 @@ export default function ChefsAdmin() {
                             Deleting...
                           </>
                         ) : (
-                          "Delete Chef"
+                          <span className="text-white">Delete Chef</span>
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>
