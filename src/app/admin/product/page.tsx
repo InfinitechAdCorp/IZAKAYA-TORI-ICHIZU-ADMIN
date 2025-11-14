@@ -735,24 +735,22 @@ export default function ProductsAdminPage() {
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
             <div className="w-full space-y-4 sm:space-y-6">
-              <div className="justify-between ">
-                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100 grid grid-cols-2">
+              <div className="justify-between">
+                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
                   <div className="space-y-1">
-                    <h1 className="text-xl sm:text-4xl py-2 font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                    <h1 className="sm:text-4xl text-3xl pb-2 font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
                       Products Management </h1>
                     <p className="text-sm sm:text-base text-gray-600 mt-1">Manage Izakaya's menu items with style</p>
                   </div>
 
-                    <div className="space-y-1">
+                    <div className="flex space-x-2 lg:justify-end lg:justify-center-safe pt-5 justify-start">
                       <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
                         <DialogTrigger asChild>
                           <Button
                             size="sm"
-                            className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 w-auto h-full sm:w-96 sm:h-10"
+                            className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 w-10 h-10"
                           >
-                            <Plus className="mr-2 h-4 w-4" />
-                            <span className="hidden sm:inline">Add Product</span>
-                            <span className="sm:hidden">Add</span>
+                            <Plus className="h-4 w-4" />
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
@@ -949,7 +947,7 @@ export default function ProductsAdminPage() {
                       </Dialog>
 
                       
-                        <div className="">
+                        <div className="justify-center-safe mt-0.5">
                           <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
                             <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
                               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 border" />
