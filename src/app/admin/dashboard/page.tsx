@@ -110,7 +110,6 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
     ["Average Order Value", `P${(analytics.keyMetrics?.averageOrderValue || 0).toLocaleString()}`],
     ["Total Customers", String(analytics.keyMetrics?.totalCustomers || 0)],
     ["Total Reservations", String(analytics.totalReservations || 0)],
-    ["Growth Rate", `+${analytics.keyMetrics?.growthRate || 0}%`],
   ]
 
   autoTable.default(doc, {
@@ -156,12 +155,11 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
     doc.text("Popular Products", margin, yPosition)
 
     const productsTableData = [
-      ["Product Name", "Category", "Orders", "Revenue"],
+      ["Product Name", "Orders", "Revenue"],
       ...analytics.popularProducts
         .slice(0, 10)
         .map((p) => [
-          (p.name || "").substring(0, 20),
-          (p.category || "").substring(0, 12),
+          (p.name || "").substring(0, 40),
           String(p.total_sold || 0),
           `P${(p.revenue || 0).toLocaleString()}`,
         ]),
@@ -196,10 +194,9 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
         fillColor: [255, 250, 240],
       },
       columnStyles: {
-        0: { cellWidth: 50, halign: "left" },
-        1: { cellWidth: 35, halign: "center" },
-        2: { cellWidth: 30, halign: "center" },
-        3: { cellWidth: 65, halign: "right" },
+        0: { cellWidth: 85, halign: "left" },
+        1: { cellWidth: 30, halign: "center" },
+        2: { cellWidth: 65, halign: "right" },
       },
     })
 
@@ -259,26 +256,26 @@ async function exportToPDF(analytics: AnalyticsData, timePeriod: string) {
 
     doc.setDrawColor(200, 200, 200)
     doc.setLineWidth(0.3)
-    doc.line(margin, pageHeight - 25, pageWidth - margin, pageHeight - 25)
+    doc.line(margin, pageHeight - 15, pageWidth - margin, pageHeight - 15)
 
     doc.setFontSize(8)
     doc.setTextColor(150, 150, 150)
     const pageNumberText = `Page ${i} of ${totalPages}`
-    doc.text(pageNumberText, pageWidth - margin - 15, pageHeight - 20)
+    doc.text(pageNumberText, pageWidth - margin - 15, pageHeight - 10)
 
     if (i === totalPages) {
       doc.setTextColor(0, 0, 0)
       doc.setFontSize(10)
       doc.setFont("helvetica", "bold")
-      doc.text("Authorized Signature:", margin, pageHeight - 18)
+      doc.text("Authorized Signature:", margin, pageHeight - 28)
 
       doc.setFont("helvetica", "normal")
       doc.setFontSize(8)
-      doc.line(margin, pageHeight - 12, margin + 40, pageHeight - 12)
-      doc.text("Signature", margin, pageHeight - 8)
+      doc.line(margin, pageHeight - 22, margin + 40, pageHeight - 22)
+      doc.text("Signature", margin, pageHeight - 18)
 
-      doc.line(margin + 50, pageHeight - 12, margin + 90, pageHeight - 12)
-      doc.text("Date", margin + 50, pageHeight - 8)
+      doc.line(margin + 50, pageHeight - 22, margin + 90, pageHeight - 22)
+      doc.text("Date", margin + 50, pageHeight - 18)
     }
   }
 
