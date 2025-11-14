@@ -271,7 +271,6 @@ export default function UsersAdminPage() {
       if (result.success) {
         const ordersData = Array.isArray(result.data) ? result.data : result.data?.data || []
         setUserOrders(ordersData)
-        console.log("userorder", result)
       } else {
         throw new Error(result.message || "Failed to fetch orders")
       }
