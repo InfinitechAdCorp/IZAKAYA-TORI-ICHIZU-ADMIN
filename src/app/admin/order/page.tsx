@@ -820,18 +820,18 @@ export default function OrdersAdminPage() {
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
-            <div className="max-w-full space-y-4 sm:space-y-6">
-              {/* Header */}
-              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100">
-                  <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Orders</h1>
-                  <p className="text-sm sm:text-base text-gray-600 mt-1">Manage customer orders and track delivery status</p>
-                  <p className="text-xs text-gray-500 mt-1">Showing all orders from all customers (Admin View)</p>
-                </div>
-                <div className="flex items-center gap-4 bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-orange-100">
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className="text-gray-600 font-medium">Total Revenue:</span>
-                    <span className="font-bold text-green-600 text-lg">₱{calculateTotalRevenue(orders)}</span>
+            <div className="w-full space-y-4 sm:space-y-6">
+              <div className="justify-between">
+                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                  <div className="space-y-1">
+                    <h1 className="sm:text-4xl text-3xl pb-2 font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                      Order Management</h1>
+                      <p className="text-sm sm:text-base text-gray-600 mt-1">Manage customer orders and track delivery status</p>
+                      <p className="text-sm italic text-gray-500 mt-1">Showing all orders from all customers (Admin View)</p>
+                  </div>
+                  <div className="flex space-x-2 lg:justify-end lg:justify-center-safe pt-3 sm:pt-10 justify-start">
+                    <span className="text-gray-600 text-lg font-medium">Total Revenue:</span>
+                    <span className="font-bold text-green-600 text-lg underline underline-offset-4">₱{calculateTotalRevenue(orders)}</span>
                   </div>
                 </div>
               </div>

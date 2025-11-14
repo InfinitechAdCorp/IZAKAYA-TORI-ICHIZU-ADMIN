@@ -562,9 +562,10 @@ export default function ChefsAdmin() {
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
-            <div className="max-w-full space-y-4 sm:space-y-6">
-              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100">
+            <div className="w-full space-y-4 sm:space-y-6">
+              <div className="justify-between space-y-4">
+                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                  <div className="space-y-1">
                   <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
                     Chefs Management
                   </h1>
@@ -906,6 +907,7 @@ export default function ChefsAdmin() {
                   </div>
                 </CardContent>
               </Card>
+              </div>
             </div>
           </main>
         </div>

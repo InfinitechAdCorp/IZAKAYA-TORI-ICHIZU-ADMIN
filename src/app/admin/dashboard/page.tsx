@@ -432,7 +432,7 @@ export default function AdminDashboard() {
       <SidebarProvider defaultOpen={!isMobile}>
         <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
           <AppSidebar />
-          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
+          <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
             <div className="flex items-center justify-center min-h-screen w-full">
               <div className="text-center bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-lg max-w-md">
                 <h2 className="text-2xl font-bold text-red-800 mb-4">Failed to load analytics</h2>

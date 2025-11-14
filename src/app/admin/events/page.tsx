@@ -742,7 +742,7 @@ export default function EventsAdminPage() {
     <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-gradient-to-br from-orange-50 to-red-50">
         <AppSidebar />
-        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-72"}`}>
+        <div className={`flex-1 min-w-0 ${isMobile ? "ml-0" : "ml-60"}`}>
           {isMobile && (
             <div className="sticky top-0 z-50 flex h-12 items-center gap-2 border-b bg-white/90 backdrop-blur-sm px-4 md:hidden shadow-sm">
               <SidebarTrigger className="-ml-1" />
@@ -752,19 +752,20 @@ export default function EventsAdminPage() {
             </div>
           )}
           <main className="flex-1 overflow-auto p-3 sm:p-4 md:p-6">
-            <div className="max-w-full space-y-4 sm:space-y-6">
-              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100 flex-1">
-                  <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+            <div className="w-full space-y-4 sm:space-y-6">
+              <div className="justify-between space-y-3">
+                <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-orange-100 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                  <div className="space-y-1">
+                  <h1 className="sm:text-4xl text-3xl pb-2 font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
                     Events Management
                   </h1>
                   <p className="text-sm sm:text-base text-gray-600 mt-1">Manage event bookings and track status</p>
                 </div>
-                <div className="flex items-center gap-4 bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-orange-100">
+                <div className="flex space-x-2 lg:justify-end lg:justify-center-safe pt-3 sm:pt-4 justify-start">
                   <div className="flex items-center gap-2 text-sm">
                     <Utensils className="w-5 h-5 text-orange-500" />
-                    <span className="text-gray-600 font-medium">Total Events:</span>
-                    <span className="font-bold text-orange-600 text-lg">{events.length}</span>
+                    <span className="text-gray-600 text-lg font-medium">Total Events:</span>
+                    <span className="font-bold text-orange-600 underline underline-offset-4 text-lg">{events.length}</span>
                   </div>
                 </div>
               </div>
@@ -976,6 +977,7 @@ export default function EventsAdminPage() {
                   </div>
                 </CardContent>
               </Card>
+              </div>
             </div>
           </main>
         </div>

@@ -742,21 +742,39 @@ export default function ProductsAdminPage() {
                       Products Management </h1>
                     <p className="text-sm sm:text-base text-gray-600 mt-1">Manage Izakaya's menu items with style</p>
                   </div>
+                </div>
+              </div>
+              <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
+                  <div className="flex flex-col gap-4 p-4">
+                    <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+                      <div className="relative flex-1 max-w-sm">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/70" />
+                        <Input
+                          placeholder="Search products..."
+                          value={globalFilter || ""}
+                          onChange={(event) => setGlobalFilter(event.target.value)}
+                          className="pl-9 pr-3 py-2 w-full bg-white/20 border-white/30 text-white placeholder:text-white/70 focus:bg-white/30 focus:border-white/50 transition-all duration-200"
+                        />
+                      </div>
 
-                    <div className="flex space-x-2 lg:justify-end lg:justify-center-safe pt-5 justify-start">
                       <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
                         <DialogTrigger asChild>
                           <Button
                             size="sm"
-                            className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 w-10 h-10"
+                            className="shrink-0 bg-white text-orange-600 hover:bg-orange-50 hover:text-orange-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
                           >
-                            <Plus className="h-4 w-4" />
+                            <Plus className="mr-2 h-4 w-4" />
+                            <span className="hidden sm:inline">Add Product</span>
+                            <span className="sm:hidden">Add</span>
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-orange-50 to-red-50">
+                        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto mx-4 bg-gradient-to-br from-orange-50 to-red-50">
                           <DialogHeader className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 -m-6 mb-4 rounded-t-lg">
                             <DialogTitle className="text-xl font-bold">Add New Product</DialogTitle>
-                            <DialogDescription className="text-orange-100">Fill in the details for your new menu item.</DialogDescription>
+                            <DialogDescription className="text-orange-100">
+                              Fill in the details for your new menu item.
+                            </DialogDescription>
                           </DialogHeader>
                           <form onSubmit={handleCreateSubmit} className="space-y-6 py-4">
                             <div className="grid grid-cols-1 gap-4">
@@ -817,7 +835,11 @@ export default function ProductsAdminPage() {
                                   <Label htmlFor="category" className="text-gray-700 font-medium">
                                     Category
                                   </Label>
-                                  <Select value={newFormData.category} onValueChange={handleCategoryChange} disabled={isCreating}>
+                                  <Select
+                                    value={newFormData.category}
+                                    onValueChange={handleCategoryChange}
+                                    disabled={isCreating}
+                                  >
                                     <SelectTrigger className="mt-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400">
                                       <SelectValue placeholder="Select category" />
                                     </SelectTrigger>
@@ -880,7 +902,10 @@ export default function ProductsAdminPage() {
                                     onCheckedChange={(checked) => handleSwitchChange("is_featured", checked)}
                                     disabled={isCreating}
                                   />
-                                  <Label htmlFor="is_featured" className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium">
+                                  <Label
+                                    htmlFor="is_featured"
+                                    className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium"
+                                  >
                                     <Star className="w-4 h-4 text-yellow-500" />
                                     Featured
                                   </Label>
@@ -893,7 +918,10 @@ export default function ProductsAdminPage() {
                                     onCheckedChange={(checked) => handleSwitchChange("is_spicy", checked)}
                                     disabled={isCreating}
                                   />
-                                  <Label htmlFor="is_spicy" className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium">
+                                  <Label
+                                    htmlFor="is_spicy"
+                                    className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium"
+                                  >
                                     <Flame className="w-4 h-4 text-red-500" />
                                     Spicy
                                   </Label>
@@ -906,7 +934,10 @@ export default function ProductsAdminPage() {
                                     onCheckedChange={(checked) => handleSwitchChange("is_vegetarian", checked)}
                                     disabled={isCreating}
                                   />
-                                  <Label htmlFor="is_vegetarian" className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium">
+                                  <Label
+                                    htmlFor="is_vegetarian"
+                                    className="flex items-center gap-2 cursor-pointer text-gray-700 font-medium"
+                                  >
                                     <Leaf className="w-4 h-4 text-green-500" />
                                     Vegetarian
                                   </Label>
@@ -945,32 +976,12 @@ export default function ProductsAdminPage() {
                           </form>
                         </DialogContent>
                       </Dialog>
-
-                      
-                        <div className="justify-center-safe mt-0.5">
-                          <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-                            <div className={`${!isMobile && "max-w-sm"} relative flex-1`}>
-                              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 border" />
-                              <Input
-                                placeholder="Search products..."
-                                value={globalFilter || ""}
-                                onChange={(event) => setGlobalFilter(event.target.value)}
-                                className="pl-9 pr-3 py-2 w-full bg-white/20 placeholder:text-gray/70 focus:bg-white/30 focus:border-white/50 transition-all duration-200"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      
                     </div>
+                  </div>
                 </div>
-
-
-              </div>
-
-              <Card className="bg-white/70 backdrop-blur-sm shadow-xl border-orange-100 overflow-hidden p-0">
                 <CardContent className="p-0 bg-white">
                   <div className="px-6">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 mt-5">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                       <div className="text-sm text-gray-600 font-medium">
                         Showing {startIndex + 1} to {Math.min(endIndex, totalItems)} of {totalItems} products
                       </div>
@@ -1000,7 +1011,10 @@ export default function ProductsAdminPage() {
                               <tr className="border-b border-orange-200">
                                 {table.getHeaderGroups().map((headerGroup) =>
                                   headerGroup.headers.map((header) => (
-                                    <th key={header.id} className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide">
+                                    <th
+                                      key={header.id}
+                                      className="text-left p-3 sm:p-4 text-sm font-semibold text-gray-700 tracking-wide"
+                                    >
                                       {header.isPlaceholder ? null : (
                                         <div className="flex items-center gap-2">
                                           {typeof header.column.columnDef.header === "function"
@@ -1017,9 +1031,7 @@ export default function ProductsAdminPage() {
                               {paginatedRows.map((row, index) => (
                                 <tr
                                   key={row.id}
-                                  className={`border-b border-orange-100 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all duration-200 ${
-                                    index % 2 === 0 ? "bg-white" : "bg-orange-25"
-                                  }`}
+                                  className={`border-b border-orange-100 hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all duration-200 ${index % 2 === 0 ? "bg-white" : "bg-orange-25"}`}
                                 >
                                   {row.getVisibleCells().map((cell) => (
                                     <td key={cell.id} className="p-3 sm:p-4 text-sm">
@@ -1043,7 +1055,7 @@ export default function ProductsAdminPage() {
                           {globalFilter && <p className="text-sm mt-1 text-gray-500">Try adjusting your search terms</p>}
                         </div>
                       )}
-
+                      
                       {/* Pagination Controls */}
                       {totalPages > 1 && (
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 my-4 pt-4 border-t border-orange-200">
@@ -1063,7 +1075,7 @@ export default function ProductsAdminPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                               disabled={currentPage === 1}
                               className="border-orange-300 text-orange-600 hover:bg-orange-50 disabled:opacity-50"
                             >
@@ -1072,7 +1084,7 @@ export default function ProductsAdminPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                               disabled={currentPage === totalPages}
                               className="border-orange-300 text-orange-600 hover:bg-orange-50 disabled:opacity-50"
                             >
